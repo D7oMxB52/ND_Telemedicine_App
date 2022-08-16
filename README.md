@@ -8,9 +8,6 @@ Syed Ali | s3736294@student.rmit.edu.au
 Abdulrahman Ahmed Alanazi | s3813024@student.rmit.edu.au  
 Joseph Jermaine Jamisola | s3869992@student.rmit.edu.au  
 ## LINKS
-GitHub Repository  
-https://github.com/D7oMxB52/ND_Telemedicine_App.git  
-
 Issue Tracker Board (Jira)  
 https://cosc2299-team12.atlassian.net/jira/software/projects/T12/boards/1  
 			
