@@ -22,8 +22,17 @@ public class User {
     private Role role;
     private int accreditationNum;
 
-    public User(int userId, String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, Role role) {
-        this.userId = userId;
+    /**
+     * User constructor for PA (Patient) object.
+     * @param firstName
+     * @param lastName
+     * @param dateOfBirth
+     * @param email
+     * @param password
+     * @param address
+     * @param phoneNum
+     */
+    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -31,11 +40,21 @@ public class User {
         this.password = password;
         this.address = address;
         this.phoneNum = phoneNum;
-        this.role = role;
+        this.role = Role.PA;
     }
 
-    public User(int userId, String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, Role role, int accreditationNum) {
-        this.userId = userId;
+    /**
+     * User constructor for DR (Doctor) object.
+     * @param firstName
+     * @param lastName
+     * @param dateOfBirth
+     * @param email
+     * @param password
+     * @param address
+     * @param phoneNum
+     * @param accreditationNum
+     */
+    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, int accreditationNum) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -43,8 +62,12 @@ public class User {
         this.password = password;
         this.address = address;
         this.phoneNum = phoneNum;
-        this.role = role;
+        this.role = Role.DR;
         this.accreditationNum = accreditationNum;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setFirstName(String firstName) {
