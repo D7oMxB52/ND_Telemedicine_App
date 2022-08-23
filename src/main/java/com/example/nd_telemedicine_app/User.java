@@ -41,6 +41,13 @@ public class User {
         this.address = address;
         this.phoneNum = phoneNum;
         this.role = Role.PA;
+
+        // Pass user object into Database
+        // Once true
+        // Find the user in the database and extract the userID
+        // set userID to database value
+
+        // setUserId();
     }
 
     /**
@@ -64,6 +71,13 @@ public class User {
         this.phoneNum = phoneNum;
         this.role = Role.DR;
         this.accreditationNum = accreditationNum;
+
+        // Pass user object into Database
+        // Once true
+        // Find the user in the database and extract the userID
+        // set userID to database value
+
+        // setUserId();
     }
 
     public void setUserId(int userId) {
