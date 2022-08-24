@@ -3,6 +3,13 @@ package com.example.nd_telemedicine_app;
 import java.util.Date;
 
 public class User {
+    public User() {
+
+    }
+
+    public User(String f_name, String l_name, Date birthday, String email, String password, String address, String phoneNum, Role role) {
+    }
+
     enum Role {
         AD,
         DR,
