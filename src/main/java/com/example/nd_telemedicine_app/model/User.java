@@ -3,10 +3,12 @@ package com.example.nd_telemedicine_app.model;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import com.example.nd_telemedicine_app.service.UserService;
+
 
 enum Role {
     AD,
@@ -20,6 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     @Column(name = "role")
@@ -74,6 +77,7 @@ public class User {
      * @param phoneNum Patients phone number
      * @param active Patient account activated on first sign up
      */
+    @JSONCreator
     public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -100,6 +104,7 @@ public class User {
      * @param verified Doctors account not verified on sign up. Needs approval from admin
      */
     public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, int accreditationNum, boolean active, boolean verified) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -125,6 +130,7 @@ public class User {
     public void setActive(boolean active) { this.active = active; }
 
     public void setVerified(boolean verified) { this.verified = verified; }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -158,8 +164,6 @@ public class User {
         this.accreditationNum = accreditationNum;
     }
 
-
-
     // GETTERS
 
     @Id
@@ -172,6 +176,7 @@ public class User {
     public boolean isActive() { return active; }
 
     public boolean isVerified() { return verified; }
+
 
     public String getFirstName() {
         return firstName;
@@ -204,5 +209,5 @@ public class User {
     public int getAccreditationNum() {
         return accreditationNum;
     }
-
 }
+

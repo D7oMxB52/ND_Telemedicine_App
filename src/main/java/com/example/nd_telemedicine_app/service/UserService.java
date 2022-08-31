@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import com.example.nd_telemedicine_app.model.User;
 import com.example.nd_telemedicine_app.repository.UserRepository;
 
+
 import javax.persistence.criteria.CriteriaBuilder;
+
 import java.util.List;
 
 @Service
@@ -20,10 +22,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
     // GET ALL USERS
     public List<User> getUser() {
         return userRepository.findAll();
     }
+
 
     // GET ALL PATIENTS
     public List<User> getPatients() {
@@ -81,7 +85,4 @@ public class UserService {
     public List<User> getAllDoctors() {
         return userRepository.getAllActiveDoctors();
     }
-
-
-
 }

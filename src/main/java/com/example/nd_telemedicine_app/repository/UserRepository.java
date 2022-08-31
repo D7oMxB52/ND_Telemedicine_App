@@ -2,9 +2,11 @@ package com.example.nd_telemedicine_app.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.stereotype.Repository;
 
 import com.example.nd_telemedicine_app.model.User;
+
 
 import java.util.List;
 
@@ -20,3 +22,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u from User u WHERE u.role = 'DR' and u.active = true and u.verified = true")
     List<User> getAllActiveDoctors();
 }
+
