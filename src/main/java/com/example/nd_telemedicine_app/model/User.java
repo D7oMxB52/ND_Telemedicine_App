@@ -1,78 +1,84 @@
 package com.example.nd_telemedicine_app.model;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
+
+import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 
+enum Role {
+    AD,
+    DR,
+    PA
+}
+
 @Entity
-@Table(name = "registration")
+@Table(name = "user")
 public class User {
 
-//    public List<User> userList = new ArrayList();
-
-//    boolean addUser(User newUser){
-//        return userList.add(newUser);
-//    }
-
-//    enum Role {
-//        AD,
-//        DR,
-//        PA
-//    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private long userId;
+    @GeneratedValue
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
 
-    @Column(name="first_name")
-    private String firstName;
+    @Column(name = "role")
+    private Role role;
 
-    @Column(name="last_name")
-    private String lastName;
-
-    @Column(name="date_of_birth")
-    private Date dateOfBirth;
-
-    @Column(name="email")
-    private String email;
-
-    @Column(name="password")
-    private String password;
-
-    @Column(name="address")
-    private String address;
-
-    @Column(name="phone_number")
-    private String phoneNum;
-
-    @Column(name="role")
-    private String role; // todo TRANSFORM TO ROLE ENUM
+    @Column(name = "active")
+    private boolean active;
 
     @Nullable
-    @Column(name="accreditation_num")
+    @Column(name = "verified")
+    private boolean verified;
+
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "dateOfBirth")
+    private Date dateOfBirth;
+
+    @Column(name = "email", unique = true)
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phoneNum", unique = true)
+    private String phoneNum;
+
+    @Nullable
+    @Column(name = "accreditationNum", unique = true)
     private int accreditationNum;
 
     /**
-     * User constructor for PA (Patient) object.
-     * @param firstName
-     * @param lastName
-     * @param dateOfBirth
-     * @param email
-     * @param password
-     * @param address
-     * @param phoneNum
+     * No arg constructor as needed by Spring data JPA.
      */
-    @JsonCreator
-    public User(String firstName, String lastName, Date dateOfBirth, String email,
-                String password, String address, String phoneNum, String role, int accreditationNum) {
+    public User() {
+    }
+
+    /**
+     * User constructor for PA (Patient) object.
+     * @param firstName Patients first name
+     * @param lastName Patients last name
+     * @param dateOfBirth Patients date of birth
+     * @param email Patients email
+     * @param password Patients password
+     * @param address Patients address
+     * @param phoneNum Patients phone number
+     * @param active Patient account activated on first sign up
+     */
+    @JSONCreator
+    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -80,39 +86,51 @@ public class User {
         this.password = password;
         this.address = address;
         this.phoneNum = phoneNum;
-        this.role = role;
-        this.accreditationNum = accreditationNum;
+        this.role = Role.PA;
+        this.active = true;
     }
 
-//
-//    /**
-//     * User constructor for DR (Doctor) object.
-//     * @param firstName
-//     * @param lastName
-//     * @param dateOfBirth
-//     * @param email
-//     * @param password
-//     * @param address
-//     * @param phoneNum
-//     * @param accreditationNum
-//     */
-//    @JsonCreator
-//    public User(String firstName, String lastName, Date dateOfBirth, String email, String password,
-//                String address, String phoneNum, int accreditationNum) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.dateOfBirth = dateOfBirth;
-//        this.email = email;
-//        this.password = password;
-//        this.address = address;
-//        this.phoneNum = phoneNum;
-//        this.role = Role.DR;
-//        this.accreditationNum = accreditationNum;
-//    }
+    /**
+     * User constructor for DR (Doctor) object.
+     * @param firstName Doctors first name
+     * @param lastName Doctors last name
+     * @param dateOfBirth Doctors date of birth
+     * @param email Doctors email
+     * @param password Doctors password
+     * @param address Doctors address
+     * @param phoneNum Doctors phone number
+     * @param accreditationNum Doctors accreditation number
+     * @param active Doctors account activated on sign up
+     * @param verified Doctors account not verified on sign up. Needs approval from admin
+     */
+    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, int accreditationNum, boolean active, boolean verified) {
 
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.phoneNum = phoneNum;
+        this.role = Role.DR;
+        this.accreditationNum = accreditationNum;
+        this.active = true;
+        this.verified = false;
+    }
+
+
+    // SETTERS
+
+    public void setUserId(Integer userId) { this.userId = userId; }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setActive(boolean active) { this.active = active; }
+
+    public void setVerified(boolean verified) { this.verified = verified; }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -142,17 +160,23 @@ public class User {
         this.phoneNum = phoneNum;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public void setAccreditationNum(int accreditationNum) {
         this.accreditationNum = accreditationNum;
     }
 
-    public long getUserId() {
-        return userId;
+    // GETTERS
+
+    @Id
+    public Integer getUserId() { return userId; }
+
+    public Role getRole() {
+        return role;
     }
+
+    public boolean isActive() { return active; }
+
+    public boolean isVerified() { return verified; }
+
 
     public String getFirstName() {
         return firstName;
@@ -182,13 +206,8 @@ public class User {
         return phoneNum;
     }
 
-    public String getRole() {
-        return role;
-    }
-
     public int getAccreditationNum() {
         return accreditationNum;
     }
-
-
 }
+

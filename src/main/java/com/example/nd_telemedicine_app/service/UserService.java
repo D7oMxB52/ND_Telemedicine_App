@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.nd_telemedicine_app.model.User;
 import com.example.nd_telemedicine_app.repository.UserRepository;
+
+
+import javax.persistence.criteria.CriteriaBuilder;
+
 import java.util.List;
 
 @Service
@@ -18,18 +22,25 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // READ ALL USERS
+
+    // GET ALL USERS
     public List<User> getUser() {
         return userRepository.findAll();
     }
 
+
+    // GET ALL PATIENTS
+    public List<User> getPatients() {
+        return userRepository.findAll();
+    }
+
     // DELETE USER
-    public void deleteUser(Long userId) {
+    public void deleteUser(Integer userId) {
         userRepository.deleteById(userId);
     }
 
-    // UPDATE
-    public User updateUser(Long userId, User userDetails) {
+    // UPDATE USER
+    public User updateUser(Integer userId, User userDetails) {
         User user = userRepository.findById(userId).get();
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
@@ -42,5 +53,36 @@ public class UserService {
         user.setAccreditationNum(userDetails.getAccreditationNum());
 
         return userRepository.save(user);
+    }
+
+    // GET ALL UNVERIFIED DOCTORS
+    public List<User> getAllUnverifiedDoctors() {
+        return userRepository.getAllUnverifiedDoctors();
+    }
+
+    // VERIFY DOCTOR -- When doctor is approved by admin
+    public void verifyDoctor(Integer userId) {
+        User user = userRepository.findById(userId).get();
+        user.setVerified(true);
+        userRepository.save(user);
+    }
+
+    // DEACTIVATE USER
+    // -- When a doctors signup isn't approved by admin
+    // -- When a user wants to be removed from the system
+    public void deactivateUser(Integer userId) {
+        User user = userRepository.findById(userId).get();
+        user.setActive(false);
+        userRepository.save(user);
+    }
+
+    // GET ALL ACTIVE PATIENTS
+    public List<User> getAllPatients() {
+        return userRepository.getAllActivePatients();
+    }
+
+    // GET ALL ACTIVE DOCTORS
+    public List<User> getAllDoctors() {
+        return userRepository.getAllActiveDoctors();
     }
 }
