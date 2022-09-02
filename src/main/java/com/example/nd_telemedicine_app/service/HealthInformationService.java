@@ -7,4 +7,5 @@ import java.util.List;
 public interface HealthInformationService {
     PatientHealthInfo savePatientHealthInfo(PatientHealthInfo patientHealthInfo);
     List<PatientHealthInfo> getAllPatientHealthInfo();
+    PatientHealthInfo getPatientHealthInfoById(long id);
 }

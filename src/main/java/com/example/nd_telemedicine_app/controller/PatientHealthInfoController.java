@@ -30,4 +30,14 @@ public class PatientHealthInfoController {
     public List<PatientHealthInfo> getAllHealthInfo(){
         return healthInformationService.getAllPatientHealthInfo();
     }
+
+
+    // build get healthInformation by id REST API
+    // for example:   http://localhost:8080/api/healthinfo/1
+    @PostMapping("{id}")
+
+    public ResponseEntity<PatientHealthInfo> getPatientHealthInfoById(@PathVariable("id") long id){
+        return new ResponseEntity<PatientHealthInfo>
+                (healthInformationService.getPatientHealthInfoById(id), HttpStatus.OK);
+    }
 }

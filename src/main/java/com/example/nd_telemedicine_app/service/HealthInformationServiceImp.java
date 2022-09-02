@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HealthInformationServiceImp implements HealthInformationService{
@@ -26,8 +27,11 @@ public class HealthInformationServiceImp implements HealthInformationService{
         return patientRepo.findAll();
     }
 
-
-
+    @Override
+    public PatientHealthInfo getPatientHealthInfoById(long id) {
+        Optional<PatientHealthInfo> patientHealthInfo = patientRepo.findById(id);
+        return patientHealthInfo.get();
+    }
 
 
 }
