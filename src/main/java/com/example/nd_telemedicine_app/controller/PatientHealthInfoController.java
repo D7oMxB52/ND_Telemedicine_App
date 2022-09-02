@@ -34,7 +34,7 @@ public class PatientHealthInfoController {
 
     // build get healthInformation by id REST API
     // for example:   http://localhost:8080/api/healthinfo/1
-    @PostMapping("{id}")
+    @GetMapping("{id}")
 
     public ResponseEntity<PatientHealthInfo> getPatientHealthInfoById(@PathVariable("id") long id){
         return new ResponseEntity<PatientHealthInfo>
