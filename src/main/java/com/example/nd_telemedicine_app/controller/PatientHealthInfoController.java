@@ -40,4 +40,14 @@ public class PatientHealthInfoController {
         return new ResponseEntity<PatientHealthInfo>
                 (healthInformationService.getPatientHealthInfoById(id), HttpStatus.OK);
     }
+
+    // build updated health information for existing patients REST API
+    // for example:   http://localhost:8080/api/healthinfo/1
+    @PutMapping("{id}")
+    public ResponseEntity<PatientHealthInfo> updatePatientHealthInfo(@PathVariable("id") long id
+                                                                    ,@RequestBody PatientHealthInfo patientHealthInfo){
+        return new ResponseEntity<PatientHealthInfo>
+                (healthInformationService.updatePatientHealthInfo(patientHealthInfo, id),HttpStatus.OK);
+
+    }
 }

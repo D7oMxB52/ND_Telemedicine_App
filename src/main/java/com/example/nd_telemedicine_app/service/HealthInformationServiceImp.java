@@ -33,5 +33,21 @@ public class HealthInformationServiceImp implements HealthInformationService{
         return patientHealthInfo.get();
     }
 
+    @Override
+    public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, long id) {
+
+        // fetching patient's info from DB
+        PatientHealthInfo existingPatient = patientRepo.findById(id).orElse(null);
+
+        existingPatient.setWeight(patientHealthInfo.getWeight());
+        existingPatient.setLength(patientHealthInfo.getLength());
+        existingPatient.setHealthStatus(patientHealthInfo.getHealthStatus());
+
+        //save existing patient's info to DB
+        patientRepo.save(existingPatient);
+
+        return existingPatient;
+    }
+
 
 }

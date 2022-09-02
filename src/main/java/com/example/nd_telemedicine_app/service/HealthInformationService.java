@@ -8,4 +8,5 @@ public interface HealthInformationService {
     PatientHealthInfo savePatientHealthInfo(PatientHealthInfo patientHealthInfo);
     List<PatientHealthInfo> getAllPatientHealthInfo();
     PatientHealthInfo getPatientHealthInfoById(long id);
+    PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, long id);
 }
