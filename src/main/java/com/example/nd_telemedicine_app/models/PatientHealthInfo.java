@@ -11,11 +11,11 @@ public class PatientHealthInfo {
     private long id;
 
     // need to discuss with product owner about more things to add to the patient profile.
-    @Column(name = "length")
+    @Column(name = "length", nullable = true)
     private double length;
-    @Column(name = "weight")
+    @Column(name = "weight", nullable = true)
     private double weight;
-    @Column(name = "HealthStatus")
+    @Column(name = "HealthStatus", nullable = true)
     private String healthStatus;
 
     public PatientHealthInfo() {
@@ -51,5 +51,15 @@ public class PatientHealthInfo {
 
     public void setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientHealthInfo{" +
+                "id=" + id +
+                ", length=" + length +
+                ", weight=" + weight +
+                ", healthStatus='" + healthStatus + '\'' +
+                '}';
     }
 }
