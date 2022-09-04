@@ -50,4 +50,16 @@ public class PatientHealthInfoController {
                 (healthInformationService.updatePatientHealthInfo(patientHealthInfo, id),HttpStatus.OK);
 
     }
+
+    // build delete patient's health information REST API
+    // for example:   http://localhost:8080/api/healthinfo/1
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deletingPatientHealthInfo(@PathVariable("id") long id){
+
+        //deleting the patient's health information by id
+        healthInformationService.deletePatientHealthInfo(id);
+
+        return new ResponseEntity<String>("Patient with ID: "+id+" has been deleted successfully!", HttpStatus.OK);
+    }
+
 }

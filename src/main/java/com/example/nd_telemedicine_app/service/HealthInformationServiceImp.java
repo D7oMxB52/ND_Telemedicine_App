@@ -49,5 +49,11 @@ public class HealthInformationServiceImp implements HealthInformationService{
         return existingPatient;
     }
 
+    @Override
+    public void deletePatientHealthInfo(long id) {
+        //TODO write Exceptions later
+        patientRepo.deleteById(id);
+    }
+
 
 }

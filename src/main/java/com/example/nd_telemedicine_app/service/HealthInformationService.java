@@ -9,4 +9,5 @@ public interface HealthInformationService {
     List<PatientHealthInfo> getAllPatientHealthInfo();
     PatientHealthInfo getPatientHealthInfoById(long id);
     PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, long id);
+    void deletePatientHealthInfo(long id);
 }
