@@ -1,63 +1,60 @@
 package com.example.nd_telemedicine_app.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 
 
 enum Role {
     AD,
     DR,
-    PA
+    PA;
 }
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     private Integer userId;
 
-    @Column(name = "role")
+    @Convert(converter = RoleConverter.class)
     private Role role;
 
-    @Column(name = "active")
+    @Column(name="active")
     private boolean active;
 
     @Nullable
-    @Column(name = "verified")
+    @Column(name="verified")
     private boolean verified;
 
-    @Column(name = "firstName")
+    @Column(name="first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name="last_name")
     private String lastName;
 
-    @Column(name = "dateOfBirth")
+    @Column(name="date_of_birth")
     private Date dateOfBirth;
 
-    @Column(name = "email", unique = true)
+    @Column(name="email")
     private String email;
 
-    @Column(name = "password")
+    @Column(name="password")
     private String password;
 
-    @Column(name = "address")
+    @Column(name="address")
     private String address;
 
-    @Column(name = "phoneNum", unique = true)
+    @Column(name="phone_num")
     private String phoneNum;
 
     @Nullable
-    @Column(name = "accreditationNum", unique = true)
+    @Column(name="accreditation_num")
     private int accreditationNum;
 
     /**
@@ -77,7 +74,7 @@ public class User {
      * @param phoneNum Patients phone number
      * @param active Patient account activated on first sign up
      */
-    @JSONCreator
+    @JsonCreator
     public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -103,6 +100,7 @@ public class User {
      * @param active Doctors account activated on sign up
      * @param verified Doctors account not verified on sign up. Needs approval from admin
      */
+    @JsonCreator
     public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, int accreditationNum, boolean active, boolean verified) {
 
         this.firstName = firstName;

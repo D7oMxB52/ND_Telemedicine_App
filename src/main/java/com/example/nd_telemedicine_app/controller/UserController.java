@@ -3,7 +3,6 @@ package com.example.nd_telemedicine_app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +25,16 @@ public class UserController {
 
     @RequestMapping(value="/users", method=RequestMethod.GET)
     public List<User> readUser() {
-        return userService.getUser();
+        return userService.getUsers();
     }
 
     @RequestMapping(value="/users/{userId}", method=RequestMethod.PUT)
-    public User readUsers(@PathVariable(value = "userId") Long userId, @RequestBody User userDetails) {
+    public User readUsers(@PathVariable(value = "userId") Integer userId, @RequestBody User userDetails) {
         return userService.updateUser(userId, userDetails);
     }
 
     @RequestMapping(value="/users/{userId}", method=RequestMethod.DELETE)
-    public void deleteUser(@PathVariable(value = "userId") Long userId) {
+    public void deleteUser(@PathVariable(value = "userId") Integer userId) {
         userService.deleteUser(userId);
     }
 }
