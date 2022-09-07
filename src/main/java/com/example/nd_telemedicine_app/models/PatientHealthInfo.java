@@ -1,8 +1,16 @@
 package com.example.nd_telemedicine_app.models;
 
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "PatientHealthInformation")
 public class PatientHealthInfo {
@@ -18,48 +26,4 @@ public class PatientHealthInfo {
     @Column(name = "HealthStatus", nullable = true)
     private String healthStatus;
 
-    public PatientHealthInfo() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public void setLength(double length) {
-        this.length = length;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public String getHealthStatus() {
-        return healthStatus;
-    }
-
-    public void setHealthStatus(String healthStatus) {
-        this.healthStatus = healthStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "PatientHealthInfo{" +
-                "id=" + id +
-                ", length=" + length +
-                ", weight=" + weight +
-                ", healthStatus='" + healthStatus + '\'' +
-                '}';
-    }
 }
