@@ -1,6 +1,6 @@
 package com.example.nd_telemedicine_app.controller;
 
-import com.example.nd_telemedicine_app.models.PatientHealthInfo;
+import com.example.nd_telemedicine_app.model.PatientHealthInfo;
 import com.example.nd_telemedicine_app.service.HealthInformationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
