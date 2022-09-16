@@ -38,7 +38,7 @@ public class HealthInformationService {
         PatientHealthInfo existingPatient = patientRepo.findById(id).orElse(null);
 
         existingPatient.setWeight(patientHealthInfo.getWeight());
-        existingPatient.setLength(patientHealthInfo.getLength());
+        existingPatient.setHeight(patientHealthInfo.getHeight());
         existingPatient.setHealthStatus(patientHealthInfo.getHealthStatus());
 
         //save existing patient's info to DB

@@ -1,37 +1,39 @@
 package com.example.nd_telemedicine_app.model;
 
-
-
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PatientHealthInformation")
+@Table(name = "patient_health_info")
 public class PatientHealthInfo {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "profile_id")
+    private int profileId;
 
     // need to discuss with product owner about more things to add to the patient profile.
-    @Column(name = "length", nullable = true)
-    private double length;
-    @Column(name = "weight", nullable = true)
+    @Column(name = "height")
+    private double height;
+
+    @Column(name = "weight")
     private double weight;
 
-    public long getId() {
-        return id;
+    @Column(name = "HealthStatus")
+    private String healthStatus;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "profile_id")
+    private User user;
+
+    public PatientHealthInfo() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public double getHeight() {
+        return height;
     }
 
-    public double getLength() {
-        return length;
-    }
-
-    public void setLength(double length) {
-        this.length = length;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getWeight() {
@@ -50,7 +52,6 @@ public class PatientHealthInfo {
         this.healthStatus = healthStatus;
     }
 
-    @Column(name = "HealthStatus", nullable = true)
-    private String healthStatus;
+
 
 }

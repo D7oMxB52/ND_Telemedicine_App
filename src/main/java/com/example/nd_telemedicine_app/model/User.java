@@ -2,6 +2,7 @@ package com.example.nd_telemedicine_app.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.LazyToOne;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -56,6 +57,10 @@ public class User {
     @Column(name="accreditation_num")
     private int accreditationNum;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    PatientHealthInfo patientHealthInfo;
+
     /**
      * No arg constructor as needed by Spring data JPA.
      */
@@ -84,6 +89,7 @@ public class User {
         this.phoneNum = phoneNum;
         this.role = role;
         this.active = active;
+        this.patientHealthInfo = null;
     }
 
 //    /**
