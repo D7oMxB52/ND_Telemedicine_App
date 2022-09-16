@@ -1,6 +1,6 @@
 package com.example.nd_telemedicine_app.repository;
 
-import com.example.nd_telemedicine_app.models.PatientHealthInfo;
+import com.example.nd_telemedicine_app.model.PatientHealthInfo;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PatientHealthInfoRepositoryTest {
@@ -28,11 +26,10 @@ class PatientHealthInfoRepositoryTest {
     //UNIT TEST FOR SAVING PATIENT'S INFORMATION INTO REPOSITORY
     @Test
     public void savePatientInfoTest(){
-        PatientHealthInfo phi = PatientHealthInfo.builder()
-                .length(170.2)
-                .weight(68.6)
-                .healthStatus("fever")
-                .build();
+        PatientHealthInfo phi = new PatientHealthInfo();
+                phi.setLength(13.2);
+                phi.setWeight(70.3);
+                phi.setHealthStatus("fine");
         patientHealthInfoRepository.save(phi);
         Assertions.assertThat(phi.getId()).isGreaterThan(0);
 
