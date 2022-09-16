@@ -7,8 +7,6 @@ import com.example.nd_telemedicine_app.model.User;
 import com.example.nd_telemedicine_app.repository.UserRepository;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 import java.util.List;
 
 @Service
@@ -19,12 +17,14 @@ public class UserService {
 
     // CREATE USER
     public User createUser(User user) {
+        int numOfUsers = userRepository.findAll().size();
+        user.setUserId(numOfUsers+1);
         return userRepository.save(user);
     }
 
 
     // GET ALL USERS
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
@@ -61,10 +61,11 @@ public class UserService {
     }
 
     // VERIFY DOCTOR -- When doctor is approved by admin
-    public void verifyDoctor(Integer userId) {
+    public User verifyDoctor(Integer userId) {
         User user = userRepository.findById(userId).get();
         user.setVerified(true);
         userRepository.save(user);
+        return user;
     }
 
     // DEACTIVATE USER
@@ -82,7 +83,7 @@ public class UserService {
     }
 
     // GET ALL ACTIVE DOCTORS
-    public List<User> getAllDoctors() {
-        return userRepository.getAllActiveDoctors();
+    public List<User> getAllVerifiedDoctors() {
+        return userRepository.getAllVerifiedDoctors();
     }
 }

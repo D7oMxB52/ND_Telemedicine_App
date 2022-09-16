@@ -20,6 +20,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> getAllActivePatients();
 
     @Query("SELECT u from User u WHERE u.role = 'DR' and u.active = true and u.verified = true")
-    List<User> getAllActiveDoctors();
+    List<User> getAllVerifiedDoctors();
+
 }
 
