@@ -17,6 +17,8 @@ public class UserService {
 
     // CREATE USER
     public User createUser(User user) {
+        int numOfUsers = userRepository.findAll().size();
+        user.setUserId(numOfUsers+1);
         return userRepository.save(user);
     }
 

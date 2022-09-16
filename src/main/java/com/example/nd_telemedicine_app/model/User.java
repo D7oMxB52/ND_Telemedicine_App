@@ -29,7 +29,6 @@ public class User {
     @Column(name="active")
     private boolean active;
 
-    @Nullable
     @Column(name="verified")
     private boolean verified;
 
@@ -54,7 +53,6 @@ public class User {
     @Column(name="phone_num")
     private String phoneNum;
 
-    @Nullable
     @Column(name="accreditation_num")
     private int accreditationNum;
 
