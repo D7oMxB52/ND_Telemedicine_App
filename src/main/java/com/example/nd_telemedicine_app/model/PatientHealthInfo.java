@@ -17,16 +17,31 @@ public class PatientHealthInfo {
     @Column(name = "weight")
     private double weight;
 
-    @Column(name = "HealthStatus")
+    @Column(name = "health_status")
     private String healthStatus;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "profile_id")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     public PatientHealthInfo() {
     }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
+    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public double getHeight() {
         return height;

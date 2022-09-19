@@ -57,9 +57,8 @@ public class User {
     @Column(name="accreditation_num")
     private int accreditationNum;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    PatientHealthInfo patientHealthInfo;
+//    @OneToOne(mappedBy = "user")
+//    PatientHealthInfo patientHealthInfo;
 
     /**
      * No arg constructor as needed by Spring data JPA.
@@ -89,7 +88,7 @@ public class User {
         this.phoneNum = phoneNum;
         this.role = role;
         this.active = active;
-        this.patientHealthInfo = null;
+//        this.patientHealthInfo = null;
     }
 
 //    /**
@@ -119,6 +118,14 @@ public class User {
 //        this.accreditationNum = accreditationNum;
 //        this.active = true;
 //        this.verified = false;
+//    }
+//
+//    public PatientHealthInfo getPatientHealthInfo() {
+//        return patientHealthInfo;
+//    }
+//
+//    public void setPatientHealthInfo(PatientHealthInfo patientHealthInfo) {
+//        this.patientHealthInfo = patientHealthInfo;
 //    }
 
 

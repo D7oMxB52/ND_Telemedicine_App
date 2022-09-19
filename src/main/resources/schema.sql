@@ -15,11 +15,11 @@ CREATE TABLE IF NOT EXISTS users (
      UNIQUE KEY `phone_num_UNIQUE` (phone_num),
      UNIQUE KEY `email_UNIQUE` (email)
 ) ENGINE=InnoDB;
-CREATE TABLE IF NOT EXISTS `patient_health_info` (
-                                       `profile_id` int NOT NULL,
-                                       `height` double DEFAULT NULL,
-                                       `weight` double DEFAULT NULL,
-                                       `health_status` varchar(255) DEFAULT NULL,
-                                       PRIMARY KEY (`profile_id`),
-                                       CONSTRAINT `user_id` FOREIGN KEY (`profile_id`) REFERENCES `users` (`user_id`)
-)ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS patient_health_info (
+     profile_id int NOT NULL,
+     height double DEFAULT NULL,
+     weight double DEFAULT NULL,
+     health_status varchar(255) DEFAULT NULL,
+     PRIMARY KEY (profile_id),
+     CONSTRAINT user_id FOREIGN KEY (profile_id) REFERENCES users (user_id)
+) ENGINE=InnoDB;

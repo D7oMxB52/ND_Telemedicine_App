@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @Service
 public class HealthInformationService {
-    private PatientHealthInfoRepository patientRepo;
-
     @Autowired
-    public HealthInformationService(PatientHealthInfoRepository patientRepo) {
-        super();
-        this.patientRepo = patientRepo;
-    }
+    PatientHealthInfoRepository patientRepo;
+
+//    public HealthInformationService(PatientHealthInfoRepository patientRepo) {
+//        super();
+//        this.patientRepo = patientRepo;
+//    }
 
     public PatientHealthInfo savePatientHealthInfo(PatientHealthInfo patientHealthInfo){
         return patientRepo.save(patientHealthInfo);
@@ -27,12 +27,12 @@ public class HealthInformationService {
         return patientRepo.findAll();
     }
 
-    public PatientHealthInfo getPatientHealthInfoById(long id) {
+    public PatientHealthInfo getPatientHealthInfoById(Integer id) {
         Optional<PatientHealthInfo> patientHealthInfo = patientRepo.findById(id);
         return patientHealthInfo.get();
     }
 
-    public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, long id) {
+    public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, Integer id) {
 
         // fetching patient's info from DB
         PatientHealthInfo existingPatient = patientRepo.findById(id).orElse(null);
@@ -47,7 +47,7 @@ public class HealthInformationService {
         return existingPatient;
     }
 
-    public void deletePatientHealthInfo(long id) {
+    public void deletePatientHealthInfo(Integer id) {
         //TODO write Exceptions later
         patientRepo.deleteById(id);
     }
