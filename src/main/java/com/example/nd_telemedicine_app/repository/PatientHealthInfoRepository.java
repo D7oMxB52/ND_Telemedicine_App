@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 // no need to add @Repository bcz its already there
-public interface PatientHealthInfoRepository extends JpaRepository<PatientHealthInfo, Long> {
+public interface PatientHealthInfoRepository extends JpaRepository<PatientHealthInfo, Integer> {
 
-    Optional<PatientHealthInfo> findByWeight(double weight);
-    Optional<PatientHealthInfo> findByLength(double length);
-    Optional<PatientHealthInfo> findByHealthStatus(String healthStatus);
+//    Optional<PatientHealthInfo> findByWeight(double weight);
+//    Optional<PatientHealthInfo> findByHeight(double height);
+//    Optional<PatientHealthInfo> findByHealthStatus(String healthStatus);
 
 }
