@@ -3,7 +3,6 @@ package com.example.nd_telemedicine_app.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.LazyToOne;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
