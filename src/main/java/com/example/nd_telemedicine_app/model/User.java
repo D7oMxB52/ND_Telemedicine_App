@@ -57,8 +57,8 @@ public class User {
     @Column(name="accreditation_num")
     private int accreditationNum;
 
-//    @OneToOne(mappedBy = "user")
-//    PatientHealthInfo patientHealthInfo;
+    @OneToOne(mappedBy = "user")
+    PatientHealthInfo patientHealthInfo;
 
     /**
      * No arg constructor as needed by Spring data JPA.

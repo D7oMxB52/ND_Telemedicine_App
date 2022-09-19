@@ -20,9 +20,9 @@ public class PatientHealthInfo {
     @Column(name = "health_status")
     private String healthStatus;
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public PatientHealthInfo() {
     }
