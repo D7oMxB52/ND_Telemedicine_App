@@ -23,3 +23,20 @@ CREATE TABLE IF NOT EXISTS patient_health_info (
      PRIMARY KEY (profile_id),
      CONSTRAINT user_id FOREIGN KEY (profile_id) REFERENCES users (user_id)
 ) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS booking (
+    booking_id INT NOT NULL AUTO_INCREMENT,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    booking_date DATE NOT NULL,
+    booking_time TIME NOT NULL,
+    has_paid TINYINT(0) NOT NULL,
+    has_confirmed TINYINT(0) NOT NULL,
+    PRIMARY KEY (booking_id),
+    CONSTRAINT patient_id FOREIGN KEY (patient_id) REFERENCES userServices.users (user_id),
+    CONSTRAINT doctor_id FOREIGN KEY (doctor_id) REFERENCES userServices.users (user_id)
+) ENGINE=InnoDB;
+
+
+
+
+

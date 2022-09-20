@@ -13,6 +13,10 @@ public class Booking {
     private String patientName; // Placeholder - update with User object
     private String doctorName; // Placeholder - update with User Object
     private LocalDate bookingDate;
+    private LocalTime bookingTime; // Assume all appointments fixed at 15 minutes.
+    private String chatLink;
+    private boolean hasPaid;
+    private boolean hasConfirmed;
 
     public Booking() {
 //        this.bookingId = -1;
@@ -37,10 +41,7 @@ public class Booking {
         this.hasConfirmed = hasConfirmed;
     }
 
-    private LocalTime bookingTime; // Assume all appointments fixed at 15 minutes.
-    private String chatLink;
-    private boolean hasPaid;
-    private boolean hasConfirmed;
+
 
     public Integer getBookingId() {
         return bookingId;

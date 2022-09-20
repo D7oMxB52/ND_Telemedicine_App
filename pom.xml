@@ -11,11 +11,23 @@
     <description>NDTelemedicine</description>
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <modules>
         <module>booking</module>
         <module>nd_telemedicine_app</module>
         <!--Add Front end here as a module-->
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.3</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
