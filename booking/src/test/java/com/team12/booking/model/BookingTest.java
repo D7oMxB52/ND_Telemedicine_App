@@ -15,22 +15,22 @@ class BookingTest {
     @Test
     @DisplayName("Test booking object initialisation with default constructor")
     void testBookingDefaultObjectCreation(){
-//        Booking testBooking = new Booking();
-//        LocalDate date = LocalDate.now();
-//        LocalTime time = LocalTime.now();
-//        Booking testBooking2 = new Booking(1, "Patient name", "Doctor name",
-//                date, time, "chat link", true, true);
-//        assertNotEquals(testBooking, testBooking2);
+        Booking testBooking = new Booking();
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        Booking testBooking2 = new Booking(1, 1, 2,
+                date, time, "chat link", true, true);
+        assertNotEquals(testBooking, testBooking2);
     }
 
     @Test
     @DisplayName("Test booking object initialisation returns the correct bookingId")
     void getBookingId() {
-//        LocalDate date = LocalDate.now();
-//        LocalTime time = LocalTime.now();
-//        Integer bookingId = 1;
-//        Booking testBooking = new Booking(1, "Patient name", "Doctor name",
-//                date, time, "chat link", true, true);
-//        assertEquals(testBooking.getBookingId(), bookingId);
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        Integer bookingId = 1;
+        Booking testBooking = new Booking(1, 1, 2,
+                date, time, "chat link", true, true);
+        assertEquals(testBooking.getBookingId(), bookingId);
     }
 }
