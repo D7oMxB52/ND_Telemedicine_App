@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +36,22 @@ public class BookingController {
         // List of HttpStatus codes https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html
     }
 
-    // getbooking for a particular user (patient and doctor)
+    // getbooking for a particular user (patient)
+    @GetMapping(path="/patient{patientId}", produces = "application/json")
+    public ResponseEntity<Object> getBookingByPatientId(@PathVariable("patientId") Integer patientId)
+        throws Exception {
+        List<Booking> bookingList = bookingService.findBookingByPatientId(patientId);
+        if (bookingList.size() > 0) {
+            return  new ResponseEntity<>(bookingList, HttpStatus.OK);
+        } else  {
+            throw new Exception("Could not find bookings for patient");
+        }
+    }
+
+
+
+    // getbooking for a particular user (doctor)
+
 
     /**
      * Create new booking in the database. Booking ID is added internally.

@@ -2,6 +2,7 @@ package com.team12.booking.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,12 +11,19 @@ public class Booking {
 
     @Id
     private Integer bookingId;
+    @Column
     private Integer patientId; // Placeholder - update with User object
+    @Column
     private Integer doctorId; // Placeholder - update with User Object
+    @Column
     private LocalDate bookingDate;
+    @Column
     private LocalTime bookingTime; // Assume all appointments fixed at 15 minutes.
+    @Column
     private String chatLink;
+    @Column
     private boolean hasPaid;
+    @Column
     private boolean hasConfirmed;
 
     public Booking() {

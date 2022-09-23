@@ -4,6 +4,8 @@ import com.team12.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -38,4 +40,27 @@ public class BookingService {
         }
     }
 
+    /**
+     * Find all bookings for a particular patientId
+     * @param patientId foreign key of patient (user) id
+     * @return ArrayList of bookings
+     * @throws NoSuchElementException
+     */
+    public List findBookingByPatientId(Integer patientId) throws NoSuchElementException {
+        List<Booking> allBookings;
+        List<Booking> patientBookings;
+        try {
+           allBookings = bookingDao.findAll();
+           patientBookings = new ArrayList<>();
+           for (int i = 0; i < allBookings.size(); i++){
+               if (allBookings.get(i).getPatientId() == patientId){
+                   patientBookings.add(allBookings.get(i));
+               }
+           }
+        return patientBookings;
+
+        } catch (Exception e){
+            throw new NoSuchElementException("No bookings exist for this patient or patient doesn't exist. ");
+        }
+    }
 }
