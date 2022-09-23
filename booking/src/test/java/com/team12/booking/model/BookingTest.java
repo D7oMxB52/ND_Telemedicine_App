@@ -18,7 +18,7 @@ class BookingTest {
         Booking testBooking = new Booking();
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
-        Booking testBooking2 = new Booking(1, "Patient name", "Doctor name",
+        Booking testBooking2 = new Booking(1, 1, 2,
                 date, time, "chat link", true, true);
         assertNotEquals(testBooking, testBooking2);
     }
@@ -28,11 +28,11 @@ class BookingTest {
     void testBookingNonDefaultObjectCreation(){
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
-        Booking testBooking = new Booking(1, "Patient name", "Doctor name",
+        Booking testBooking = new Booking(1, 1, 2,
                 date, time, "chat link", true, true);
         assertEquals(testBooking.getBookingId(), 1);
-        assertEquals(testBooking.getPatientName(), "Patient name");
-        assertEquals(testBooking.getDoctorName(), "Doctor name");
+        assertEquals(testBooking.getPatientId(), 1);
+        assertEquals(testBooking.getDoctorId(), 2);
         assertEquals(testBooking.getBookingDate(), date);
         assertEquals(testBooking.getBookingTime(), time);
         assertEquals(testBooking.getChatLink(), "chat link");
@@ -40,18 +40,14 @@ class BookingTest {
         assertTrue(testBooking.isHasConfirmed());
     }
 
-
-
     @Test
     @DisplayName("Test booking object initialisation returns the correct bookingId")
-    void testGetBookingId() {
+    void getBookingId() {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         Integer bookingId = 1;
-        Booking testBooking = new Booking(1, "Patient name", "Doctor name",
+        Booking testBooking = new Booking(1, 1, 2,
                 date, time, "chat link", true, true);
         assertEquals(testBooking.getBookingId(), bookingId);
     }
-
-
 }
