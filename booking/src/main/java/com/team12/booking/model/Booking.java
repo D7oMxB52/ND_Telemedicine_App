@@ -10,8 +10,8 @@ public class Booking {
 
     @Id
     private Integer bookingId;
-    private String patientName; // Placeholder - update with User object
-    private String doctorName; // Placeholder - update with User Object
+    private Integer patientId; // Placeholder - update with User object
+    private Integer doctorId; // Placeholder - update with User Object
     private LocalDate bookingDate;
     private LocalTime bookingTime; // Assume all appointments fixed at 15 minutes.
     private String chatLink;
@@ -19,21 +19,14 @@ public class Booking {
     private boolean hasConfirmed;
 
     public Booking() {
-//        this.bookingId = -1;
-//        this.patientName = "";
-//        this.doctorName = "";
-//        this.bookingDate = LocalDate.now();
-//        this.bookingTime = LocalTime.now();
-//        this.chatLink = "";
-//        this.hasPaid = false;
-//        this.hasConfirmed = false;
+
     }
 
-    public Booking(Integer bookingId, String patientName, String doctorName, LocalDate bookingDate,
+    public Booking(Integer bookingId, Integer patientId, Integer doctorId, LocalDate bookingDate,
                    LocalTime bookingTime, String chatLink, boolean hasPaid, boolean hasConfirmed) {
         this.bookingId = bookingId;
-        this.patientName = patientName;
-        this.doctorName = doctorName;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
         this.chatLink = chatLink;
@@ -51,20 +44,20 @@ public class Booking {
         this.bookingId = bookingId;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public Integer getPatientId() {
+        return patientId;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
     }
 
-    public String getDoctorName() {
-        return doctorName;
+    public Integer getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 
     public LocalDate getBookingDate() {

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS booking (
     doctor_id INT NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
+    chat_link varchar(200) NOT NULL,
     has_paid TINYINT(0) NOT NULL,
     has_confirmed TINYINT(0) NOT NULL,
     PRIMARY KEY (booking_id),
