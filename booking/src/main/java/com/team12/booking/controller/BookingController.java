@@ -8,22 +8,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path="/booking")
 public class BookingController {
 
     @Autowired
-    private BookingDAO bookingDao;
-    @Autowired
     private BookingService bookingService;
 
 
-    // Get a booking based on bookingId.
+    /**
+     * Retrieve a particular booking from database
+     * @param bookingId Primary key identifier of booking
+     * @return Booking object if a match is found with
+     * @throws Exception
+     */
     @GetMapping(path="/{bookingId}", produces = "application/json")
     public ResponseEntity<Object> getBookingById(@PathVariable("bookingId") Integer bookingId)
             throws Exception {
-        Booking booking = bookingDao.findById(bookingId).get();
-        if (booking.getBookingId() == null){
+        Optional booking = bookingService.findBookingById(bookingId);
+        if (booking == null){
             throw new Exception("Booking not found");
         } else
             return new ResponseEntity<>(booking, HttpStatus.OK);
@@ -32,7 +37,12 @@ public class BookingController {
 
     // getbooking for a particular user (patient and doctor)
 
-    // Make booking
+    /**
+     * Create new booking in the database. Booking ID is added internally.
+     * @param booking - booking object as json
+     * @return booking object as created in database.
+     * @throws Exception
+     */
     @PostMapping(path = "/new", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> makeBooking(@RequestBody Booking booking)
             throws Exception {

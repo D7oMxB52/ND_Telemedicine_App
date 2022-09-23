@@ -4,6 +4,9 @@ import com.team12.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 public class BookingService {
 
@@ -26,4 +29,13 @@ public class BookingService {
             throw new Exception("Booking was not made successfully. Check booking_id");
         }
     }
+
+    public Optional findBookingById(Integer bookingId) throws NoSuchElementException {
+        try {
+            return bookingDao.findById(bookingId);
+        } catch (Exception e) {
+            throw new NoSuchElementException("Booking ID not found");
+        }
+    }
+
 }
