@@ -36,7 +36,12 @@ public class BookingController {
         // List of HttpStatus codes https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html
     }
 
-    // getbooking for a particular user (patient)
+    /**
+     * Find all bookings for a particular patient ID
+     * @param patientId Integer value of patient's userId
+     * @return List of all bookings associated with patientID
+     * @throws Exception
+     */
     @GetMapping(path="/patient{patientId}", produces = "application/json")
     public ResponseEntity<Object> getBookingByPatientId(@PathVariable("patientId") Integer patientId)
         throws Exception {
@@ -49,8 +54,22 @@ public class BookingController {
     }
 
 
-
-    // getbooking for a particular user (doctor)
+    /**
+     * Find all bookings for a particular doctor id
+     * @param doctorId Integer value of doctor's userId
+     * @return List of all bookings associated with a particular doctor id
+     * @throws Exception
+     */
+    @GetMapping(path="/doctor{doctorId}", produces = "application/json")
+    public ResponseEntity<Object> getBookingByDoctorId(@PathVariable("doctorId") Integer doctorId)
+            throws Exception {
+        List<Booking> bookingList = bookingService.findBookingByDoctorId(doctorId);
+        if (bookingList.size() > 0) {
+            return  new ResponseEntity<>(bookingList, HttpStatus.OK);
+        } else  {
+            throw new Exception("Could not find bookings for doctor");
+        }
+    }
 
 
     /**
