@@ -26,9 +26,7 @@ public class Booking {
     @Column
     private boolean hasConfirmed;
 
-    public Booking() {
-
-    }
+    public Booking() {}
 
     public Booking(Integer bookingId, Integer patientId, Integer doctorId, LocalDate bookingDate,
                    LocalTime bookingTime, String chatLink, boolean hasPaid, boolean hasConfirmed) {
@@ -41,8 +39,6 @@ public class Booking {
         this.hasPaid = hasPaid;
         this.hasConfirmed = hasConfirmed;
     }
-
-
 
     public Integer getBookingId() {
         return bookingId;
