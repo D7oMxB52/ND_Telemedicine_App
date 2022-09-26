@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import 'Booking.dart';
 import 'SignInPage.dart';
 import 'SignUpForDoctors.dart';
 import 'SignUpForPatients.dart';
@@ -120,6 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Doctor Sign Up"),
               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const SignUpForDoctors();
+              }));},
+            ),
+            OutlinedButton(
+              child: Text("Booking Test"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Booking();
               }));},
             ),
           ],
