@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'SignInPage.dart';
+import 'SignUpForDoctors.dart';
 
 
 
@@ -106,6 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Sign In"),
               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const SignInPage();
+              }));},
+            ),
+            OutlinedButton(
+              child: Text("Doctor Sign Up"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const SignUpForDoctors();
               }));},
             ),
           ],
