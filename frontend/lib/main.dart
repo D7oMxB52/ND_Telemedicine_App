@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'SignInPage.dart';
+
 
 
 void main() {
@@ -100,7 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
+            OutlinedButton(
+              child: Text("Sign In"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const SignInPage();
+              }));},
+            ),
           ],
         ),
       ),
