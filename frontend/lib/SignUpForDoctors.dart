@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'DropDownSex.dart';
+
 class SignUpForDoctors extends StatelessWidget {
   const SignUpForDoctors({super.key});
   final String title = "Sign Up for Doctors";
@@ -16,83 +18,77 @@ class SignUpForDoctors extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            Text("Accreditation Number"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your accreditation number",
+              Text("Accreditation Number"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your accreditation number",
+                ),
               ),
-            ),
-            Text("First Name"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your first name",
+              Text("First Name"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your first name",
+                ),
               ),
-            ),
-            Text("Last Name"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your last name",
+              Text("Last Name"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your last name",
+                ),
               ),
-            ),
-            Text("Date of Birth"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your date of birth",
+              Text("Date of Birth"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your date of birth",
+                ),
               ),
-            ),
-            Text("Sex"),
-            TextField(),
-            // DropdownButton <String> (
-            //     // value: value,
-            //     onChanged: () {},
-            //     items: [],
-            //     icon: Icon(Icons.keyboard_arrow_down)
-            // ),
-            Text("Mobile Number"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your mobile number",
+              Text("Sex"),
+              DropDownSex(key: key),
+              Text("Mobile Number"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your mobile number",
+                ),
               ),
-            ),
-            Text("Address"),
-            TextField(
+              Text("Address"),
+              TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter your address",
                 ),
               ),
-            Text("Email"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your email",
+              Text("Email"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your email",
+                ),
               ),
-            ),
-            Text("Password"),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your password",
+              Text("Password"),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your password",
+                ),
               ),
-            ),
-            Text("Confirm Password"),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter your password",
+              Text("Confirm Password"),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter your password",
+                ),
               ),
-            ),
-            OutlinedButton(
-              child: Text("Sign In"),
-              onPressed: () { },
-            ),
-          ],
+              OutlinedButton(
+                child: Text("Sign In"),
+                onPressed: () {},
+              ),
+            ],
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
             ),
             OutlinedButton(
               child: Text("Sign In"),
-              onPressed: () { },
+              onPressed: () {},
             ),
           ],
         ),

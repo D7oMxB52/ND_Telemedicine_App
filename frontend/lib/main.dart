@@ -1,13 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'Booking.dart';
 import 'SignInPage.dart';
 import 'SignUpForDoctors.dart';
 import 'SignUpForPatients.dart';
-
-
 
 void main() {
   runApp(const MyApp());
@@ -107,32 +103,40 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             OutlinedButton(
               child: Text("Sign In"),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SignInPage();
-              }));},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SignInPage();
+                }));
+              },
             ),
             OutlinedButton(
               child: Text("Patient Sign Up"),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SignUpForPatients();
-              }));},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SignUpForPatients();
+                }));
+              },
             ),
             OutlinedButton(
               child: Text("Doctor Sign Up"),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SignUpForDoctors();
-              }));},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SignUpForDoctors();
+                }));
+              },
             ),
             OutlinedButton(
               child: Text("Booking Test"),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Booking();
-              }));},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Booking();
+                }));
+              },
             ),
           ],
         ),
       ),
-       // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

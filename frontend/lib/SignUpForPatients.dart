@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'DropDownSex.dart';
+
 class SignUpForPatients extends StatelessWidget {
   const SignUpForPatients({super.key});
   final String title = "Sign Up for Patients";
-  // String value = "";
+  // int selectedValue = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +41,7 @@ class SignUpForPatients extends StatelessWidget {
                 ),
               ),
               Text("Sex"),
-              TextField(),
-              // DropdownButton <String> (
-              //     // value: value,
-              //     onChanged: () {},
-              //     items: [],
-              //     icon: Icon(Icons.keyboard_arrow_down)
-              // ),
+              DropDownSex(key: key),
               Text("Mobile Number"),
               TextField(
                 decoration: InputDecoration(
@@ -83,7 +80,7 @@ class SignUpForPatients extends StatelessWidget {
               ),
               OutlinedButton(
                 child: Text("Sign In"),
-                onPressed: () { },
+                onPressed: () {},
               ),
             ],
           ),
@@ -91,6 +88,6 @@ class SignUpForPatients extends StatelessWidget {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
-  void setState(Null Function() param0) {}
 }
+
+
