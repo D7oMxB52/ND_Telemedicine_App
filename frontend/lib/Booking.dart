@@ -12,13 +12,6 @@ class Booking extends StatelessWidget {
   const Booking({super.key});
   final String title = "Booking";
 
-  // String url = 'http://localhost:8080/users/auth/{username}/{password}';
-  //
-  // Future<String> MyBooking() async {
-  //   var response = await http.get(Uri.encodeFull(url), headers:{"Accept" : "application/json"});
-  //   Navigator.of(context).pushNamed('/signup');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

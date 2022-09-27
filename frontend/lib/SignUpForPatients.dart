@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
+import 'DateOfBirthWidget.dart';
 import 'DropDownSex.dart';
 
 class SignUpForPatients extends StatelessWidget {
   const SignUpForPatients({super.key});
   final String title = "Sign Up for Patients";
-  // int selectedValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class SignUpForPatients extends StatelessWidget {
                 ),
               ),
               Text("Date of Birth"),
+              DateOfBirthWidget(),
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
