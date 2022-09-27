@@ -16,25 +16,6 @@ class SignInPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const MyCustomForm(),
-            // Text("Email address"),
-            // TextField(
-            //   decoration: InputDecoration(
-            //     border: OutlineInputBorder(),
-            //     hintText: "Enter your email",
-            //   ),
-            // ),
-            // Text("Password"),
-            // TextField(
-            //   obscureText: true,
-            //   decoration: InputDecoration(
-            //     border: OutlineInputBorder(),
-            //     hintText: "Enter your password",
-            //   ),
-            // ),
-            // OutlinedButton(
-            //   child: Text("Sign In"),
-            //   onPressed: () {},
-            // ),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -78,7 +59,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter your email address';
               }
               return null;
             },
@@ -93,7 +74,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter your password';
               }
               return null;
             },
