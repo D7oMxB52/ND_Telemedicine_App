@@ -86,4 +86,15 @@ public class UserService {
     public List<User> getAllVerifiedDoctors() {
         return userRepository.getAllVerifiedDoctors();
     }
+
+    public Boolean findUserByEmail(String email, String password){
+        Boolean isFound = false;
+        List<User> users = userRepository.findAll();
+        for (int i = 0; i< users.size(); i++){
+            if(users.get(i).getEmail().equals(email) && users.get(i).getPassword().equals(password)){
+                isFound = true;
+            }
+        }
+        return isFound;
+    }
 }
