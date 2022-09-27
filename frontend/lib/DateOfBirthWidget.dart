@@ -15,8 +15,7 @@ class _DateOfBirthWidget extends State<DateOfBirthWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
+    return ElevatedButton(
           child: Text("Open date picker dialog"),
           onPressed: () async {
             var datePicked = await DatePicker.showSimpleDatePicker(
@@ -31,8 +30,6 @@ class _DateOfBirthWidget extends State<DateOfBirthWidget> {
             final snackBar = SnackBar(content: Text("Date Picked $datePicked"));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-      ),
-
-    );
+      );
   }
 }
