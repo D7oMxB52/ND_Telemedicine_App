@@ -2,6 +2,7 @@ package com.example.nd_telemedicine_app.controller;
 
 import java.util.List;
 
+import com.example.nd_telemedicine_app.model.SignIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,4 +53,14 @@ public class UserController {
     public void deleteUser(@PathVariable(value = "userId") Integer userId) {
         userService.deleteUser(userId);
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
+    public String login(@RequestBody SignIn signin){
+        boolean isVerified = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
+        if (isVerified){
+            return "User is Verified";
+        }
+        return "invalid email or password";
+    }
+
 }
