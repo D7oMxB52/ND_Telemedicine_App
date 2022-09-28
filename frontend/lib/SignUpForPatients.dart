@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 import 'DateOfBirthWidget.dart';
 import 'DropDownSex.dart';
+import 'package:http/http.dart' as http;
+
 
 class SignUpForPatients extends StatelessWidget {
   const SignUpForPatients({super.key});
@@ -51,6 +54,83 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    final firstNameController = TextEditingController();
+    final lastNameController = TextEditingController();
+    final mobileNumberController = TextEditingController();
+    final addressController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
+
+    // VALIDATORS FOR EACH FIELD
+    String? validateFirstName(String? value) {
+      if (value == null || value.isEmpty)
+        return 'First name cannot be blank';
+      else
+        return null;
+    }
+
+    String? validateLastName(String? value) {
+      if (value == null || value.isEmpty)
+        return 'Last name cannot be blank';
+      else
+        return null;
+    }
+
+    String? validateEmail(String? value) {
+      String pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = RegExp(pattern);
+      if (value == null || value.isEmpty) {
+        return 'Email cannot be blank';
+      } else if(!regex.hasMatch(value)) {
+        return 'Enter a valid email address';
+      } else {
+        return null;
+      }
+    }
+
+    String? validateMobile(String? value) {
+      String pattern = r'^[+0-9][0-9]*';
+      RegExp regex = RegExp(pattern);
+      if (value == null || value.isEmpty) {
+        return 'Mobile number cannot be blank';
+      } else if(!regex.hasMatch(value)) {
+        return 'Enter valid mobile number';
+      } else {
+        return null;
+      }
+    }
+
+    String? validateAddress(String? value) {
+      if (value == null || value.isEmpty)
+        return 'Address cannot be blank';
+      else
+        return null;
+    }
+
+    String? validatePassword(String? value) {
+      String pattern = r'^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$';
+      RegExp regex = RegExp(pattern);
+      if (value == null || value.isEmpty) {
+        return 'Password cannot be blank';
+      } else if (!regex.hasMatch(value)) {
+        return 'Password must be 8-16 characters and contain at least: \n        - 1 uppercase letter [A-Z]\n        - 1 lowercase letter [a-z]\n        - 1 number [0-9]\n        - 1 special character [!@#\$%^&*]';
+      } else {
+        return null;
+      }
+    }
+    String? validateConfirmPassword(String? value) {
+      if (value == null || value.isEmpty) {
+        return 'Password cannot be blank';
+      } else if (passwordController.text != confirmPasswordController.text) {
+        return 'Passwords do not match';
+      } else {
+        return null;
+      }
+    }
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -59,31 +139,23 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: [
           Text("First Name"),
           TextFormField(
+            controller: firstNameController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your first name",
             ),
             // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your first name';
-              }
-              return null;
-            },
+            validator: validateFirstName,
           ),
           Text("Last Name"),
           TextFormField(
+            controller: lastNameController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your last name",
             ),
             // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your last name';
-              }
-              return null;
-            },
+            validator: validateLastName,
           ),
           Text("Date of Birth"),
           DateOfBirthWidget(),
@@ -97,70 +169,50 @@ class MyCustomFormState extends State<MyCustomForm> {
           DropDownSex(),
           Text("Mobile Number"),
           TextFormField(
+            controller: mobileNumberController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your mobile number",
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your mobile number';
-              }
-              return null;
-            },
+            validator: validateMobile,
           ),
           Text("Address"),
           TextFormField(
+            controller: addressController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your address",
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your address';
-              }
-              return null;
-            },
+            validator: validateAddress,
           ),
           Text("Email"),
           TextFormField(
+            controller: emailController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your email",
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              return null;
-            },
+            validator: validateEmail,
           ),
           Text("Password"),
           TextFormField(
+            controller: passwordController,
             obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your password",
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
+            validator: validatePassword,
           ),
           Text("Confirm Password"),
           TextFormField(
+            controller: confirmPasswordController,
             obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your password",
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
+            validator: validateConfirmPassword,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -168,11 +220,37 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
+                    const SnackBar(content: Text('Form validated')),
                   );
+                  // Test printouts
+                  print("FORM VALIDATED - RESULTS BELOW");
+                  print("firstName: ${firstNameController.text}");
+                  print("lastName: ${lastNameController.text}");
+                  print("mobile: ${mobileNumberController.text}");
+                  print("address: ${addressController.text}");
+                  print("email: ${emailController.text}");
+                  print("password: ${passwordController.text}");
+
+                  // SEND TO API
+                  http.post(
+                      Uri.parse('http://10.0.2.2:8080/ndt/users'),
+                      headers:{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                          body: jsonEncode({
+                            "firstName": firstNameController.text,
+                            "lastName": lastNameController.text,
+                            "dateOfBirth": "2000-01-01",
+                            "email": emailController.text,
+                            "password": passwordController.text,
+                            "address": addressController.text,
+                            "phoneNum": mobileNumberController.text,
+                            "role": "PA",
+                            "active": true
+                          })
+                  );
+
                 }
               },
               child: const Text('Submit'),
@@ -181,6 +259,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         ],
       ),
     );
+
   }
 }
 
