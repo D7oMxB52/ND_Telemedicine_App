@@ -234,6 +234,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                   // SEND TO API
                   http.post(
+                      // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://10.0.2.2:8080/ndt/users'),
                       headers:{
                         'Content-Type': 'application/json; charset=UTF-8',
