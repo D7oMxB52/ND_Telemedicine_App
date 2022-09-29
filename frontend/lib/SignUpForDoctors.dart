@@ -184,8 +184,9 @@ class MyCustomFormState extends State<MyCustomForm> {
           //     hintText: "Enter your date of birth",
           //   ),
           // ),
-          Text("Sex"),
-          DropDownSex(),
+          // Sex was excluded from DB and User model so decided to exclude from here too
+          // Text("Sex"),
+          // DropDownSex(),
           Text("Mobile Number"),
           TextFormField(
             controller: mobileNumberController,
