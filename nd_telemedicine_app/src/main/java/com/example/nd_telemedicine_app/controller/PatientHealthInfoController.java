@@ -18,7 +18,7 @@ public class PatientHealthInfoController {
         super();
         this.healthInformationService = healthInformationService;
     }
-// fake edit
+
     // build create healthInformation REST API
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ResponseEntity<PatientHealthInfo> saveHealthInfo(@RequestBody PatientHealthInfo patientHealthInfo){
@@ -35,15 +35,16 @@ public class PatientHealthInfoController {
 
     // build get healthInformation by id REST API
     // for example:   http://localhost:8080/api/healthinfo/1
-    @GetMapping("{id}")
-    public ResponseEntity<PatientHealthInfo> getPatientHealthInfoById(@PathVariable("id") Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientHealthInfo> getPatientHealthInfoById(@PathVariable("id") Integer profileId){
+        System.out.print("Hits endpoint");
         return new ResponseEntity<PatientHealthInfo>
-                (healthInformationService.getPatientHealthInfoById(id), HttpStatus.OK);
+                (healthInformationService.getPatientHealthInfoById(profileId), HttpStatus.OK);
     }
 
     // build updated health information for existing patients REST API
     // for example:   http://localhost:8080/api/healthinfo/1
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PatientHealthInfo> updatePatientHealthInfo(@PathVariable("id") Integer id
                                                                     ,@RequestBody PatientHealthInfo patientHealthInfo){
         return new ResponseEntity<PatientHealthInfo>
@@ -61,5 +62,4 @@ public class PatientHealthInfoController {
 
         return new ResponseEntity<String>("Patient with ID: "+id+" has been deleted successfully!", HttpStatus.OK);
     }
-
 }
