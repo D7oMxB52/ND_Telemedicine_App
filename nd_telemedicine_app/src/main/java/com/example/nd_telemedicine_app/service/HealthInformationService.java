@@ -13,15 +13,11 @@ public class HealthInformationService {
     @Autowired
     PatientHealthInfoRepository patientRepo;
 
-//    public HealthInformationService(PatientHealthInfoRepository patientRepo) {
-//        super();
-//        this.patientRepo = patientRepo;
-//    }
-
     public PatientHealthInfo savePatientHealthInfo(PatientHealthInfo patientHealthInfo){
+        int numProfiles = patientRepo.findAll().size();
+        patientHealthInfo.setProfileId(numProfiles+1);
         return patientRepo.save(patientHealthInfo);
     }
-
 
     public List<PatientHealthInfo> getAllPatientHealthInfo(){
         return patientRepo.findAll();
