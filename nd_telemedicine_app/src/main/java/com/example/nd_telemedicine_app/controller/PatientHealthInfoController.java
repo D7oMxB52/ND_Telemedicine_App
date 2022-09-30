@@ -44,7 +44,7 @@ public class PatientHealthInfoController {
     // build updated health information for existing patients REST API
     // for example:   http://localhost:8080/api/healthinfo/1
     @PutMapping("{id}")
-    public ResponseEntity<PatientHealthInfo> updatePatientHealthInfo(@PathVariable("id") long id
+    public ResponseEntity<PatientHealthInfo> updatePatientHealthInfo(@PathVariable("id") Integer id
                                                                     ,@RequestBody PatientHealthInfo patientHealthInfo){
         return new ResponseEntity<PatientHealthInfo>
                 (healthInformationService.updatePatientHealthInfo(patientHealthInfo, id),HttpStatus.OK);
@@ -54,7 +54,7 @@ public class PatientHealthInfoController {
     // build delete patient's health information REST API
     // for example:   http://localhost:8080/api/healthinfo/1
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deletingPatientHealthInfo(@PathVariable("id") long id){
+    public ResponseEntity<String> deletingPatientHealthInfo(@PathVariable("id") Integer id){
 
         //deleting the patient's health information by id
         healthInformationService.deletePatientHealthInfo(id);
