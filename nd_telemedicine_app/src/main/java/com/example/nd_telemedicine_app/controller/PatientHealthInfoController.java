@@ -25,7 +25,7 @@ public class PatientHealthInfoController {
         return new ResponseEntity<PatientHealthInfo>
                 (healthInformationService.savePatientHealthInfo(patientHealthInfo), HttpStatus.CREATED);
     }
-//
+
     // build get all healthInformation REST API
     @GetMapping("/all")
     public List<PatientHealthInfo> getAllHealthInfo(){
