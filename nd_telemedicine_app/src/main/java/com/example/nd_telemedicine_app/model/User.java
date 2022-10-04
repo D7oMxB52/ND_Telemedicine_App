@@ -76,8 +76,8 @@ public class User {
      * @param phoneNum Patients phone number
      * @param active Patient account activated on first sign up
      */
-    @JsonCreator
-    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, boolean active, Role role) {
+//    @JsonCreator
+    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, Role role, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
