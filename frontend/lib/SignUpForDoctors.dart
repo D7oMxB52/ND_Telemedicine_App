@@ -251,11 +251,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print("address: ${addressController.text}");
                   print("email: ${emailController.text}");
                   print("password: ${passwordController.text}");
+                  print("accreditation number: ${accreditationNumberController.text}");
 
                   // TO DO: API error handling & redirection
                   final response = await http.post(
                     // 10.0.2.2 replaces localhost when using android emulator
-                      Uri.parse('http://10.0.2.2:8080/ndt/users'),
+                      Uri.parse('http://localhost:8080/ndt/users'),
                       headers:{
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
@@ -272,9 +273,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "active": true
                       })
                   );
-                  print(response);
-                  print(response.body);
-
                 }
               },
               child: const Text('Submit'),

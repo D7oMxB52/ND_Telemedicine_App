@@ -21,7 +21,6 @@ public class UserController {
 
     @RequestMapping(value="/users", method=RequestMethod.POST, produces="application/json", consumes="application/json")
     public User createUser(@RequestBody User user) {
-        System.out.println("user endpoint hit: " + user.getFirstName());
         return userService.createUser(user);
     }
 
