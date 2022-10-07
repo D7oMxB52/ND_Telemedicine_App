@@ -233,7 +233,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print("email: ${emailController.text}");
                   print("password: ${passwordController.text}");
 
-                  // TO DO: API error handling & redirection
+                  // API error handling & redirection
                   http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://localhost:8080/ndt/users'),

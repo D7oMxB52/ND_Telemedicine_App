@@ -59,6 +59,11 @@ public class UserController {
         boolean isVerified = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
         if (isVerified){
             return "User is Verified";
+            // Return user object
+            // Return a profile object associated
+            // Intermediate screen for patients --> profile & booking features as 2 separate pages
+            // Doctors also need an intermediate page, booking application, (view patient profile)
+            // Admin should also have a redirect option
         }
         return "invalid email or password";
     }

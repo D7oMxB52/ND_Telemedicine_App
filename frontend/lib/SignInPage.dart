@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -45,6 +49,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
+
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     return Form(
       key: _formKey,
       child: Column(
@@ -52,6 +60,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: [
           Text("Email address"),
           TextFormField(
+            controller: emailController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your email",
@@ -66,6 +75,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           Text("Password"),
           TextFormField(
+            controller: passwordController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your password",
@@ -82,7 +92,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
@@ -90,6 +100,23 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
+                  print("FORM VALIDATED - RESULTS BELOW");
+                  print("email: ${emailController.text}");
+                  print("password: ${passwordController.text}");
+
+                  final response = await http.post(
+                    // 10.0.2.2 replaces localhost when using android emulator
+                      Uri.parse('http://localhost:8080/ndt/login'),
+                      headers:{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: jsonEncode({
+                        "email": emailController.text,
+                        "password": passwordController.text,
+                      })
+                  );
+                  print(response);
+                  print(response.body);
                 }
               },
               child: const Text('Submit'),
