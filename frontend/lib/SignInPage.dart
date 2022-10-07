@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'UserLanding.dart';
+
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -107,7 +109,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   final response = await http.post(
                     // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://localhost:8080/ndt/login'),
-                      headers:{
+                      headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
                       body: jsonEncode({
@@ -115,8 +117,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "password": passwordController.text,
                       })
                   );
-                  print(response);
                   print(response.body);
+                  if (response.body.isNotEmpty){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UserLanding(text: "TEXT PARAMETER")),
+                    );
+                  }
                 }
               },
               child: const Text('Submit'),
