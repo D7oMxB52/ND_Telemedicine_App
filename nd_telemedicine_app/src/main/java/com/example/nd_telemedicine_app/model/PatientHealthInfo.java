@@ -7,24 +7,29 @@ import javax.persistence.*;
 public class PatientHealthInfo {
 
     @Id
-    @Column(name = "profile_id")
-    private int profileId;
+    @Column
+    private Integer profileId;
 
-    // need to discuss with product owner about more things to add to the patient profile.
-    @Column(name = "height")
+    @Column
+    private Integer userId;
+
+    @Column
     private double height;
 
-    @Column(name = "weight")
+    @Column
     private double weight;
 
-    @Column(name = "health_status")
+    @Column
     private String healthStatus;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    public PatientHealthInfo() {}
 
-    public PatientHealthInfo() {
+    public PatientHealthInfo(Integer profileId, Integer userId, double height, double weight, String healthStatus) {
+        this.profileId = profileId;
+        this.userId = userId;
+        this.height = height;
+        this.weight = weight;
+        this.healthStatus = healthStatus;
     }
 
     public int getProfileId() {
@@ -34,14 +39,6 @@ public class PatientHealthInfo {
     public void setProfileId(int profileId) {
         this.profileId = profileId;
     }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 
     public double getHeight() {
         return height;
@@ -67,6 +64,16 @@ public class PatientHealthInfo {
         this.healthStatus = healthStatus;
     }
 
+    public void setProfileId(Integer profileId) {
+        this.profileId = profileId;
+    }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
 }

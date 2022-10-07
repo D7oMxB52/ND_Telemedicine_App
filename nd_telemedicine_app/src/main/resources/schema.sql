@@ -17,11 +17,12 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS patient_health_info (
      profile_id int NOT NULL,
+     user_id int NOT NULL,
      height double DEFAULT NULL,
      weight double DEFAULT NULL,
      health_status varchar(255) DEFAULT NULL,
      PRIMARY KEY (profile_id),
-     CONSTRAINT user_id FOREIGN KEY (profile_id) REFERENCES users (user_id)
+     CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES userServices.users (user_id)
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS booking (
     booking_id INT NOT NULL AUTO_INCREMENT,
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS booking (
     doctor_id INT NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
+    chat_link varchar(200) NOT NULL,
     has_paid TINYINT(0) NOT NULL,
     has_confirmed TINYINT(0) NOT NULL,
     PRIMARY KEY (booking_id),
