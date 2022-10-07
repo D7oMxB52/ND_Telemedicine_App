@@ -54,18 +54,18 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-    public String login(@RequestBody SignIn signin){
-        boolean isVerified = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
-        if (isVerified){
-            return "User is Verified";
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json",
+            consumes = "application/json")
+    public User login(@RequestBody SignIn signin){
+        User user = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
+        if (user != null) {
+            return user;
             // Return user object
             // Return a profile object associated
             // Intermediate screen for patients --> profile & booking features as 2 separate pages
             // Doctors also need an intermediate page, booking application, (view patient profile)
             // Admin should also have a redirect option
         }
-        return "invalid email or password";
+        return user;
     }
-
 }
