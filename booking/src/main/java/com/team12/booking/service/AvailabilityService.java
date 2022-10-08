@@ -6,21 +6,45 @@ import com.team12.booking.model.Availability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+
 @Service
 public class AvailabilityService {
     @Autowired
     AvailabilityDAO availabilityDao;
 
+    final private LocalTime OPENING_HOURS = LocalTime.parse("08:59:59");
+    final private LocalTime CLOSING_HOURS = LocalTime.parse("17:00:00");
+    final private long APPOINTMENT_DURATION = 15;
+
     public Availability createAvailability(Availability availability) throws Exception {
+        // CHECK THAT THERE ISN'T ANOTHER AVAILABILITY FOR THE DOCTOR AT THAT TIME
         try {
-            int numOfAvailabilities = availabilityDao.findAll().size();
-            availability.setAvailabilityId(numOfAvailabilities+1);
-            availabilityDao.save(availability);
-            return availability;
+            if (availability.getAvailabilityTime().isAfter(OPENING_HOURS)
+                    && availability.getAvailabilityTime().isBefore(CLOSING_HOURS)) {
+
+                if (isWithinTimeLimit(availability.getAvailabilityTime(), availability.getAvailabilityEndTime()) == 0){
+                    int numOfAvailabilities = availabilityDao.findAll().size();
+                    availability.setAvailabilityId(numOfAvailabilities+1);
+                    availabilityDao.save(availability);
+                    return availability;
+                }
+            }
+
+            return null;
         } catch (Exception e){
             throw new Exception("Availabilty was not made successfully. Check availability_id");
         }
     }
-    // Methods here for functionality
 
+    /**
+     * Verifies that availability is of exactly 15 minute duration.
+     * @param startTime
+     * @param endTime
+     * @return Integer value representing the comparison of the start and endtimes. 0 = valid appointment duration
+     */
+    private int isWithinTimeLimit(LocalTime startTime, LocalTime endTime){
+        LocalTime durationAppointment = endTime.minusMinutes(APPOINTMENT_DURATION);
+        return (durationAppointment.compareTo(startTime));
+    }
 }
