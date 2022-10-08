@@ -1,28 +1,34 @@
 package com.team12.booking.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Entity
 public class Availability {
    @Id
    private Integer availabilityId;
    @Column
    private LocalTime availabilityTime;
    @Column
+   private LocalTime availabilityEndTime;
+   @Column
    private LocalDate availabilityDate;
    @Column
-   private Integer doctorID;
+   private Integer doctorId;
 
    public Availability() {
    }
 
-   public Availability(Integer availabilityId, LocalTime availabilityTime, LocalDate availabilityDate, Integer doctorID) {
+   public Availability(Integer availabilityId, LocalTime availabilityTime, LocalTime availabilityEndTime,
+                       LocalDate availabilityDate, Integer doctorId) {
       this.availabilityId = availabilityId;
       this.availabilityTime = availabilityTime;
+      this.availabilityEndTime = availabilityEndTime;
       this.availabilityDate = availabilityDate;
-      this.doctorID = doctorID;
+      this.doctorId = doctorId;
    }
 
    public Integer getAvailabilityId() {
@@ -49,11 +55,19 @@ public class Availability {
       this.availabilityDate = availabilityDate;
    }
 
-   public Integer getDoctorID() {
-      return doctorID;
+   public Integer getDoctorId() {
+      return doctorId;
    }
 
-   public void setDoctorID(Integer doctorID) {
-      this.doctorID = doctorID;
+   public void setDoctorId(Integer doctorID) {
+      this.doctorId = doctorID;
+   }
+
+   public LocalTime getAvailabilityEndTime() {
+      return availabilityEndTime;
+   }
+
+   public void setAvailabilityEndTime(LocalTime availabilityEndTime) {
+      this.availabilityEndTime = availabilityEndTime;
    }
 }

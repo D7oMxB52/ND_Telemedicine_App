@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS availability (
     doctor_id INT NOT NULL,
     availability_date DATE NOT NULL,
     availability_time TIME NOT NULL,
+    availability_end_time TIME NOT NULL,
     PRIMARY KEY (availability_id),
     FOREIGN KEY (doctor_id) REFERENCES userServices.users (user_id)
 ) ENGINE=InnoDB;
