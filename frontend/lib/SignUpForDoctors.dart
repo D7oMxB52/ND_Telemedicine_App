@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_widget/flutter_calendar_widget.dart';
+
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 import 'DateOfBirthWidget.dart';
+import 'package:intl/intl.dart';
+
 import 'DropDownSex.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,6 +54,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+  DateTime? dateOfBirth;
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +182,18 @@ class MyCustomFormState extends State<MyCustomForm> {
             validator: validateLastName,
           ),
           Text("Date of Birth"),
-          DateOfBirthWidget(),
+          ElevatedButton(onPressed: () {
+            _DateOfBirthWidget(context);
+          }, child: Text("Select DOB")),
+          Text(dateOfBirth.toString()),
+          // FlutterCalendar(
+          //     selectionMode: CalendarSelectionMode.single,
+          //     onDayPressed: (DateTime date) {
+          //       setState(() {
+          //         print(date);
+          //         // dateSelected = date;
+          //       });
+          //     }),
           // TextFormField(
           //   decoration: InputDecoration(
           //     border: OutlineInputBorder(),
@@ -245,6 +261,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   );
                   // Test printouts
                   print("FORM VALIDATED - RESULTS BELOW");
+                  var dateOfBirthText = DateFormat('yyyy-MM-dd').format(dateOfBirth!);
+                  print("dateOfBirth: $dateOfBirthText");
                   print("firstName: ${firstNameController.text}");
                   print("lastName: ${lastNameController.text}");
                   print("mobile: ${mobileNumberController.text}");
@@ -264,7 +282,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "accreditation_num": accreditationNumberController.text,
                         "firstName": firstNameController.text,
                         "lastName": lastNameController.text,
-                        "dateOfBirth": "2000-01-01",
+                        "dateOfBirth": DateFormat('yyyy-MM-dd').format(dateOfBirth!),
                         "email": emailController.text,
                         "password": passwordController.text,
                         "address": addressController.text,
@@ -281,6 +299,26 @@ class MyCustomFormState extends State<MyCustomForm> {
         ],
       ),
     );
+  }
+  Future<void> _DateOfBirthWidget(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final datePicked = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DateOfBirthWidget()),
+    );
 
+    // When a BuildContext is used from a StatefulWidget, the mounted property
+    // must be checked after an asynchronous gap.
+    if (!mounted) return;
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    setState(() {
+      dateOfBirth = datePicked;
+    });
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('$datePicked')));
   }
 }
