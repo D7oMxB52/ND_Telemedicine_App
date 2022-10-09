@@ -5,29 +5,8 @@ import 'package:http/http.dart' as http;
 
 import 'User.dart';
 
-class DoctorsToVerify extends StatelessWidget {
+class DoctorsToVerify extends StatefulWidget {
   const DoctorsToVerify({super.key});
-  final String title = "Verify Doctors";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Container(
-          alignment: Alignment.topCenter,
-          child: Column(
-            children: [
-              VerifyDoctors(),
-            ],
-          )),
-    );
-  }
-}
-
-class VerifyDoctors extends StatefulWidget {
-  const VerifyDoctors({super.key});
 
   @override
   VerifyDoctorsState createState() {
@@ -35,39 +14,74 @@ class VerifyDoctors extends StatefulWidget {
   }
 }
 
-class VerifyDoctorsState extends State<VerifyDoctors> {
+class VerifyDoctorsState extends State<DoctorsToVerify> {
   List<User> unverifiedDoctors = [];
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+
+    getData();
+  }
+
+  Future<List<User>> getData() async {
     unverifiedDoctors = await getAllUnverifiedDoctors();
     print("UNVERIFIED DOCTORS");
     print(unverifiedDoctors);
     for (var i in unverifiedDoctors) {
       print(i.firstName);
     }
+    return unverifiedDoctors;
   }
 
   @override
   Widget build(BuildContext context) {
-    // List<User> doctorsToBeVerified = unverifiedDoctors;
-
-    return Container(
-      height: 400,
-      width: 100,
-      child: Column(
-        children: unverifiedDoctors
-            .map((e) => OutlinedButton(
-                  onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    //       return  Booking();
-                    //     }));
-                  },
-                  child: Text(e.firstName.toString()),
-                ))
-            .toList(),
-      ), // trailing comma makes auto-formatting nicer for build methods.
+    return Scaffold(
+        appBar: AppBar(
+        title: const Text('Verify doctors'),
+    ),
+    body: FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            // Future hasn't finished yet, return a placeholder
+            return SafeArea(
+              child: Column(
+                children: const [
+                  Center(
+                      child: Text("Loading:")
+                  ),
+                ],
+              ),
+            );
+          }
+          return SafeArea(
+            child: Column(
+              children: [
+                const Center(
+                    child: Text("Verify doctors:")
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: unverifiedDoctors.map((e) =>
+                          OutlinedButton(
+                            onPressed: () {
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              //       return  Booking();
+                              //     }));
+                            },
+                            child: Text(e.firstName),
+                          )
+                      ).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      )
     );
   }
 }
