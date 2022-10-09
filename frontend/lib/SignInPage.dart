@@ -109,7 +109,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                   final response = await http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
-                      Uri.parse('http://10.0.2.2:8080/ndt/login'),
+                      Uri.parse('http://localhost:8080/ndt/login'),
                       headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
