@@ -35,20 +35,18 @@ public class AvailabilityController {
                     HttpStatus.BAD_REQUEST);
     }
 
-//    // Get all availabilities by doctor id
-//    @GetMapping(path="/doctor{doctorId}", produces = "application/json")
-//    public ResponseEntity<Object> getBookingByDoctorId(@PathVariable("doctorId") Integer doctorId)
-//            throws Exception {
-//        List<Booking> bookingList = bookingService.findBookingByDoctorId(doctorId);
-//        if (bookingList.size() > 0) {
-//            return  new ResponseEntity<>(bookingList, HttpStatus.OK);
-//        } else  {
-//            throw new Exception("Could not find bookings for doctor");
-//        }
-//    }
+    // Get all availabilities by doctor id
+    @GetMapping(path="/doctor{doctorId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> getAvailabilitiesByDoctorId(@PathVariable("doctorId") Integer doctorId)
+            throws Exception {
+        List<Availability> availabilityList = availabilityService.getAllAvailabilitiesForDoctor(doctorId);
+        if (availabilityList.size() > 0) {
+            return  new ResponseEntity<>(availabilityList, HttpStatus.OK);
+        } else  {
+            throw new Exception("Doctor has no availabilities");
+        }
+    }
 
-    /// See when a doctor is available
-    // All availabilities for a certain date
-    // Business hours only
+    
 
 }

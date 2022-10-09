@@ -3,7 +3,6 @@ package com.team12.booking.service;
 import com.team12.booking.dao.AvailabilityDAO;
 
 import com.team12.booking.model.Availability;
-import com.team12.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +61,7 @@ public class AvailabilityService {
         return isAlreadyEntered;
     }
 
-    private List<Availability> getAllAvailabilitiesForDoctor(Integer doctorId){
+    public List<Availability> getAllAvailabilitiesForDoctor(Integer doctorId){
         List<Availability> allAvailabilities = availabilityDao.findAll();
         List<Availability> availabilitiesForDoctorId = new ArrayList<>();
 
