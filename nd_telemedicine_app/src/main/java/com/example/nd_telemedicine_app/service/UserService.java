@@ -71,10 +71,11 @@ public class UserService {
     // DEACTIVATE USER
     // -- When a doctors signup isn't approved by admin
     // -- When a user wants to be removed from the system
-    public void deactivateUser(Integer userId) {
+    public User deactivateUser(Integer userId) {
         User user = userRepository.findById(userId).get();
         user.setActive(false);
         userRepository.save(user);
+        return user;
     }
 
     // GET ALL ACTIVE PATIENTS
