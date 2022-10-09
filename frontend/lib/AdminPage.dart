@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/DoctorsToVerify.dart';
 
 import 'User.dart';
 
@@ -20,9 +21,9 @@ class AdminPage extends StatelessWidget {
                 OutlinedButton(
                   child: Text("Verify Doctors"),
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    //   return Booking();
-                    // }));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return DoctorsToVerify();
+                    }));
                   },
                 ),
                 OutlinedButton(

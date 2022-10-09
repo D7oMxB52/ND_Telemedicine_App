@@ -75,19 +75,17 @@ class BookingFormState extends State<BookingForm> {
                   print(_selectedEvents);
                 }),
             Text("Date selected: ${DateFormat('dd MMM, yyyy').format(dateSelected)}"),
-            Container(
-              child: Column(
-                children: _selectedEvents.map((e) =>
-                    OutlinedButton(
-                      onPressed: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        //       return  Booking();
-                        //     }));
-                      },
-                      child: Text(e),
-                    )
-                ).toList(),
-              ),
+            Column(
+              children: _selectedEvents.map((e) =>
+                  OutlinedButton(
+                    onPressed: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      //       return  Booking();
+                      //     }));
+                    },
+                    child: Text(e),
+                  )
+              ).toList(),
             ),
           ],
         ),
