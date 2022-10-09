@@ -13,14 +13,29 @@ class AdminPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Admin - ${user.firstName}"),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate back to first route when tapped.
-          },
-          child: const Text('Go back!'),
+      body: Container(
+        alignment: Alignment.topCenter,
+        child: Column(
+              children: [
+                OutlinedButton(
+                  child: Text("Verify Doctors"),
+                  onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    //   return Booking();
+                    // }));
+                  },
+                ),
+                OutlinedButton(
+                  child: Text("All Users"),
+                  onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    //   return Booking();
+                    // }));
+                  },
+                ),
+              ],
+            ),
         ),
-      ),
-    );
+      );
   }
 }

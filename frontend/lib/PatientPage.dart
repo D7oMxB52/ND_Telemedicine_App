@@ -16,28 +16,43 @@ class PatientPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                // Navigate back to first route when tapped.
-              },
-              child: const Text('Go back!'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  OutlinedButton(
+                    child: Text("My Profile"),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const Profile();
+                      }));
+                    },
+                  ),
+                  OutlinedButton(
+                    child: Text("Book Appointment"),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return Booking();
+                      }));
+                    },
+                  ),
+              ],
             ),
-            OutlinedButton(
-              child: Text("My Profile"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Profile();
-                }));
-              },
-            ),
-            OutlinedButton(
-              child: Text("My Bookings"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Booking();
-                }));
-              },
-            ),
+            Column(
+              children: const [
+                Text("Upcoming appointments",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: Text("Test Appointment")
+                ),
+                Text("Past appointments",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold),
+                ),
+              ],
+            )
           ],
         ),
       ),
