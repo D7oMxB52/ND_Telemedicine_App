@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'UserLanding.dart';
-
+import 'AdminPage.dart';
+import 'DoctorPage.dart';
+import 'PatientPage.dart';
+import 'User.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -107,22 +108,33 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print("password: ${passwordController.text}");
 
                   final response = await http.post(
-                    // 10.0.2.2 replaces localhost when using android emulator
-                      Uri.parse('http://localhost:8080/ndt/login'),
+                      // 10.0.2.2 replaces localhost when using android emulator
+                      Uri.parse('http://10.0.2.2:8080/ndt/login'),
                       headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
                       body: jsonEncode({
                         "email": emailController.text,
                         "password": passwordController.text,
-                      })
-                  );
+                      }));
                   print(response.body);
-                  if (response.body.isNotEmpty){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const UserLanding(text: "TEXT PARAMETER")),
-                    );
+                  if (response.body.isNotEmpty) {
+                    Map<String, dynamic> userMap = jsonDecode(response.body);
+                    User user = User.fromJson(userMap);
+                    if (user.role == "PA") {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          PatientPage(user: user)),
+                      );
+                    } else if (user.role == "DR") {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          DoctorPage(user: user)),
+                      );
+                    } else if (user.role == "AD") {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          AdminPage(user: user)),
+                      );
+                    }
+
                   }
                 }
               },
