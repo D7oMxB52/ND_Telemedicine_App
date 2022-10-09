@@ -187,4 +187,15 @@ public class BookingService {
         }
         return availabilities;
     }
+
+    public void updateBooking(Booking booking){
+        List<Booking> allBookings = bookingDao.findAll();
+        for (int i = 0; i < allBookings.size(); i++){
+            if (allBookings.get(i).getBookingId() == booking.getBookingId()){
+                allBookings.get(i).setPatientId(booking.getPatientId());
+                allBookings.get(i).setIsAvailability(false);
+                bookingDao.save(allBookings.get(i));
+            }
+        }
+    }
 }

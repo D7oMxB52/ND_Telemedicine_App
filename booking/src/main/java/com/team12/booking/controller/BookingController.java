@@ -106,4 +106,14 @@ public class BookingController {
             return new ResponseEntity<>("No availabilities found", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> updateBooking(@RequestBody Booking booking)
+            throws Exception {
+//        System.out.println("Inside the update booking function");
+//        System.out.println(booking.getBookingId());
+        bookingService.updateBooking(booking);
+        return new ResponseEntity<>("Updated booking", HttpStatus.CREATED);
+    }
+
 }
