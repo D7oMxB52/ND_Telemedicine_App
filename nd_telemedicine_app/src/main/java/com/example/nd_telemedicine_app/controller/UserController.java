@@ -34,9 +34,14 @@ public class UserController {
         return userService.getAllUnverifiedDoctors();
     }
 
-    @RequestMapping(value="/doctors", method=RequestMethod.POST)
-    public User verifyDoctor(@RequestBody User user) {
+    @RequestMapping(value="/doctors/approve", method=RequestMethod.POST)
+    public User approveDoctor(@RequestBody User user) {
         return userService.verifyDoctor(user.getUserId());
+    }
+
+    @RequestMapping(value="/doctors/deny", method=RequestMethod.POST)
+    public User denyDoctor(@RequestBody User user) {
+        return userService.deactivateUser(user.getUserId());
     }
 
     @RequestMapping(value="/doctors/verified", method=RequestMethod.GET)
