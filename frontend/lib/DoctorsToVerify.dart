@@ -59,7 +59,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
             child: Column(
               children: [
                 const Center(
-                    child: Text("Verify doctors:")
+                    child: Text("Doctors needing verification:")
                 ),
                 Expanded(
                   child: SingleChildScrollView(

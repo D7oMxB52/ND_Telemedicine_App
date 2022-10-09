@@ -28,14 +28,6 @@ class DoctorPage extends StatelessWidget {
                     // }));
                   },
                 ),
-                OutlinedButton(
-                  child: Text("Patients"),
-                  onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    //   return Booking();
-                    // }));
-                  },
-                ),
               ],
             ),
             Column(
