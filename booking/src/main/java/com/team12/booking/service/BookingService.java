@@ -174,4 +174,17 @@ public class BookingService {
         }
         return bookingsForDate;
     }
+
+    public List<Booking> getAllAvailabilities(){
+        LocalDate date = LocalDate.now();
+        List<Booking> allAvailabilities = bookingDao.findAll();
+        List<Booking> availabilities = new ArrayList<>();
+        for (int i = 0; i < allAvailabilities.size(); i++){
+            if (allAvailabilities.get(i).isIsAvailability() == true &&
+                (allAvailabilities.get(i).getBookingDate().isAfter(date))){
+                availabilities.add(allAvailabilities.get(i));
+            }
+        }
+        return availabilities;
+    }
 }

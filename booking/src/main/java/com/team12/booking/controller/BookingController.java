@@ -95,4 +95,15 @@ public class BookingController {
             return new ResponseEntity<>("No bookings found", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(path="/", produces = "application/json")
+    public ResponseEntity<Object> getAllAvailabilities()
+            throws Exception {
+        List<Booking> availabilityList = bookingService.getAllAvailabilities();
+        if (availabilityList.size() > 0) {
+            return  new ResponseEntity<>(availabilityList, HttpStatus.OK);
+        } else  {
+            return new ResponseEntity<>("No availabilities found", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
