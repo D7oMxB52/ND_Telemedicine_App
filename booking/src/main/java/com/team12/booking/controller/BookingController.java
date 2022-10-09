@@ -1,6 +1,5 @@
 package com.team12.booking.controller;
 
-import com.team12.booking.model.Availability;
 import com.team12.booking.model.Booking;
 import com.team12.booking.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;

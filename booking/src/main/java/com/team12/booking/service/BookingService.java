@@ -153,7 +153,7 @@ public class BookingService {
         System.out.println("AFTER BOOKING LIST RETRIEVED");
         boolean isAlreadyEntered = false;
         for (int i = 0; i < allBookings.size(); i++){
-            if (allBookings.get(i).getBookingTime() == startTime && (allBookings.get(i).getBookingDate()).compareTo(date) == 0) {
+            if ((allBookings.get(i).getBookingTime())==startTime && (allBookings.get(i).getBookingDate()).compareTo(date) == 0) {
                 isAlreadyEntered = true;
             }
         }
