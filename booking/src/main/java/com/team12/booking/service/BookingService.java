@@ -160,16 +160,18 @@ public class BookingService {
         return isAlreadyEntered;
     }
 
-//    public List<Availability> getAllAvailabilitiesForDate(LocalDate availabilityDate){
-//        List<Availability> allAvailabilities = availabilityDao.findAll();
-//        List<Availability> availabilitiesForDate = new ArrayList<>();
-//
-//        for (int i = 0; i < allAvailabilities.size(); i++) {
-//            if (allAvailabilities.get(i).getAvailabilityDate().compareTo(availabilityDate) == 0) {
-//                availabilitiesForDate.add(allAvailabilities.get(i));
-//
-//            }
-//        }
-//        return availabilitiesForDate;
-//    }
+    public List<Booking> getAllBookingsForDate(LocalDate bookingDate){
+        List<Booking> allAvailabilities = bookingDao.findAll();
+        List<Booking> bookingsForDate = new ArrayList<>();
+
+        for (int i = 0; i < allAvailabilities.size(); i++) {
+            if (allAvailabilities.get(i).getBookingDate().compareTo(bookingDate) == 0
+                && allAvailabilities.get(i).isIsAvailability() == true) {
+                System.out.println("Is Availability: " + allAvailabilities.get(i).isIsAvailability());
+                bookingsForDate.add(allAvailabilities.get(i));
+
+            }
+        }
+        return bookingsForDate;
+    }
 }
