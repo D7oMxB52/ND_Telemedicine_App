@@ -79,4 +79,6 @@ public class BookingController {
         Booking createdService = bookingService.createBooking(booking);
         return new ResponseEntity<>(createdService, HttpStatus.CREATED);
     }
+
+    // UPDATE booking --> patient's name, change isAvailability to false.
 }

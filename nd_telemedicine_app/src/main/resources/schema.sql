@@ -26,26 +26,27 @@ CREATE TABLE IF NOT EXISTS patient_health_info (
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS booking (
     booking_id INT NOT NULL AUTO_INCREMENT,
-    patient_id INT NOT NULL,
+    patient_id INT,
     doctor_id INT NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
-    chat_link varchar(200) NOT NULL,
-    has_paid TINYINT(0) NOT NULL,
-    has_confirmed TINYINT(0) NOT NULL,
+    booking_end_time TIME NOT NULL,
+    chat_link varchar(200),
+    has_paid TINYINT(0),
+    is_availability TINYINT(4) DEFAULT 1 NOT NULL,
     PRIMARY KEY (booking_id),
     CONSTRAINT patient_id FOREIGN KEY (patient_id) REFERENCES userServices.users (user_id),
     CONSTRAINT doctor_id FOREIGN KEY (doctor_id) REFERENCES userServices.users (user_id)
 ) ENGINE=InnoDB;
-CREATE TABLE IF NOT EXISTS availability (
-    availability_id INT NOT NULL,
-    doctor_id INT NOT NULL,
-    availability_date DATE NOT NULL,
-    availability_time TIME NOT NULL,
-    availability_end_time TIME NOT NULL,
-    PRIMARY KEY (availability_id),
-    FOREIGN KEY (doctor_id) REFERENCES userServices.users (user_id)
-) ENGINE=InnoDB;
+-- CREATE TABLE IF NOT EXISTS availability (
+--     availability_id INT NOT NULL,
+--     doctor_id INT NOT NULL,
+--     availability_date DATE NOT NULL,
+--     availability_time TIME NOT NULL,
+--     availability_end_time TIME NOT NULL,
+--     PRIMARY KEY (availability_id),
+--     FOREIGN KEY (doctor_id) REFERENCES userServices.users (user_id)
+-- ) ENGINE=InnoDB;
 
 
 

@@ -21,7 +21,6 @@ public class AvailabilityService {
     final private long APPOINTMENT_DURATION = 15;
 
     public Availability createAvailability(Availability availability) throws Exception {
-        // CHECK THAT THERE ISN'T ANOTHER AVAILABILITY FOR THE DOCTOR AT THAT TIME
         try {
             if (!availabilityIsNotDuplicate(availability.getAvailabilityTime(), availability.getDoctorId()) && availability.getAvailabilityTime().isAfter(OPENING_HOURS)
                     && availability.getAvailabilityTime().isBefore(CLOSING_HOURS)) {
