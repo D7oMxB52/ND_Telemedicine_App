@@ -3,10 +3,13 @@ package com.team12.booking.service;
 import com.team12.booking.dao.AvailabilityDAO;
 
 import com.team12.booking.model.Availability;
+import com.team12.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AvailabilityService {
@@ -20,7 +23,7 @@ public class AvailabilityService {
     public Availability createAvailability(Availability availability) throws Exception {
         // CHECK THAT THERE ISN'T ANOTHER AVAILABILITY FOR THE DOCTOR AT THAT TIME
         try {
-            if (availability.getAvailabilityTime().isAfter(OPENING_HOURS)
+            if (!availabilityIsNotDuplicate(availability.getAvailabilityTime(), availability.getDoctorId()) && availability.getAvailabilityTime().isAfter(OPENING_HOURS)
                     && availability.getAvailabilityTime().isBefore(CLOSING_HOURS)) {
 
                 if (isWithinTimeLimit(availability.getAvailabilityTime(), availability.getAvailabilityEndTime()) == 0){
@@ -46,5 +49,28 @@ public class AvailabilityService {
     private int isWithinTimeLimit(LocalTime startTime, LocalTime endTime){
         LocalTime durationAppointment = endTime.minusMinutes(APPOINTMENT_DURATION);
         return (durationAppointment.compareTo(startTime));
+    }
+
+    private boolean availabilityIsNotDuplicate(LocalTime startTime, Integer doctorId){
+        List<Availability> allAvailabilities = getAllAvailabilitiesForDoctor(doctorId);
+        boolean isAlreadyEntered = false;
+        for (int i = 0; i < allAvailabilities.size(); i++){
+            if (allAvailabilities.get(i).getAvailabilityTime() == startTime) {
+                isAlreadyEntered = true;
+            }
+        }
+        return isAlreadyEntered;
+    }
+
+    private List<Availability> getAllAvailabilitiesForDoctor(Integer doctorId){
+        List<Availability> allAvailabilities = availabilityDao.findAll();
+        List<Availability> availabilitiesForDoctorId = new ArrayList<>();
+
+        for (int i = 0; i < allAvailabilities.size(); i++) {
+            if (allAvailabilities.get(i).getDoctorId() == doctorId) {
+                availabilitiesForDoctorId.add(allAvailabilities.get(i));
+            }
+        }
+        return availabilitiesForDoctorId;
     }
 }
