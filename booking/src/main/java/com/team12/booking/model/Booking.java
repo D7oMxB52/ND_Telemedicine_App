@@ -20,24 +20,47 @@ public class Booking {
     @Column
     private LocalTime bookingTime; // Assume all appointments fixed at 15 minutes.
     @Column
+    private LocalTime bookingEndTime;
+    @Column
     private String chatLink;
     @Column
     private boolean hasPaid;
     @Column
-    private boolean hasConfirmed;
+    private boolean isAvailability;
 
-    public Booking() {}
+    public Booking() {
+        this.isAvailability = true;
+    }
+
+    /**
+     * Availability constructor - omits details such as patient id, chatID which will be confirmed
+     * @param bookingId
+     * @param doctorId
+     * @param bookingDate
+     * @param bookingTime
+     * @param bookingEndTime
+     */
+    public Booking(Integer bookingId, Integer doctorId, LocalDate bookingDate, LocalTime bookingTime,
+                   LocalTime bookingEndTime) {
+        this.bookingId = bookingId;
+        this.doctorId = doctorId;
+        this.bookingDate = bookingDate;
+        this.bookingTime = bookingTime;
+        this.bookingEndTime = bookingEndTime;
+        this.isAvailability = true;
+    }
 
     public Booking(Integer bookingId, Integer patientId, Integer doctorId, LocalDate bookingDate,
-                   LocalTime bookingTime, String chatLink, boolean hasPaid, boolean hasConfirmed) {
+                   LocalTime bookingTime, LocalTime bookingEndTime, String chatLink, boolean hasPaid) {
         this.bookingId = bookingId;
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
+        this.bookingEndTime = bookingEndTime;
         this.chatLink = chatLink;
         this.hasPaid = hasPaid;
-        this.hasConfirmed = hasConfirmed;
+        this.isAvailability = true;
     }
 
     public Integer getBookingId() {
@@ -96,11 +119,20 @@ public class Booking {
         this.hasPaid = hasPaid;
     }
 
-    public boolean isHasConfirmed() {
-        return hasConfirmed;
+    public boolean isIsAvailability() {
+        return isAvailability;
     }
 
-    public void setHasConfirmed(boolean hasConfirmed) {
-        this.hasConfirmed = hasConfirmed;
+    public void setIsAvailability(boolean isAvailability) {
+        System.out.println("SET IS AVAILABILITY: " + isAvailability);
+        this.isAvailability = isAvailability;
+    }
+
+    public LocalTime getBookingEndTime() {
+        return bookingEndTime;
+    }
+
+    public void setBookingEndTime(LocalTime bookingEndTime) {
+        this.bookingEndTime = bookingEndTime;
     }
 }
