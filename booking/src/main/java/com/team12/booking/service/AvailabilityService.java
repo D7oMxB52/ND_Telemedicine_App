@@ -6,6 +6,7 @@ import com.team12.booking.model.Availability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +72,18 @@ public class AvailabilityService {
             }
         }
         return availabilitiesForDoctorId;
+    }
+
+    public List<Availability> getAllAvailabilitiesForDate(LocalDate availabilityDate){
+        List<Availability> allAvailabilities = availabilityDao.findAll();
+        List<Availability> availabilitiesForDate = new ArrayList<>();
+
+        for (int i = 0; i < allAvailabilities.size(); i++) {
+            if (allAvailabilities.get(i).getAvailabilityDate().compareTo(availabilityDate) == 0) {
+                availabilitiesForDate.add(allAvailabilities.get(i));
+
+            }
+        }
+        return availabilitiesForDate;
     }
 }
