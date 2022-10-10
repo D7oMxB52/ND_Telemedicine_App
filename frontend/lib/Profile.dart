@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'BookingPage.dart';
+import 'PatientPage.dart';
 import 'ProfileObject.dart';
 import 'User.dart';
 import 'dart:convert';
 
+import 'main.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key, required this.user});
@@ -27,7 +30,7 @@ class ProfileState extends State<Profile> {
   void initState() {
     super.initState();
 
-  getData();
+    getData();
   }
 
   Future<ProfileObject> getData() async {
@@ -38,24 +41,25 @@ class ProfileState extends State<Profile> {
   Future<ProfileObject> getProfile() async {
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://localhost:8080/api/healthinfo/${widget.user.userId}'),
+      Uri.parse('http://10.0.2.2:8080/api/healthinfo/${widget.user.userId}'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print("________________ 1" );
+    print("________________ 1");
     print(response.body);
     print("xxxxxxxxxxxxx");
     // List<dynamic> result = jsonDecode(response.body);
     String result = response.body;
 
-    Map<String, dynamic> map = jsonDecode(result) as Map<String, dynamic>; // import 'dart:convert';
+    Map<String, dynamic> map =
+        jsonDecode(result) as Map<String, dynamic>; // import 'dart:convert';
 
     int userId = map['userId'];
     int profileId = map['profileId'];
     double height = map['height'];
     double weight = map['weight'];
-    String healthStatus = map ['healthStatus'];
+    String healthStatus = map['healthStatus'];
 
     print("PRINT PROFILE INFORMATIon");
     print(userId);
@@ -64,54 +68,102 @@ class ProfileState extends State<Profile> {
     print(weight);
     print(healthStatus);
 
-    ProfileObject profile = ProfileObject(userId, profileId, height, weight, healthStatus);
+    ProfileObject profile =
+        ProfileObject(userId, profileId, height, weight, healthStatus);
     return profile;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Profile"),
-      ),
-      body: FutureBuilder(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // Future hasn't finished yet, return a placeholder
-            return SafeArea(
-              child: Column(
-                children: const [
-                  Center(
-                      child: Text("Loading:")
-                  ),
-                ],
-              ),
-            );
-          }
-          return SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          title: Text("My profile"),
-                          subtitle: Text("Status: ${profile.healthStatus} "
-                              "\nHeight: ${profile.height}"
-                              "\nWeight ${profile.weight}"),
-                        ),
-                      ]
-                    ),
-                  ),
+        appBar: AppBar(
+          title: const Text("My Profile"),
+        ),
+        drawer: Drawer(
+          width: 240,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 120.0,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.green),
+                  child: Text('Neighbourhood Doctors Telemedicine'),
                 ),
-              ],
-            ),
-          );
-        }
-    )
-    );
+              ),
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PatientPage(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('My Profile'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Profile(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Book Appointment'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return BookingPage(user: widget.user);
+                  }));
+                },
+              ),
+              Expanded(child: Container()),
+              ListTile(
+                title: const Text('Log Out'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const MyApp();
+                  }));
+                },
+              ),
+            ],
+          ),
+        ),
+        body: FutureBuilder(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                // Future hasn't finished yet, return a placeholder
+                return SafeArea(
+                  child: Column(
+                    children: const [
+                      Center(child: Text("Loading:")),
+                    ],
+                  ),
+                );
+              }
+              return SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Card(
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                title: Text("My profile"),
+                                subtitle:
+                                    Text("Status: ${profile.healthStatus} "
+                                        "\nHeight: ${profile.height}"
+                                        "\nWeight ${profile.weight}"),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }));
   }
 }

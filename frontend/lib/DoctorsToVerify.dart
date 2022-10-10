@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'AdminPage.dart';
 import 'User.dart';
+import 'main.dart';
 
 class DoctorsToVerify extends StatefulWidget {
-  const DoctorsToVerify({super.key});
+  const DoctorsToVerify({super.key, required this.user});
+  final User user;
 
   @override
   VerifyDoctorsState createState() {
@@ -106,6 +109,55 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
         appBar: AppBar(
         title: const Text('Verify doctors'),
     ),
+        drawer: Drawer(
+          width: 240,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 120.0,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.green),
+                  child: Text('Neighbourhood Doctors Telemedicine'),
+                ),
+              ),
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AdminPage(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Verify Doctors'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DoctorsToVerify(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('All Users'),
+                onTap: () {
+
+                },
+              ),
+              Expanded(child: Container()),
+              ListTile(
+                title: const Text('Log Out'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const MyApp();
+                  }));
+                },
+              ),
+            ],
+          ),
+        ),
     body: FutureBuilder(
         future: getData(),
         builder: (context, snapshot) {

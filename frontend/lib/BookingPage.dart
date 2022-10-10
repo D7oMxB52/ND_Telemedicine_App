@@ -10,7 +10,9 @@ import 'package:http/http.dart' as http;
 import 'Booking.dart';
 import 'MyBooking.dart';
 import 'PatientPage.dart';
+import 'Profile.dart';
 import 'User.dart';
+import 'main.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key, required this.user});
@@ -25,7 +27,7 @@ class BookingPage extends StatefulWidget {
 class BookingFormState extends State<BookingPage> {
   final String title = "Booking";
   List<Booking> _selectedEvents = [];
-  List<User> allUsers = [];
+  late Map<int, User> allUsers;
 
   String alertTitle = "";
   String alertBody = "";
@@ -48,9 +50,8 @@ class BookingFormState extends State<BookingPage> {
     return allAvailabilities;
   }
 
-  // TODO: Implement get all users for booking page to display doctor name
-  Future<List<User>> getAllUsers() async {
-    List<User> allUsers = [];
+  Future<Map<int, User>> getAllUsers() async {
+    Map<int, User> allUsers = {0: widget.user};
 
     final response = await http.get(
       // 10.0.2.2 replaces localhost when using android emulator
@@ -63,7 +64,7 @@ class BookingFormState extends State<BookingPage> {
     List<dynamic> userList = jsonDecode(response.body);
     for (var e in userList) {
       User user = User.fromJson(e);
-      allUsers.add(user);
+      allUsers[user.userId] = user;
     }
 
     return allUsers;
@@ -75,6 +76,57 @@ class BookingFormState extends State<BookingPage> {
         appBar: AppBar(
           title: Text(title),
         ),
+        drawer: Drawer(
+          width: 240,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 120.0,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.green),
+                  child: Text('Neighbourhood Doctors Telemedicine'),
+                ),
+              ),
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PatientPage(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('My Profile'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Profile(user: widget.user)),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Book Appointment'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return BookingPage(user: widget.user);
+                  }));
+                },
+              ),
+              Expanded(child: Container()),
+              ListTile(
+                title: const Text('Log Out'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const MyApp();
+                  }));
+                },
+              ),
+            ],
+          ),
+        ),
         body: FutureBuilder(
             future: getData(),
             builder: (context, snapshot) {
@@ -82,8 +134,15 @@ class BookingFormState extends State<BookingPage> {
                 // Future hasn't finished yet, return a placeholder
                 return SafeArea(
                   child: Column(
-                    children: const [
-                      Center(child: Text("Loading:")),
+                    children: [
+                      FlutterCalendar(
+                          selectionMode: CalendarSelectionMode.single,
+                          onDayPressed: (DateTime date) {
+                            setState(() {
+                              dateSelected = date;
+                            });
+                          }),
+                      Text("Calendar Loading..."),
                     ],
                   ),
                 );
@@ -112,19 +171,20 @@ class BookingFormState extends State<BookingPage> {
                           .map((e) => OutlinedButton(
                                 onPressed: () {
                                   List<String> messages = [];
+
                                   // Set alertDialog messages
                                   messages.add("Confirm Booking");
                                   messages.add("You have selected:\n\n"
                                       "${e.bookingTime.substring(0, 5)} - ${e.bookingEndTime.substring(0, 5)}\n"
                                       "on ${DateFormat('dd MMM, yyyy').format(convertDate(e.bookingDate))} \n"
-                                      "with Dr. ${e.doctorId}");
+                                      "with Dr. ${allUsers[e.doctorId]?.firstName}");
 
                                   showAlertDialog(
                                       context, messages, e, widget.user);
                                 },
                                 child: Text(
                                     "${e.bookingTime.substring(0, 5)} - ${e.bookingEndTime.substring(0, 5)}"
-                                    "     (${e.doctorId})"),
+                                    "   |   Dr. ${allUsers[e.doctorId]?.firstName}"),
                               ))
                           .toList(),
                     ),
@@ -214,8 +274,9 @@ showAlertDialog(
     onPressed: () async {
       bool response = await confirmBooking(booking, user);
       print(response);
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          PatientPage(user: user)),
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PatientPage(user: user)),
       );
     },
   );
