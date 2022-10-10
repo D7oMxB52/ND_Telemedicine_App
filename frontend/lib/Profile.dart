@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'ProfileObject.dart';
+import 'User.dart';
 import 'dart:convert';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
-  final String title = "My profile";
+  const Profile({super.key, required this.user});
+  final User user;
 
   @override
   ProfileState createState() {
@@ -37,10 +38,9 @@ class ProfileState extends State<Profile> {
   }
 
   Future<ProfileObject> getProfile() async {
-
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://localhost:8080/api/healthinfo/1'),
+      Uri.parse('http://localhost:8080/api/healthinfo/${widget.user.userId}'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },

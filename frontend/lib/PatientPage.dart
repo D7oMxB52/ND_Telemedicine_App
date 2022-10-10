@@ -22,9 +22,9 @@ class PatientPage extends StatelessWidget {
                   OutlinedButton(
                     child: Text("My Profile"),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return const Profile();
-                      }));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          Profile(user: user)),
+                      );
                     },
                   ),
                   OutlinedButton(
@@ -37,22 +37,6 @@ class PatientPage extends StatelessWidget {
                   ),
               ],
             ),
-            Column(
-              children: const [
-                Text("Upcoming appointments",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 300,
-                  child: Text("Test Appointment")
-                ),
-                Text("Past appointments",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
           ],
         ),
       ),
