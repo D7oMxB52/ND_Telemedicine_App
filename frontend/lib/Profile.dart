@@ -36,6 +36,8 @@ class ProfileState extends State<Profile> {
   }
 
   Future<ProfileObject> getProfile() async {
+    print("TEST PRINT ALL DETAILS BEFORE API CALL");
+    print(widget.user.userId);
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
       Uri.parse('http://localhost:8080/api/healthinfo/${widget.user.userId}'),

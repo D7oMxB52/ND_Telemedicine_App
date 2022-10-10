@@ -42,6 +42,13 @@ public class PatientHealthInfoController {
                 (healthInformationService.getPatientHealthInfoById(profileId), HttpStatus.OK);
     }
 
+    @GetMapping("/get{id}")
+    public ResponseEntity<PatientHealthInfo> getPatientHealthInfoByPatientId(@PathVariable("id") Integer patientId){
+        System.out.print("Hits endpoint");
+        return new ResponseEntity<PatientHealthInfo>
+                (healthInformationService.getPatientHealthInfoByPatientId(patientId), HttpStatus.OK);
+    }
+
     // build updated health information for existing patients REST API
     // for example:   http://localhost:8080/api/healthinfo/1
     @PutMapping("/{id}")

@@ -270,7 +270,20 @@ class MyCustomFormState extends State<MyCustomForm> {
                     User user = User.fromJson(userMap);
                     if (user.email.isNotEmpty) {
                       // Create profile object HERE
-
+                      final responseProfile = await http.post(
+                        // 10.0.2.2 replaces localhost when using android emulator
+                          Uri.parse('http://localhost:8080/api/healthinfo/save'),
+                          headers:{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode({
+                            "userId": user.userId,
+                            "height": 150,
+                            "weight": 76,
+                            "healthStatus": "Health is so tired"
+                          })
+                      );
+                      print("response object from profile creation: " + responseProfile.body);
                       Navigator.push(context, MaterialPageRoute(builder: (
                           context) =>
                           PatientPage(user: user)),
