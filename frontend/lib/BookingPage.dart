@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import 'Booking.dart';
 import 'MyBooking.dart';
+import 'PatientPage.dart';
 import 'User.dart';
 
 class BookingPage extends StatefulWidget {
@@ -120,9 +121,6 @@ class BookingFormState extends State<BookingPage> {
 
                                   showAlertDialog(
                                       context, messages, e, widget.user);
-                                  setState(() {
-                                    print("Refresh page");
-                                  });
                                 },
                                 child: Text(
                                     "${e.bookingTime.substring(0, 5)} - ${e.bookingEndTime.substring(0, 5)}"
@@ -177,8 +175,7 @@ Future<EventList<Booking>> getAllAvailableBookings() async {
   }
 }
 
-void confirmBooking(Booking booking, User user) async {
-  print("Booking confirmed");
+Future<bool> confirmBooking(Booking booking, User user) async {
   final response = await http.put(
       // 10.0.2.2 replaces localhost when using android emulator
       Uri.parse('http://10.0.2.2:9000/booking/update'),
@@ -196,7 +193,11 @@ void confirmBooking(Booking booking, User user) async {
         "hasPaid": booking.hasPaid,
         "isAvailability": booking.isAvailability
       }));
-  print(response.body);
+  if (response.body.isNotEmpty) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 showAlertDialog(
@@ -211,8 +212,11 @@ showAlertDialog(
   Widget continueButton = TextButton(
     child: Text("Confirm"),
     onPressed: () async {
-      confirmBooking(booking, user);
-      Navigator.of(context).pop(context);
+      bool response = await confirmBooking(booking, user);
+      print(response);
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          PatientPage(user: user)),
+      );
     },
   );
   // set up the AlertDialog
