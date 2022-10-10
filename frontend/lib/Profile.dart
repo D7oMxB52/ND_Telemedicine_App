@@ -23,20 +23,20 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
+  ProfileObject profile = ProfileObject(1, 1, 12.0, 11.2, "I am sick");
   @override
   void initState() {
     super.initState();
 
-    getData();
+  getData();
   }
 
   Future<ProfileObject> getData() async {
-    ProfileObject profile = await getProfile();
+    profile = await getProfile();
     return profile;
   }
 
   Future<ProfileObject> getProfile() async {
-    // List<User> users = [];
 
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
@@ -94,17 +94,16 @@ class ProfileState extends State<Profile> {
           return SafeArea(
             child: Column(
               children: [
-                const Center(
-                  child: Text("My profile"),
-                ),
                 Expanded(
                   child: Card(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         ListTile(
-                          title: Text("Profile box 1"),
-                          subtitle: Text("Hold that place"),
+                          title: Text("My profile"),
+                          subtitle: Text("Status: ${profile.healthStatus} "
+                              "\nHeight: ${profile.height}"
+                              "\nWeight ${profile.weight}"),
                         ),
                       ]
                     ),
