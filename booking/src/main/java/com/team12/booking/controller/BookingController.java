@@ -78,7 +78,10 @@ public class BookingController {
     @PostMapping(path = "/new", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> makeBooking(@RequestBody Booking booking)
             throws Exception {
-        Booking createdService = bookingService.createBooking(booking);
+        List<Booking> createdService = bookingService.createBooking(booking);
+        if (createdService == null){
+            return new ResponseEntity<>("Bookings already created!", HttpStatus.OK);
+        }
         return new ResponseEntity<>(createdService, HttpStatus.CREATED);
     }
 
