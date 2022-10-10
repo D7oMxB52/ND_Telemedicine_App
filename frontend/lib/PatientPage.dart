@@ -31,7 +31,7 @@ class PatientPage extends StatelessWidget {
                     child: Text("Book Appointment"),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return BookingPage();
+                        return BookingPage(user: user);
                       }));
                     },
                   ),

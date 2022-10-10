@@ -125,14 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 }));
               },
             ),
-            OutlinedButton(
-              child: Text("Booking Test"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return BookingPage();
-                }));
-              },
-            ),
           ],
         ),
       ),
