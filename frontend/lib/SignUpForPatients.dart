@@ -258,6 +258,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             "address": addressController.text,
                             "phoneNum": mobileNumberController.text,
                             "role": "PA",
+                            "verified": 1,
                             "active": 1
                           })
                   );
@@ -268,6 +269,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // If response received from server
                     Map<String, dynamic> userMap = jsonDecode(response.body);
                     User user = User.fromJson(userMap);
+                    print("is the user active????");
+                    print(user.active);
                     if (user.email.isNotEmpty) {
                       // Create profile object HERE
                       final responseProfile = await http.post(
