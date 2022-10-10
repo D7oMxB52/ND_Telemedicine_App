@@ -15,6 +15,7 @@ class ProfileObject {
       );
 
   factory ProfileObject.fromJson(dynamic json) {
+    print("Inside profile object print json " + json);
     return ProfileObject(
         json['userId'],
         json['profileId'],

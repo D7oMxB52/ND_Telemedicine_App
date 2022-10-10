@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'ProfileObject.dart';
+import 'dart:convert';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -39,23 +40,33 @@ class ProfileState extends State<Profile> {
 
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://localhost:8080/ndt/api/healthinfo/1'),
+      Uri.parse('http://localhost:8080/api/healthinfo/1'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print("________________");
+    print("________________ 1" );
     print(response.body);
+    print("xxxxxxxxxxxxx");
+    // List<dynamic> result = jsonDecode(response.body);
+    String result = response.body;
 
-    List<dynamic> result = jsonDecode(response.body);
+    Map<String, dynamic> map = jsonDecode(result) as Map<String, dynamic>; // import 'dart:convert';
 
-    ProfileObject profile = ProfileObject.fromJson(result[0]);
-    print(profile.userId);
-    print(profile.profileId);
-    print(profile.height);
-    print(profile.weight);
-    print(profile.healthStatus);
+    int userId = map['userId'];
+    int profileId = map['profileId'];
+    double height = map['height'];
+    double weight = map['weight'];
+    String healthStatus = map ['healthStatus'];
 
+    print("PRINT PROFILE INFORMATIon");
+    print(userId);
+    print(profileId);
+    print(height);
+    print(weight);
+    print(healthStatus);
+
+    ProfileObject profile = ProfileObject(userId, profileId, height, weight, healthStatus);
     return profile;
   }
 
@@ -84,13 +95,18 @@ class ProfileState extends State<Profile> {
             child: Column(
               children: [
                 const Center(
-                    child: Text("My profile information")
+                  child: Text("My profile"),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
+                  child: Card(
                     child: Column(
-                      children: Text()
-                      ).toList(),
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          title: Text("Profile box 1"),
+                          subtitle: Text("Hold that place"),
+                        ),
+                      ]
                     ),
                   ),
                 ),
