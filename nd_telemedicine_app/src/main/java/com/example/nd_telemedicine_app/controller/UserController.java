@@ -71,6 +71,6 @@ public class UserController {
             // Doctors also need an intermediate page, booking application, (view patient profile)
             // Admin should also have a redirect option
         }
-        return user;
+        return null;
     }
 }

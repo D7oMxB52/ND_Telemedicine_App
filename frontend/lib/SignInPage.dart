@@ -118,26 +118,44 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "email": emailController.text,
                         "password": passwordController.text,
                       }));
-                  print(response.body);
                   // Make user object and check for ROLE???
                   if (response.body.isNotEmpty) {
+                    print(response.body);
                     Map<String, dynamic> userMap = jsonDecode(response.body);
                     User user = User.fromJson(userMap);
-                    if (user.role == "PA") {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                          PatientPage(user: user)),
+                    print("CHECK ROLE FOR INVALID OBJECT " + user.role);
+
+                    if (user.verified == 1) {
+                      if (user.role == "PA") {
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) =>
+                            PatientPage(user: user)),
+                        );
+                      } else if (user.role == "DR" && user.verified == true) {
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) =>
+                            DoctorPage(user: user)),
+                        );
+                      } else if (user.role == "AD") {
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) =>
+                            AdminPage(user: user)),
+                        );
+                      }
+                    } else {
+                      // print here for invalidated doctor
+                      print("USER HAS NOT BEEN VALIDATED");
+                      Navigator.push(
+                        context, MaterialPageRoute(builder: (context) =>
+                          NoAccess()),
                       );
-                    } else if (user.role == "DR" && user.verified == true) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                          DoctorPage(user: user)),
-                      );
-                    } else if (user.role == "AD") {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                          AdminPage(user: user)),
-                      );
+                      Navigator.pop(context);
                     }
                   } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                    // print here for invalid user details
+                    print("FALLTHROUGH: USER CAN'T ACCESS ACCOUNT FOR WHATEVER REASON");
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context) =>
                         NoAccess()),
                     );
                     Navigator.pop(context);
