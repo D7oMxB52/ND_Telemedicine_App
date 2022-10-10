@@ -1,9 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'Booking.dart';
+import 'BookingPage.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

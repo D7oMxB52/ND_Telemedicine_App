@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Booking.dart';
+import 'BookingPage.dart';
 import 'SignInPage.dart';
 import 'SignUpForDoctors.dart';
 import 'SignUpForPatients.dart';
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Booking Test"),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Booking();
+                  return BookingPage();
                 }));
               },
             ),
