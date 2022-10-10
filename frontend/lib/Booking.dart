@@ -1,94 +1,55 @@
+class Booking {
+  int bookingId;
+  int patientId;
+  int doctorId;
+  String bookingDate;
+  String bookingTime;
+  String bookingEndTime;
+  String chatLink;
+  bool hasPaid;
+  bool isAvailability;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_calendar_widget/flutter_calendar_widget.dart';
-import 'package:intl/intl.dart';
-import 'dart:async';
-import 'dart:convert';
+  Booking(
+      this.bookingId,
+      this.patientId,
+      this.doctorId,
+      this.bookingDate,
+      this.bookingTime,
+      this.bookingEndTime,
+      this.chatLink,
+      this.hasPaid,
+      this.isAvailability
+      );
 
-import 'MyBooking.dart';
-
-class Booking extends StatelessWidget {
-  Booking({super.key});
-  final String title = "Booking";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Container(
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            const BookingForm(),
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  factory Booking.fromJson(dynamic json) {
+    return Booking(
+        json['bookingId'],
+        json['patientId'],
+        json['doctorId'],
+        json['bookingDate'],
+        json['bookingTime'],
+        json['bookingEndTime'],
+        json['chatLink'],
+        json['hasPaid'],
+        json['isAvailability']
     );
   }
+
+
+
+// @override
+// String toString() {
+//   return '{${this.name}, ${this.age} }';
+// }
 }
 
-class BookingForm extends StatefulWidget {
-  const BookingForm({super.key});
-
-  @override
-  BookingFormState createState() {
-    return BookingFormState();
+DateTime convertDate(String dateToConvert) {
+  List<String> dateString = dateToConvert.split("-");
+  List<int> dateInt = [];
+  for (var i in dateString) {
+    dateInt.add(int.parse(i));
   }
-}
+  DateTime date = DateTime(dateInt[0], dateInt[1], dateInt[2]);
 
-class BookingFormState extends State<BookingForm> {
-  var _selectedEvents = ['Appointment 1', 'Appointment 2'];
-
-  DateTime dateSelected = DateTime.now();
-
-  // Test appointments for calendar
-  EventList<String> events = EventList(
-      events: {
-        DateTime(2022, 10, 9): [
-          'Appointment 1',
-          'Appointment 2',
-        ],
-        DateTime(2022, 10, 19): [
-          'Appointment 1',
-          'Appointment 2',
-        ],
-
-  }
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.topLeft,
-        child: Column(
-          children: [
-            FlutterCalendar(
-                selectionMode: CalendarSelectionMode.single,
-                events: events,
-                onDayPressed: (DateTime date) {
-                  setState(() {
-                    dateSelected = date;
-                  });
-                  _selectedEvents = events.get(date);
-                  print(_selectedEvents);
-                }),
-            Text("Date selected: ${DateFormat('dd MMM, yyyy').format(dateSelected)}"),
-            Column(
-              children: _selectedEvents.map((e) =>
-                  OutlinedButton(
-                    onPressed: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      //       return  Booking();
-                      //     }));
-                    },
-                    child: Text(e),
-                  )
-              ).toList(),
-            ),
-          ],
-        ),
-    );    // This trailing comma makes auto-formatting nicer for build methods.
-  }
+  return date;
 }

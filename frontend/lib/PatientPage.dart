@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Booking.dart';
+import 'BookingPage.dart';
 import 'Profile.dart';
 import 'User.dart';
 
@@ -31,7 +31,7 @@ class PatientPage extends StatelessWidget {
                     child: Text("Book Appointment"),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return Booking();
+                        return BookingPage();
                       }));
                     },
                   ),
