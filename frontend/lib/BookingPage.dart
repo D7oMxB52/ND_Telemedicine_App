@@ -84,7 +84,7 @@ class BookingFormState extends State<BookingPage> {
                                   //       return  Booking();
                                   //     }));
                                 },
-                                child: Text("${e.bookingDate} | ${e.bookingTime} - ${e.bookingEndTime}"),
+                                child: Text("${e.bookingTime} - ${e.bookingEndTime}"),
                               ))
                           .toList(),
                     ),

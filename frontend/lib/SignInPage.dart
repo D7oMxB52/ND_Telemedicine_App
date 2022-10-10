@@ -125,7 +125,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                           PatientPage(user: user)),
                       );
-                    } else if (user.role == "DR") {
+                    } else if (user.role == "DR" && user.verified == true) {
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                           DoctorPage(user: user)),
                       );
@@ -133,6 +133,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                           AdminPage(user: user)),
                       );
+                    } else {
+                      // SEND TO NO ACCESS PAGE. PLEASE CONTACT ADMIN
                     }
 
                   }
