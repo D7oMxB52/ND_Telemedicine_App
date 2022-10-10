@@ -1,6 +1,4 @@
 package com.team12.booking.service;
-import com.example.nd_telemedicine_app.model.User;
-import com.example.nd_telemedicine_app.service.UserService;
 import com.team12.booking.dao.BookingDAO;
 import com.team12.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
