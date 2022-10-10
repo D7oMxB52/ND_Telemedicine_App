@@ -258,7 +258,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             "address": addressController.text,
                             "phoneNum": mobileNumberController.text,
                             "role": "PA",
-                            "active": true
+                            "active": 1
                           })
                   );
 
