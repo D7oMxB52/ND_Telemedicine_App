@@ -7,6 +7,7 @@ import 'AdminPage.dart';
 import 'DoctorPage.dart';
 import 'PatientPage.dart';
 import 'User.dart';
+import 'NoAccess.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -118,6 +119,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "password": passwordController.text,
                       }));
                   print(response.body);
+                  // Make user object and check for ROLE???
                   if (response.body.isNotEmpty) {
                     Map<String, dynamic> userMap = jsonDecode(response.body);
                     User user = User.fromJson(userMap);
@@ -133,10 +135,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                           AdminPage(user: user)),
                       );
-                    } else {
-                      // SEND TO NO ACCESS PAGE. PLEASE CONTACT ADMIN
                     }
-
+                  } else {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                        NoAccess()),
+                    );
+                    Navigator.pop(context);
                   }
                 }
               },
