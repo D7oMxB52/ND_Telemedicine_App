@@ -6,6 +6,9 @@ class NoAccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      title: Text("No Access 4 U"),
+      ),
       body: Center(
         child: Column(
           children: [

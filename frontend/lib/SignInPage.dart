@@ -125,13 +125,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     User user = User.fromJson(userMap);
                     print("CHECK ROLE FOR INVALID OBJECT " + user.role);
 
-                    if (user.verified == 1) {
+                    if (user.verified == true) {
                       if (user.role == "PA") {
                         Navigator.push(context, MaterialPageRoute(builder: (
                             context) =>
                             PatientPage(user: user)),
                         );
-                      } else if (user.role == "DR" && user.verified == true) {
+                      } else if (user.role == "DR") {
                         Navigator.push(context, MaterialPageRoute(builder: (
                             context) =>
                             DoctorPage(user: user)),
@@ -149,7 +149,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         context, MaterialPageRoute(builder: (context) =>
                           NoAccess()),
                       );
-                      Navigator.pop(context);
                     }
                   } else {
                     // print here for invalid user details
@@ -158,7 +157,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       context, MaterialPageRoute(builder: (context) =>
                         NoAccess()),
                     );
-                    Navigator.pop(context);
                   }
                 }
               },

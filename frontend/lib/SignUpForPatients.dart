@@ -7,7 +7,8 @@ import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'DateOfBirthWidget.dart';
 import 'package:intl/intl.dart';
 
-import 'DropDownSex.dart';
+import 'User.dart';
+import 'PatientPage.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -224,7 +225,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -242,7 +243,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print("password: ${passwordController.text}");
 
                   // API error handling & redirection
-                  http.post(
+                  final response = await http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://localhost:8080/ndt/users'),
                       headers:{
@@ -261,6 +262,21 @@ class MyCustomFormState extends State<MyCustomForm> {
                           })
                   );
 
+                  // REDIRECT IF RESPONSE CONTAINS OBJECT
+                  print(response.body);
+                  if (response.body.isNotEmpty){
+                    // If response received from server
+                    Map<String, dynamic> userMap = jsonDecode(response.body);
+                    User user = User.fromJson(userMap);
+                    if (user.email.isNotEmpty) {
+                      // Create profile object HERE
+
+                      Navigator.push(context, MaterialPageRoute(builder: (
+                          context) =>
+                          PatientPage(user: user)),
+                      );
+                    }
+                  }
                 }
               },
               child: const Text('Submit'),
