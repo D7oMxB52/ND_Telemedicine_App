@@ -139,91 +139,89 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("First Name"),
-          TextFormField(
-            controller: firstNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your first name",
-            ),
-            // The validator receives the text that the user has entered.
-            validator: validateFirstName,
-          ),
-          Text("Last Name"),
-          TextFormField(
-            controller: lastNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your last name",
-            ),
-            // The validator receives the text that the user has entered.
-            validator: validateLastName,
-          ),
-          Text("Date of Birth"),
-          ElevatedButton(onPressed: () {
-            _DateOfBirthWidget(context);
-          }, child: Text("Select DOB")),
-          Text(dateOfBirth.toString()),
-          // TextFormField(
-          //   decoration: InputDecoration(
-          //     border: OutlineInputBorder(),
-          //     hintText: "Enter your date of birth",
-          //   ),
-          // ),
-          // Sex was excluded from DB and User model so decided to exclude from here too
-          // Text("Sex"),
-          // DropDownSex(),
-          Text("Mobile Number"),
-          TextFormField(
-            controller: mobileNumberController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your mobile number",
-            ),
-            validator: validateMobile,
-          ),
-          Text("Address"),
-          TextFormField(
-            controller: addressController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your address",
-            ),
-            validator: validateAddress,
-          ),
-          Text("Email"),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your email",
-            ),
-            validator: validateEmail,
-          ),
-          Text("Password"),
-          TextFormField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your password",
-            ),
-            validator: validatePassword,
-          ),
-          Text("Confirm Password"),
-          TextFormField(
-            controller: confirmPasswordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your password",
-            ),
-            validator: validateConfirmPassword,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Column(
+              children: [
+                Text("First Name"),
+                TextFormField(
+                  controller: firstNameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your first name",
+                  ),
+                  // The validator receives the text that the user has entered.
+                  validator: validateFirstName,
+                ),
+                Text("Last Name"),
+                TextFormField(
+                  controller: lastNameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your last name",
+                  ),
+                  // The validator receives the text that the user has entered.
+                  validator: validateLastName,
+                ),
+                Text("Date of Birth"),
+                ElevatedButton(onPressed: () {
+                  _DateOfBirthWidget(context);
+                }, child: Text("Select DOB")),
+                // Text(dateOfBirth.toString()),
+                Text("Mobile Number"),
+                TextFormField(
+                  controller: mobileNumberController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your mobile number",
+                  ),
+                  validator: validateMobile,
+                ),
+                Text("Address"),
+                TextFormField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your address",
+                  ),
+                  validator: validateAddress,
+                ),
+                Text("Email"),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your email",
+                  ),
+                  validator: validateEmail,
+                ),
+                Text("Password"),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your password",
+                  ),
+                  validator: validatePassword,
+                ),
+                Text("Confirm Password"),
+                TextFormField(
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your password",
+                  ),
+                  validator: validateConfirmPassword,
+                ),
+              ],
+            )
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: ElevatedButton(
               onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.

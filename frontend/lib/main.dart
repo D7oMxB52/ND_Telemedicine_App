@@ -101,6 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(50),
+              child: Image.asset('assets/ndt.png', height: 130),
+
+            ),
             OutlinedButton(
               child: Text("Sign In"),
               onPressed: () {
@@ -122,14 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const SignUpForDoctors();
-                }));
-              },
-            ),
-            OutlinedButton(
-              child: Text("Booking Test"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return BookingPage();
                 }));
               },
             ),

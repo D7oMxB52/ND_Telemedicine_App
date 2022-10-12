@@ -60,41 +60,54 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Email address"),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your email",
-            ),
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email address';
-              }
-              return null;
-            },
-          ),
-          Text("Password"),
-          TextFormField(
-            controller: passwordController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your password",
-            ),
-            obscureText: true,
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            child: Image.asset('assets/ndt.png', height: 130),
+
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: EdgeInsets.all(30),
+            child: Column(
+              children: [
+                Text("Email address"),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your email",
+                  ),
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email address';
+                    }
+                    return null;
+                  },
+                ),
+                Text("Password"),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Enter your password",
+                  ),
+                  obscureText: true,
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
             child: ElevatedButton(
               onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.
@@ -110,7 +123,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                   final response = await http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
-                      Uri.parse('http://localhost:8080/ndt/login'),
+                      Uri.parse('http://10.0.2.2:8080/ndt/login'),
                       headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
