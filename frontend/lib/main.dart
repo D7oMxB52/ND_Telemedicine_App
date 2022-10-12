@@ -101,6 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(50),
+              child: Image.asset('assets/ndt.png', height: 130),
+
+            ),
             OutlinedButton(
               child: Text("Sign In"),
               onPressed: () {
