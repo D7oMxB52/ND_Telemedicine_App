@@ -266,7 +266,8 @@ showAlertDialog(
   Widget cancelButton = TextButton(
     child: Text("Cancel"),
     onPressed: () {
-      Navigator.of(context).pop();
+      Navigator.pop(context);
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => BookingPage(user: user)),);
     },
   );
   Widget continueButton = TextButton(
