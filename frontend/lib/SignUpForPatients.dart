@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
+import 'Booking.dart';
 import 'DateOfBirthWidget.dart';
 import 'package:intl/intl.dart';
 
 import 'User.dart';
 import 'PatientPage.dart';
 import 'package:http/http.dart' as http;
-
 
 class SignUpForPatients extends StatelessWidget {
   const SignUpForPatients({super.key});
@@ -48,25 +48,25 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   DateTime? dateOfBirth;
+  String? firstNameInput;
+  String? lastNameInput;
+  String? mobileInput;
+  String? addressInput;
+  String? emailInput;
+  String? passwordInput;
+  String? confirmPasswordInput;
 
   @override
   Widget build(BuildContext context) {
-
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final mobileNumberController = TextEditingController();
-    final addressController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-
+    final firstNameController = TextEditingController(text: firstNameInput);
+    final lastNameController = TextEditingController(text: lastNameInput);
+    final mobileNumberController = TextEditingController(text: mobileInput);
+    final addressController = TextEditingController(text: addressInput);
+    final emailController = TextEditingController(text: emailInput);
+    final passwordController = TextEditingController(text: passwordInput);
+    final confirmPasswordController = TextEditingController(text: confirmPasswordInput);
 
     // VALIDATORS FOR EACH FIELD
     String? validateFirstName(String? value) {
@@ -89,7 +89,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       RegExp regex = RegExp(pattern);
       if (value == null || value.isEmpty) {
         return 'Email cannot be blank';
-      } else if(!regex.hasMatch(value)) {
+      } else if (!regex.hasMatch(value)) {
         return 'Enter a valid email address';
       } else {
         return null;
@@ -101,7 +101,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       RegExp regex = RegExp(pattern);
       if (value == null || value.isEmpty) {
         return 'Mobile number cannot be blank';
-      } else if(!regex.hasMatch(value)) {
+      } else if (!regex.hasMatch(value)) {
         return 'Enter valid mobile number';
       } else {
         return null;
@@ -116,7 +116,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
 
     String? validatePassword(String? value) {
-      String pattern = r'^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$';
+      String pattern =
+          r'^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$';
       RegExp regex = RegExp(pattern);
       if (value == null || value.isEmpty) {
         return 'Password cannot be blank';
@@ -126,6 +127,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         return null;
       }
     }
+
     String? validateConfirmPassword(String? value) {
       if (value == null || value.isEmpty) {
         return 'Password cannot be blank';
@@ -135,6 +137,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         return null;
       }
     }
+
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -142,84 +145,104 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: Column(
-              children: [
-                Text("First Name"),
-                TextFormField(
-                  controller: firstNameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your first name",
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Column(
+                children: [
+                  Text("First Name"),
+                  TextFormField(
+                    controller: firstNameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your first name",
+                    ),
+                    // The validator receives the text that the user has entered.
+                    validator: validateFirstName,
                   ),
-                  // The validator receives the text that the user has entered.
-                  validator: validateFirstName,
-                ),
-                Text("Last Name"),
-                TextFormField(
-                  controller: lastNameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your last name",
+                  Text("Last Name"),
+                  TextFormField(
+                    controller: lastNameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your last name",
+                    ),
+                    // The validator receives the text that the user has entered.
+                    validator: validateLastName,
                   ),
-                  // The validator receives the text that the user has entered.
-                  validator: validateLastName,
-                ),
-                Text("Date of Birth"),
-                ElevatedButton(onPressed: () {
-                  _DateOfBirthWidget(context);
-                }, child: Text("Select DOB")),
-                // Text(dateOfBirth.toString()),
-                Text("Mobile Number"),
-                TextFormField(
-                  controller: mobileNumberController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your mobile number",
+                  Text("Date of Birth"),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 45),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              firstNameInput = firstNameController.text;
+                              lastNameInput = lastNameController.text;
+                              mobileInput = mobileNumberController.text;
+                              addressInput = addressController.text;
+                              emailInput = emailController.text;
+                              passwordInput = passwordController.text;
+                              confirmPasswordInput = confirmPasswordController.text;
+                            });
+
+                            _DateOfBirthWidget(context);
+                          },
+                          child: Text("Select DOB")),
+                      ),
+                      if (dateOfBirth != null) ...[
+                        Text(DateFormat('dd/MM/yyyy').format(dateOfBirth!),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+                      ],
+                    ],
                   ),
-                  validator: validateMobile,
-                ),
-                Text("Address"),
-                TextFormField(
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your address",
+                  Text("Mobile Number"),
+                  TextFormField(
+                    controller: mobileNumberController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your mobile number",
+                    ),
+                    validator: validateMobile,
                   ),
-                  validator: validateAddress,
-                ),
-                Text("Email"),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your email",
+                  Text("Address"),
+                  TextFormField(
+                    controller: addressController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your address",
+                    ),
+                    validator: validateAddress,
                   ),
-                  validator: validateEmail,
-                ),
-                Text("Password"),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your password",
+                  Text("Email"),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your email",
+                    ),
+                    validator: validateEmail,
                   ),
-                  validator: validatePassword,
-                ),
-                Text("Confirm Password"),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter your password",
+                  Text("Password"),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your password",
+                    ),
+                    validator: validatePassword,
                   ),
-                  validator: validateConfirmPassword,
-                ),
-              ],
-            )
-          ),
+                  Text("Confirm Password"),
+                  TextFormField(
+                    controller: confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your password",
+                    ),
+                    validator: validateConfirmPassword,
+                  ),
+                ],
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: ElevatedButton(
@@ -231,7 +254,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   );
                   // Test printouts
                   print("FORM VALIDATED - RESULTS BELOW");
-                  var dateOfBirthText = DateFormat('yyyy-MM-dd').format(dateOfBirth!);
+                  var dateOfBirthText =
+                      DateFormat('yyyy-MM-dd').format(dateOfBirth!);
                   print("dateOfBirth: $dateOfBirthText");
                   print("firstName: ${firstNameController.text}");
                   print("lastName: ${lastNameController.text}");
@@ -244,26 +268,26 @@ class MyCustomFormState extends State<MyCustomForm> {
                   final response = await http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://localhost:8080/ndt/users'),
-                      headers:{
+                      headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
-                          body: jsonEncode({
-                            "firstName": firstNameController.text,
-                            "lastName": lastNameController.text,
-                            "dateOfBirth": DateFormat('yyyy-MM-dd').format(dateOfBirth!),
-                            "email": emailController.text,
-                            "password": passwordController.text,
-                            "address": addressController.text,
-                            "phoneNum": mobileNumberController.text,
-                            "role": "PA",
-                            "verified": 1,
-                            "active": 1
-                          })
-                  );
+                      body: jsonEncode({
+                        "firstName": firstNameController.text,
+                        "lastName": lastNameController.text,
+                        "dateOfBirth":
+                            DateFormat('yyyy-MM-dd').format(dateOfBirth!),
+                        "email": emailController.text,
+                        "password": passwordController.text,
+                        "address": addressController.text,
+                        "phoneNum": mobileNumberController.text,
+                        "role": "PA",
+                        "verified": 1,
+                        "active": 1
+                      }));
 
                   // REDIRECT IF RESPONSE CONTAINS OBJECT
                   print(response.body);
-                  if (response.body.isNotEmpty){
+                  if (response.body.isNotEmpty) {
                     // If response received from server
                     Map<String, dynamic> userMap = jsonDecode(response.body);
                     User user = User.fromJson(userMap);
@@ -272,9 +296,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                     if (user.email.isNotEmpty) {
                       // Create profile object HERE
                       final responseProfile = await http.post(
-                        // 10.0.2.2 replaces localhost when using android emulator
-                          Uri.parse('http://localhost:8080/api/healthinfo/save'),
-                          headers:{
+                          // 10.0.2.2 replaces localhost when using android emulator
+                          Uri.parse(
+                              'http://localhost:8080/api/healthinfo/save'),
+                          headers: {
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: jsonEncode({
@@ -282,12 +307,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                             "height": 150,
                             "weight": 76,
                             "healthStatus": "Health is so tired"
-                          })
-                      );
-                      print("response object from profile creation: " + responseProfile.body);
-                      Navigator.push(context, MaterialPageRoute(builder: (
-                          context) =>
-                          PatientPage(user: user)),
+                          }));
+                      print("response object from profile creation: " +
+                          responseProfile.body);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PatientPage(user: user)),
                       );
                     }
                   }
@@ -299,7 +325,6 @@ class MyCustomFormState extends State<MyCustomForm> {
         ],
       ),
     );
-
   }
 
   Future<void> _DateOfBirthWidget(BuildContext context) async {
@@ -324,4 +349,3 @@ class MyCustomFormState extends State<MyCustomForm> {
       ..showSnackBar(SnackBar(content: Text('$datePicked')));
   }
 }
-

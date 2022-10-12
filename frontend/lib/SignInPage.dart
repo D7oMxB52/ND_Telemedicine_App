@@ -9,30 +9,8 @@ import 'PatientPage.dart';
 import 'User.dart';
 import 'NoAccess.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
-  final String title = "Sign In";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const MyCustomForm(),
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {
@@ -40,24 +18,38 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
+class MyCustomFormState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+  final String title = "Sign In";
+  bool signInFailed = false;
+  String? emailInput;
+
+  String? validateEmail(String? value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty) {
+      return 'Email cannot be blank';
+    } else if(!regex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
 
-    final emailController = TextEditingController();
+    final emailController = TextEditingController(text: emailInput);
     final passwordController = TextEditingController();
 
-    return Form(
+    return Scaffold(
+        appBar: AppBar(
+        title: Text(title),
+    ),
+      body:
+
+      Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,13 +70,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     border: OutlineInputBorder(),
                     hintText: "Enter your email",
                   ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email address';
-                    }
-                    return null;
-                  },
+                  validator: validateEmail,
                 ),
                 Text("Password"),
                 TextFormField(
@@ -94,7 +80,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     hintText: "Enter your password",
                   ),
                   obscureText: true,
-                  // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
@@ -102,6 +87,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
+                if (signInFailed)...[
+                  const Text(
+                      "Email and/or password are incorrect",
+                      style: TextStyle(color: Colors.red),),
+        ],
+
               ],
             ),
           ),
@@ -110,13 +101,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: ElevatedButton(
               onPressed: () async {
-                // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
+
                   print("FORM VALIDATED - RESULTS BELOW");
                   print("email: ${emailController.text}");
                   print("password: ${passwordController.text}");
@@ -131,7 +117,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "email": emailController.text,
                         "password": passwordController.text,
                       }));
-                  // Make user object and check for ROLE???
+                  print(response.body);
                   if (response.body.isNotEmpty) {
                     print(response.body);
                     Map<String, dynamic> userMap = jsonDecode(response.body);
@@ -156,7 +142,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         );
                       }
                     } else {
-                      // print here for invalidated doctor
                       print("USER HAS NOT BEEN VALIDATED");
                       Navigator.push(
                         context, MaterialPageRoute(builder: (context) =>
@@ -164,12 +149,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                       );
                     }
                   } else {
-                    // print here for invalid user details
+                    passwordController.clear();
+                    setState(() {
+                      signInFailed = true;
+                      emailInput = emailController.text;
+                    });
                     print("FALLTHROUGH: USER CAN'T ACCESS ACCOUNT FOR WHATEVER REASON");
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) =>
-                        NoAccess()),
-                    );
                   }
                 }
               },
@@ -178,6 +163,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ],
       ),
+    ),
     );
   }
 }
