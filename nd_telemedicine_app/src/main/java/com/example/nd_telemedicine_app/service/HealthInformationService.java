@@ -28,6 +28,19 @@ public class HealthInformationService {
         return patientHealthInfo.get();
     }
 
+    public PatientHealthInfo getPatientHealthInfoByPatientId(Integer id) {
+        List<PatientHealthInfo> allProfiles;
+        PatientHealthInfo profile;
+
+        allProfiles = patientRepo.findAll();
+        for (int i = 0; i < allProfiles.size(); i++){
+            if (allProfiles.get(i).getUserId() == id){
+                return allProfiles.get(i);
+            }
+        }
+        return null;
+    }
+
     public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, Integer id) {
 
         // fetching patient's info from DB

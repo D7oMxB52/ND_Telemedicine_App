@@ -7,7 +7,8 @@ import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'DateOfBirthWidget.dart';
 import 'package:intl/intl.dart';
 
-import 'DropDownSex.dart';
+import 'User.dart';
+import 'PatientPage.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -222,7 +223,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -240,7 +241,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print("password: ${passwordController.text}");
 
                   // API error handling & redirection
-                  http.post(
+                  final response = await http.post(
                       // 10.0.2.2 replaces localhost when using android emulator
                       Uri.parse('http://localhost:8080/ndt/users'),
                       headers:{
@@ -255,10 +256,41 @@ class MyCustomFormState extends State<MyCustomForm> {
                             "address": addressController.text,
                             "phoneNum": mobileNumberController.text,
                             "role": "PA",
-                            "active": true
+                            "verified": 1,
+                            "active": 1
                           })
                   );
 
+                  // REDIRECT IF RESPONSE CONTAINS OBJECT
+                  print(response.body);
+                  if (response.body.isNotEmpty){
+                    // If response received from server
+                    Map<String, dynamic> userMap = jsonDecode(response.body);
+                    User user = User.fromJson(userMap);
+                    print("is the user active????");
+                    print(user.active);
+                    if (user.email.isNotEmpty) {
+                      // Create profile object HERE
+                      final responseProfile = await http.post(
+                        // 10.0.2.2 replaces localhost when using android emulator
+                          Uri.parse('http://localhost:8080/api/healthinfo/save'),
+                          headers:{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode({
+                            "userId": user.userId,
+                            "height": 150,
+                            "weight": 76,
+                            "healthStatus": "Health is so tired"
+                          })
+                      );
+                      print("response object from profile creation: " + responseProfile.body);
+                      Navigator.push(context, MaterialPageRoute(builder: (
+                          context) =>
+                          PatientPage(user: user)),
+                      );
+                    }
+                  }
                 }
               },
               child: const Text('Submit'),
