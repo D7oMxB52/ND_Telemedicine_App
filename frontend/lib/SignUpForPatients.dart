@@ -192,17 +192,6 @@ class MyCustomFormState extends State<SignUpForPatients> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        print("FORM VALIDATED - RESULTS BELOW");
-                        var dateOfBirthText = DateFormat('yyyy-MM-dd').format(dateOfBirth!);
-                        print("dateOfBirth: $dateOfBirthText");
-                        print("firstName: ${firstNameController.text}");
-                        print("lastName: ${lastNameController.text}");
-                        print("mobile: ${mobileNumberController.text}");
-                        print("address: ${addressController.text}");
-                        print("email: ${emailController.text}");
-                        print("password: ${passwordController.text}");
-                        // print("accreditation number: ${accreditationNumberController.text}");
-
 
                         final response = await http.post(
                           // 10.0.2.2 replaces localhost when using android emulator
@@ -242,8 +231,6 @@ class MyCustomFormState extends State<SignUpForPatients> {
                                   "weight": 0,
                                   "healthStatus": ""
                                 }));
-
-                            print(responseProfile.body);
 
                             Navigator.push(
                               context,

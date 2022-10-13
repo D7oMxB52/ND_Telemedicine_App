@@ -44,8 +44,4 @@ class User {
     );
   }
 
-// @override
-// String toString() {
-//   return '{${this.name}, ${this.age} }';
-// }
 }

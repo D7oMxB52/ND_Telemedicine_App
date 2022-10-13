@@ -25,8 +25,4 @@ class ProfileObject {
     );
   }
 
-// @override
-// String toString() {
-//   return '{ ${this.name}, ${this.age} }';
-// }
 }

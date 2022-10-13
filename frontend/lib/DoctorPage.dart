@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'BookingPage.dart';
-import 'Profile.dart';
 import 'User.dart';
 import 'main.dart';
 

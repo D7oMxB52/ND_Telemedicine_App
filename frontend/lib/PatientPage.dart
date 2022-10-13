@@ -29,7 +29,6 @@ class PatientPageState extends State<PatientPage> {
   void initState() {
     super.initState();
 
-    print("Page reload");
     getData();
   }
 
@@ -126,26 +125,12 @@ class PatientPageState extends State<PatientPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // OutlinedButton(
-                      //   child: Text("My Profile"),
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) =>
-                      //               Profile(user: widget.user)),
-                      //     );
-                      //   },
-                      // ),
-                      // OutlinedButton(
-                      //   child: Text("Book Appointment"),
-                      //   onPressed: () {
-                      //     Navigator.push(context,
-                      //         MaterialPageRoute(builder: (context) {
-                      //       return BookingPage(user: widget.user);
-                      //     }));
-                      //   },
-                      // ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                          child: Text("Loading...",
+                              style: Theme.of(context).textTheme.headline4)),
                     ],
                   ),
                 );
@@ -155,45 +140,36 @@ class PatientPageState extends State<PatientPage> {
                 child: Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // OutlinedButton(
-                      //   child: Text("My Profile"),
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) =>
-                      //               Profile(user: widget.user)),
-                      //     );
-                      //   },
-                      // ),
-                      // OutlinedButton(
-                      //   child: Text("Book Appointment"),
-                      //   onPressed: () {
-                      //     Navigator.push(context,
-                      //         MaterialPageRoute(builder: (context) {
-                      //       return BookingPage(user: widget.user);
-                      //     }));
-                      //   },
-                      // ),
-                    ],
+                    children: [],
                   ),
                   if (patientBookings.isNotEmpty) ...[
                     Center(
-                      child: Padding(
-                        child: Text("Upcoming appointment"),
-                        padding: EdgeInsets.all(16.0),
-                      ),
-                    ),
+                        child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Center(
+                            child: Text("Your upcoming appointment:",
+                                style: Theme.of(context).textTheme.headline4)),
+                      ],
+                    )),
                   ] else ...[
-                    Center(child: Text("No upcoming appointments")),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Center(child: Text("No upcoming appointments",
+                        style: Theme.of(context).textTheme.headline4)),
                   ],
                   Expanded(
                       child: SingleChildScrollView(
                           child: Column(
                     children: patientBookings
                         .map((e) => Padding(
+                              padding: EdgeInsets.all(16.0),
                               child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
@@ -204,16 +180,9 @@ class PatientPageState extends State<PatientPage> {
                                       subtitle: Text(
                                           "You will be seeing Dr. ${allUsers[e.doctorId]?.firstName}"),
                                     ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                    //   children: <Widget>[
-                                    //     TextButton(onPressed: () {}, child: const Text("CANCEL")),
-                                    //   ],
-                                    // )
                                   ],
                                 ),
                               ),
-                              padding: EdgeInsets.all(16.0),
                             ))
                         .toList(),
                   )))
@@ -234,9 +203,7 @@ Future<List<Booking>> getAllPatientBookings(User user) async {
     },
   );
 
-  if (response.body.contains("timestamp")) {
-    print("Server error");
-  } else {
+  if (!response.body.contains("timestamp")) {
     List<dynamic> bookingList = jsonDecode(response.body);
 
     for (var e in bookingList) {
@@ -249,20 +216,4 @@ Future<List<Booking>> getAllPatientBookings(User user) async {
   }
 
   return bookings;
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const Center(
-        child: Text('My Page!'),
-      ),
-    );
-  }
 }

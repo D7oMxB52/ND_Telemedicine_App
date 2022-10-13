@@ -8,7 +8,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'Booking.dart';
-import 'MyBooking.dart';
 import 'PatientPage.dart';
 import 'Profile.dart';
 import 'User.dart';
@@ -274,7 +273,6 @@ showAlertDialog(
     child: Text("Confirm"),
     onPressed: () async {
       bool response = await confirmBooking(booking, user);
-      print(response);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => PatientPage(user: user)),

@@ -34,13 +34,6 @@ class Booking {
         json['isAvailability']
     );
   }
-
-
-
-// @override
-// String toString() {
-//   return '{${this.name}, ${this.age} }';
-// }
 }
 
 DateTime convertDate(String dateToConvert) {

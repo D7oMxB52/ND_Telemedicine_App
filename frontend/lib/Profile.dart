@@ -25,7 +25,7 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
-  ProfileObject profile = ProfileObject(1, 1, 12.0, 11.2, "I am sick");
+  ProfileObject? profile;
   @override
   void initState() {
     super.initState();
@@ -33,46 +33,37 @@ class ProfileState extends State<Profile> {
     getData();
   }
 
-  Future<ProfileObject> getData() async {
+  Future<ProfileObject?> getData() async {
     profile = await getProfile();
+    print(profile);
     return profile;
   }
 
-  Future<ProfileObject> getProfile() async {
-    print("TEST PRINT ALL DETAILS BEFORE API CALL");
-    print(widget.user.userId);
+  Future<ProfileObject?> getProfile() async {
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:8080/api/healthinfo/${widget.user.userId}'),
+      Uri.parse('http://10.0.2.2:8080/api/healthinfo/get${widget.user.userId}'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print("________________ 1");
+    print("RESPONSE BODY");
     print(response.body);
-    print("xxxxxxxxxxxxx");
-    // List<dynamic> result = jsonDecode(response.body);
-    String result = response.body;
+    if (response.body.isNotEmpty) {
+      Map<String, dynamic> map = jsonDecode(response.body)
+          as Map<String, dynamic>; // import 'dart:convert';
 
-    Map<String, dynamic> map =
-        jsonDecode(result) as Map<String, dynamic>; // import 'dart:convert';
+      int userId = map['userId'];
+      int profileId = map['profileId'];
+      double height = map['height'];
+      double weight = map['weight'];
+      String healthStatus = map['healthStatus'];
 
-    int userId = map['userId'];
-    int profileId = map['profileId'];
-    double height = map['height'];
-    double weight = map['weight'];
-    String healthStatus = map['healthStatus'];
-
-    print("PRINT PROFILE INFORMATIon");
-    print(userId);
-    print(profileId);
-    print(height);
-    print(weight);
-    print(healthStatus);
-
-    ProfileObject profile =
-        ProfileObject(userId, profileId, height, weight, healthStatus);
-    return profile;
+      ProfileObject profile =
+          ProfileObject(userId, profileId, height, weight, healthStatus);
+      return profile;
+    }
+    return ProfileObject(-1, -1, -1.0, -1.0, "error");
   }
 
   @override
@@ -138,11 +129,17 @@ class ProfileState extends State<Profile> {
               if (!snapshot.hasData) {
                 // Future hasn't finished yet, return a placeholder
                 return SafeArea(
-                  child: Column(
-                    children: const [
-                      Center(child: Text("Loading:")),
+                  child: Center(
+                      child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                          child: Text("Loading...",
+                              style: Theme.of(context).textTheme.headline4)),
                     ],
-                  ),
+                  )),
                 );
               }
               return SafeArea(
@@ -153,13 +150,24 @@ class ProfileState extends State<Profile> {
                         child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              ListTile(
-                                title: Text("My profile"),
-                                subtitle:
-                                    Text("Status: ${profile.healthStatus} "
-                                        "\nHeight: ${profile.height}"
-                                        "\nWeight ${profile.weight}"),
-                              ),
+                              if (profile?.healthStatus != "error") ...[
+                                ListTile(
+                                  title: Text("My profile"),
+                                  subtitle:
+                                      Text("Status: ${profile?.healthStatus} "
+                                          "\nHeight: ${profile?.height}"
+                                          "\nWeight ${profile?.weight}"),
+                                ),
+                              ] else ...[
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Center(
+                                    child: Text("Nothing to show",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4)),
+                              ],
                             ]),
                       ),
                     ),

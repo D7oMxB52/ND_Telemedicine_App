@@ -68,7 +68,20 @@ class AdminPage extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Column(
           children: [
-            // Things for welcome page
+            const SizedBox(
+              height: 30,
+            ),
+            Text(
+                "Whose the boss in town?",
+                style: Theme.of(context).textTheme.headline1
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Text(
+                "You are!",
+                style: Theme.of(context).textTheme.headline2
+            ),
           ],
         ),
       ),

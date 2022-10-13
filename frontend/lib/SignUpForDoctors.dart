@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'PatientPage.dart';
 import 'Validation.dart';
 
 class SignUpForDoctors extends StatefulWidget {
@@ -37,14 +36,14 @@ class MyCustomFormState extends State<SignUpForDoctors> {
 
   @override
   Widget build(BuildContext context) {
-    final accreditationNumberController = TextEditingController();
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final mobileNumberController = TextEditingController();
-    final addressController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
+    final accreditationNumberController = TextEditingController(text: accreditationNumInput);
+    final firstNameController = TextEditingController(text: firstNameInput);
+    final lastNameController = TextEditingController(text: lastNameInput);
+    final mobileNumberController = TextEditingController(text: mobileInput);
+    final addressController = TextEditingController(text: addressInput);
+    final emailController = TextEditingController(text: emailInput);
+    final passwordController = TextEditingController(text: passwordInput);
+    final confirmPasswordController = TextEditingController(text: confirmPasswordInput);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,15 +94,6 @@ class MyCustomFormState extends State<SignUpForDoctors> {
             const SizedBox(
               height: 10,
             ),
-            if (signInFailed) ...[
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                "An account with that email or mobile number already exists",
-                style: TextStyle(color: Colors.red),
-              ),
-            ],
             Row(
               children: [
                 SizedBox(
@@ -195,6 +185,22 @@ class MyCustomFormState extends State<SignUpForDoctors> {
                     value: value, password: passwordController.text);
               },
             ),
+            if (signInFailed) ...[
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: 100,
+                child: Text(
+                  "An account with that email or mobile number already exists",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ] else ...[
+              const SizedBox(
+                height: 1,
+              ),
+            ],
             const SizedBox(
               height: 20,
             ),
@@ -238,8 +244,6 @@ class MyCustomFormState extends State<SignUpForDoctors> {
                             signInFailed = true;
                           });
                         }
-                        print(response);
-                        // TODO: Redirect for Doctor?
                       }
                     },
                     child: const Text('Sign Up'),

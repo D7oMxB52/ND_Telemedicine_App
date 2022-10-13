@@ -37,14 +37,11 @@ class _DateOfBirthWidget extends State<DateOfBirthWidget> {
                     firstDate: DateTime(1922), //DateTime(1960),
                      lastDate: DateTime.now(),
                     dateFormat:
-                    // "MM-dd(E)",
                     "dd/MMMM/yyyy",
-                    // locale: DatePicker.localeFromString('th'),
                     onChange: (DateTime newDate, _) {
                       setState(() {
                         _selectedDate = newDate;
                       });
-                      // print(_selectedDate);
                     },
                     pickerTheme: const DateTimePickerTheme(
                       backgroundColor: Colors.transparent,

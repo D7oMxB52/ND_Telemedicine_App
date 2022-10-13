@@ -169,7 +169,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
                   ),
                   Center(
                       child: Text("No doctors to show",
-                          style: Theme.of(context).textTheme.headline4))
+                          style: Theme.of(context).textTheme.headline4)),
                 ]));
               } else {
                 return SafeArea(

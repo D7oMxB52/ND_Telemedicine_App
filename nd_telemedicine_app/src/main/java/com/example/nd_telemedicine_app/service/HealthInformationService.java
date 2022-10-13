@@ -25,6 +25,9 @@ public class HealthInformationService {
 
     public PatientHealthInfo getPatientHealthInfoById(Integer id) {
         Optional<PatientHealthInfo> patientHealthInfo = patientRepo.findById(id);
+        if (patientHealthInfo.isEmpty()) {
+            return null;
+        }
         return patientHealthInfo.get();
     }
 

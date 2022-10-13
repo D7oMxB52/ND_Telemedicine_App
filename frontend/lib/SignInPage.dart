@@ -151,8 +151,6 @@ class MyCustomFormState extends State<SignInPage> {
                             signInFailed = true;
                             emailInput = emailController.text;
                           });
-                          print(
-                              "FALLTHROUGH: USER CAN'T ACCESS ACCOUNT FOR WHATEVER REASON");
                         }
                       }
                     },
