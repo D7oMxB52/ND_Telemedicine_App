@@ -35,7 +35,7 @@ class ProfileState extends State<Profile> {
 
   Future<ProfileObject?> getData() async {
     profile = await getProfile();
-    print(profile);
+
     return profile;
   }
 
@@ -47,8 +47,7 @@ class ProfileState extends State<Profile> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print("RESPONSE BODY");
-    print(response.body);
+
     if (response.body.isNotEmpty) {
       Map<String, dynamic> map = jsonDecode(response.body)
           as Map<String, dynamic>; // import 'dart:convert';
@@ -85,6 +84,7 @@ class ProfileState extends State<Profile> {
               ),
               ListTile(
                 title: const Text('Home'),
+                leading: Icon(Icons.home),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -95,6 +95,7 @@ class ProfileState extends State<Profile> {
               ),
               ListTile(
                 title: const Text('My Profile'),
+                leading: Icon(Icons.person),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -105,15 +106,19 @@ class ProfileState extends State<Profile> {
               ),
               ListTile(
                 title: const Text('Book Appointment'),
+                leading: Icon(Icons.calendar_month),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return BookingPage(user: widget.user);
                   }));
                 },
               ),
-              Expanded(child: Container()),
+              Divider(
+                height:20,
+              ),
               ListTile(
                 title: const Text('Log Out'),
+                leading: Icon(Icons.logout),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const MyApp();
@@ -145,32 +150,170 @@ class ProfileState extends State<Profile> {
               return SafeArea(
                 child: Column(
                   children: [
-                    Expanded(
-                      child: Card(
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              if (profile?.healthStatus != "error") ...[
-                                ListTile(
-                                  title: Text("My profile"),
-                                  subtitle:
-                                      Text("Status: ${profile?.healthStatus} "
-                                          "\nHeight: ${profile?.height}"
-                                          "\nWeight ${profile?.weight}"),
-                                ),
-                              ] else ...[
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Center(
-                                    child: Text("Nothing to show",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4)),
-                              ],
-                            ]),
-                      ),
+                    SizedBox(
+                      height: 20,
                     ),
+                    Center(
+                        child: Text("Your health information",
+                            style: Theme.of(context).textTheme.headline1)),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            if (profile?.healthStatus != "error") ...[
+                              SizedBox(
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                                    child:Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: Row(
+                                                children: [
+
+                                                  Text(
+                                                      "Current Status:",
+                                                      style: Theme.of(context).textTheme.headline4),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      "${profile?.healthStatus}",
+                                                      style: Theme.of(context).textTheme.bodyText1)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ),
+                              ),
+                              SizedBox(
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                                    child:Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: Row(
+                                                children: [
+
+                                                  Text(
+                                                      "Height:",
+                                                      style: Theme.of(context).textTheme.headline4),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      "${profile?.height} cm",
+                                                      style: Theme.of(context).textTheme.bodyText1)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ),
+                              ),
+                              SizedBox(
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                                    child:Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      "Weight:",
+                                                      style: Theme.of(context).textTheme.headline4),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      "${profile?.weight} kg",
+                                                      style: Theme.of(context).textTheme.bodyText1)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ),
+                              ),
+                            ] else ...[
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                  child: Text("Nothing to show",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4)),
+                            ],
+                          ],
+                        ),
+                      ),
+                    )),
                   ],
                 ),
               );

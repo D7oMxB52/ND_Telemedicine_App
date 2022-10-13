@@ -88,6 +88,7 @@ class BookingFormState extends State<BookingPage> {
               ),
               ListTile(
                 title: const Text('Home'),
+                leading: Icon(Icons.home),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -98,6 +99,7 @@ class BookingFormState extends State<BookingPage> {
               ),
               ListTile(
                 title: const Text('My Profile'),
+                leading: Icon(Icons.person),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -108,15 +110,19 @@ class BookingFormState extends State<BookingPage> {
               ),
               ListTile(
                 title: const Text('Book Appointment'),
+                leading: Icon(Icons.calendar_month),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return BookingPage(user: widget.user);
                   }));
                 },
               ),
-              Expanded(child: Container()),
+              Divider(
+                height:20,
+              ),
               ListTile(
                 title: const Text('Log Out'),
+                leading: Icon(Icons.logout),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const MyApp();

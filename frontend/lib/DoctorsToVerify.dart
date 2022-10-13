@@ -111,6 +111,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
               ),
               ListTile(
                 title: const Text('Home'),
+                leading: Icon(Icons.home),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -121,22 +122,28 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
               ),
               ListTile(
                 title: const Text('Verify Doctors'),
+                leading: Icon(Icons.verified_outlined),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            DoctorsToVerify(user: widget.user)),
+                        builder: (context) => DoctorsToVerify(user: widget.user)),
                   );
                 },
               ),
               ListTile(
                 title: const Text('All Users'),
-                onTap: () {},
+                leading: Icon(Icons.group),
+                onTap: () {
+
+                },
               ),
-              Expanded(child: Container()),
+              Divider(
+                height:20,
+              ),
               ListTile(
                 title: const Text('Log Out'),
+                leading: Icon(Icons.logout),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const MyApp();

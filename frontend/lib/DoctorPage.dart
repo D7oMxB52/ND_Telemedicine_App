@@ -26,6 +26,7 @@ class DoctorPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Home'),
+              leading: Icon(Icons.home),
               onTap: () {
                 Navigator.push(
                   context,
@@ -36,12 +37,17 @@ class DoctorPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Availabilities'),
+              leading: Icon(Icons.calendar_month),
               onTap: () {
+
               },
             ),
-            Expanded(child: Container()),
+            Divider(
+              height:20,
+            ),
             ListTile(
               title: const Text('Log Out'),
+              leading: Icon(Icons.logout),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const MyApp();
@@ -55,15 +61,18 @@ class DoctorPage extends StatelessWidget {
         child: Column(
           children: [
             Column(
-              children: const [
-                Text("Todays appointments",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold),
+              children: [
+                const SizedBox(
+                  height: 10,
                 ),
-                SizedBox(
-                    height: 300,
-                    child: Text("Test Appointment")
+                Center(
+                    child: Text("Appointments today:",
+                        style: Theme.of(context).textTheme.headline4)),
+                const SizedBox(
+                  height: 10,
                 ),
+                Center(child: Text("No appointments today",
+                    style: Theme.of(context).textTheme.headline4)),
               ],
             )
           ],

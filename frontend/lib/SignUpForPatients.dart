@@ -227,9 +227,9 @@ class MyCustomFormState extends State<SignUpForPatients> {
                                 },
                                 body: jsonEncode({
                                   "userId": user.userId,
-                                  "height": 0,
-                                  "weight": 0,
-                                  "healthStatus": ""
+                                  "height": 170.0,
+                                  "weight": 65.0,
+                                  "healthStatus": "Great"
                                 }));
 
                             Navigator.push(
