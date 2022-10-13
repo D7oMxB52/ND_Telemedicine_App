@@ -8,6 +8,7 @@ import 'DoctorPage.dart';
 import 'PatientPage.dart';
 import 'User.dart';
 import 'NoAccess.dart';
+import 'Validation.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -23,19 +24,6 @@ class MyCustomFormState extends State<SignInPage> {
   final String title = "Sign In";
   bool signInFailed = false;
   String? emailInput;
-
-  String? validateEmail(String? value) {
-    String pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = RegExp(pattern);
-    if (value == null || value.isEmpty) {
-      return 'Email cannot be blank';
-    } else if(!regex.hasMatch(value)) {
-      return 'Enter a valid email address';
-    } else {
-      return null;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
