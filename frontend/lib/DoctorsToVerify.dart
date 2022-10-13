@@ -29,25 +29,18 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
 
   Future<List<User>> getData() async {
     unverifiedDoctors = await getAllUnverifiedDoctors();
-    print("UNVERIFIED DOCTORS");
-    print(unverifiedDoctors);
-    for (var i in unverifiedDoctors) {
-      print(i.firstName);
-    }
+
     return unverifiedDoctors;
   }
 
   Future<bool> approveDr(User user) async {
-    // print(user);
-    // print("doctor being approved ${user.firstName}");
-    // String userJson = jsonEncode(user);
-    // print(userJson);
+
     final response = await http.post(
-      // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:8080/ndt/doctors/approve'),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+        // 10.0.2.2 replaces localhost when using android emulator
+        Uri.parse('http://10.0.2.2:8080/ndt/doctors/approve'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
         body: jsonEncode({
           "userId": user.userId,
           "accreditation_num": user.accreditationNum,
@@ -61,10 +54,8 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
           "role": user.role,
           "active": user.active,
           "verified": user.verified
-        })
-    );
+        }));
 
-    print(response.body);
     if (response.body.isNotEmpty) {
       return true;
     } else {
@@ -74,7 +65,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
 
   Future<bool> denyDr(User user) async {
     final response = await http.post(
-      // 10.0.2.2 replaces localhost when using android emulator
+        // 10.0.2.2 replaces localhost when using android emulator
         Uri.parse('http://10.0.2.2:8080/ndt/doctors/deny'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -92,10 +83,8 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
           "role": user.role,
           "active": user.active,
           "verified": user.verified
-        })
-    );
+        }));
 
-    print(response.body);
     if (response.body.isNotEmpty) {
       return true;
     } else {
@@ -107,8 +96,8 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text('Verify doctors'),
-    ),
+          title: const Text('Verify doctors'),
+        ),
         drawer: Drawer(
           width: 240,
           child: Column(
@@ -136,15 +125,14 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DoctorsToVerify(user: widget.user)),
+                        builder: (context) =>
+                            DoctorsToVerify(user: widget.user)),
                   );
                 },
               ),
               ListTile(
                 title: const Text('All Users'),
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               Expanded(child: Container()),
               ListTile(
@@ -158,102 +146,127 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
             ],
           ),
         ),
-    body: FutureBuilder(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // Future hasn't finished yet, return a placeholder
-            return SafeArea(
-              child: Column(
-                children: const [
-                  Center(
-                      child: Text("Loading:")
+        body: FutureBuilder(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                // Future hasn't finished yet, return a placeholder
+                return SafeArea(
+                    child: Column(children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ],
-              ),
-            );
-          }
-          if (unverifiedDoctors.isEmpty) {
-            return SafeArea(
-                child: Column(
-                    children: const [
-                Center(
-                child: Text("No doctors to show")
-            )]));
-          } else {
-          return SafeArea(
-            child: Column(
-              children: [
-                const Center(
-                    child: Text("Doctors needing verification:")
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: unverifiedDoctors.map((e) =>
-                          Card(
+                  Center(
+                      child: Text("Loading...",
+                          style: Theme.of(context).textTheme.headline4))
+                ]));
+              }
+              if (unverifiedDoctors.isEmpty) {
+                return SafeArea(
+                    child: Column(children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                      child: Text("No doctors to show",
+                          style: Theme.of(context).textTheme.headline4))
+                ]));
+              } else {
+                return SafeArea(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SingleChildScrollView(
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("${e.accreditationNum} | ${e.firstName} ${e.lastName}"),
-                                  subtitle: Text("${e.email} \n${e.phoneNum}"),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    TextButton(
-                                      child: const Text('APPROVE'),
-                                      onPressed: () async {
-                                        String message = "";
-                                        bool response = await approveDr(e);
-                                        if (response) {
-                                          setState(() {
-                                            message = 'Doctor ${e.firstName} approved';
-                                          });
-                                        } else {
-                                          message = 'An error occured';
-                                        }
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text(message)),
-                                        );
-                                      },
+                              children: unverifiedDoctors
+                                  .map(
+                                    (e) => Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          ListTile(
+                                            leading: const Icon(Icons.person),
+                                            title: Text(
+                                                "${e.accreditationNum} | ${e.firstName} ${e.lastName}"),
+                                            subtitle: Text(
+                                                "${e.email} \n${e.phoneNum}"),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              TextButton(
+                                                child: const Text('APPROVE'),
+                                                onPressed: () async {
+                                                  String message = "";
+                                                  bool response =
+                                                      await approveDr(e);
+                                                  if (response) {
+                                                    setState(() {
+                                                      message =
+                                                          'Doctor ${e.firstName} approved';
+                                                    });
+                                                  } else {
+                                                    message =
+                                                        'An error occured';
+                                                  }
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(message)),
+                                                  );
+                                                },
+                                              ),
+                                              const SizedBox(width: 8),
+                                              TextButton(
+                                                child: const Text('DENY'),
+                                                onPressed: () async {
+                                                  String message = "";
+                                                  bool response =
+                                                      await denyDr(e);
+                                                  if (response) {
+                                                    setState(() {
+                                                      message =
+                                                          'Doctor ${e.firstName} denied';
+                                                    });
+                                                  } else {
+                                                    message =
+                                                        'An error occured';
+                                                  }
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(message)),
+                                                  );
+                                                },
+                                              ),
+                                              const SizedBox(width: 8),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(width: 8),
-                                    TextButton(
-                                      child: const Text('DENY'),
-                                      onPressed: () async {
-                                        String message = "";
-                                        bool response = await denyDr(e);
-                                        if (response) {
-                                          setState(() {
-                                            message = 'Doctor ${e.firstName} denied';
-                                          });
-                                        } else {
-                                          message = 'An error occured';
-                                        }
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text(message)),
-                                        );
-                                      },
-                                    ),
-                                    const SizedBox(width: 8),
-                                  ],
-                                ),
-                              ],
+                                  )
+                                  .toList(),
                             ),
                           ),
-                      ).toList(),
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          );
-        }}
-      )
-    );
+                );
+              }
+            }));
   }
 }
 
@@ -267,22 +280,11 @@ Future<List<User>> getAllUnverifiedDoctors() async {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
-  print("________________");
-  print(response.body);
-
   List<dynamic> list = jsonDecode(response.body);
 
   for (var dr in list) {
-    print("________________DR");
-    print(dr);
     User user = User.fromJson(dr);
-    print("________________user");
-    print(user);
-    print(user.firstName);
-    print(user.lastName);
     users.add(user);
   }
-  print(users);
-
   return users;
 }

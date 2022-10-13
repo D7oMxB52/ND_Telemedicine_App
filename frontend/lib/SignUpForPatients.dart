@@ -22,7 +22,8 @@ class SignUpForPatients extends StatefulWidget {
 
 class MyCustomFormState extends State<SignUpForPatients> {
   final _formKey = GlobalKey<FormState>();
-  final String title = "Sign Up for Patients";
+  final String title = "Patient Sign Up";
+  bool signInFailed = false;
 
   DateTime? dateOfBirth;
   String? firstNameInput;
@@ -52,14 +53,17 @@ class MyCustomFormState extends State<SignUpForPatients> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           children: [
+            // const SizedBox(height: 10),
+            // Text(
+            //     "Welcome!",
+            //     style: Theme.of(context).textTheme.headline3
+            // ),
             const SizedBox(height: 10),
-            Text(
-                "Please enter your details below",
-                style: Theme.of(context).textTheme.headline1
-            ),
-            const SizedBox(height: 20),
+            Text("Please enter your details below",
+                style: Theme.of(context).textTheme.headline1),
+            const SizedBox(height: 20,),
             TextFormField(
               controller: firstNameController,
               decoration: const InputDecoration(
@@ -67,9 +71,7 @@ class MyCustomFormState extends State<SignUpForPatients> {
               ),
               validator: validateFirstName,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: lastNameController,
               decoration: const InputDecoration(
@@ -80,6 +82,15 @@ class MyCustomFormState extends State<SignUpForPatients> {
             const SizedBox(
               height: 10,
             ),
+            if (signInFailed) ...[
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                "An account with that email or mobile number already exists",
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
             Row(
               children: [
                 SizedBox(
@@ -181,9 +192,21 @@ class MyCustomFormState extends State<SignUpForPatients> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        print("FORM VALIDATED - RESULTS BELOW");
+                        var dateOfBirthText = DateFormat('yyyy-MM-dd').format(dateOfBirth!);
+                        print("dateOfBirth: $dateOfBirthText");
+                        print("firstName: ${firstNameController.text}");
+                        print("lastName: ${lastNameController.text}");
+                        print("mobile: ${mobileNumberController.text}");
+                        print("address: ${addressController.text}");
+                        print("email: ${emailController.text}");
+                        print("password: ${passwordController.text}");
+                        // print("accreditation number: ${accreditationNumberController.text}");
+
+
                         final response = await http.post(
                           // 10.0.2.2 replaces localhost when using android emulator
-                            Uri.parse('http://localhost:8080/ndt/users'),
+                            Uri.parse('http://10.0.2.2:8080/ndt/users'),
                             headers: {
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
@@ -201,10 +224,7 @@ class MyCustomFormState extends State<SignUpForPatients> {
                               "active": 1
                             }));
 
-                        // REDIRECT IF RESPONSE CONTAINS OBJECT
-                        print(response.body);
                         if (response.body.isNotEmpty) {
-                          // If response received from server
                           Map<String, dynamic> userMap = jsonDecode(response.body);
                           User user = User.fromJson(userMap);
                           if (user.email.isNotEmpty) {
@@ -218,10 +238,12 @@ class MyCustomFormState extends State<SignUpForPatients> {
                                 },
                                 body: jsonEncode({
                                   "userId": user.userId,
-                                  "height": 150,
-                                  "weight": 76,
-                                  "healthStatus": "Health is so tired"
+                                  "height": 0,
+                                  "weight": 0,
+                                  "healthStatus": ""
                                 }));
+
+                            print(responseProfile.body);
 
                             Navigator.push(
                               context,
@@ -229,10 +251,15 @@ class MyCustomFormState extends State<SignUpForPatients> {
                                   builder: (context) => PatientPage(user: user)),
                             );
                           }
+                        } else {
+                          setState(() {
+                            signInFailed = true;
+                            emailInput = emailController.text;
+                          });
                         }
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Sign Up'),
                   ),
                 ),
               ],
@@ -254,8 +281,5 @@ class MyCustomFormState extends State<SignUpForPatients> {
     setState(() {
       dateOfBirth = datePicked;
     });
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$datePicked')));
   }
 }

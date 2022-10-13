@@ -19,6 +19,12 @@ public class UserService {
     public User createUser(User user) {
         int numOfUsers = userRepository.findAll().size();
         user.setUserId(numOfUsers+1);
+        List<User> allUsers = getUsers();
+        for(User u : allUsers) {
+            if (u.getEmail().equals(user.getEmail()) || u.getPhoneNum().equals(user.getPhoneNum())) {
+                return null;
+            }
+        }
         return userRepository.save(user);
     }
 

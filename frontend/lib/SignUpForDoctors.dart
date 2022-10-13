@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/DoctorUnverified.dart';
 
 import 'DateOfBirthWidget.dart';
 import 'package:intl/intl.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'PatientPage.dart';
 import 'Validation.dart';
 
 class SignUpForDoctors extends StatefulWidget {
@@ -19,7 +21,8 @@ class SignUpForDoctors extends StatefulWidget {
 
 class MyCustomFormState extends State<SignUpForDoctors> {
   final _formKey = GlobalKey<FormState>();
-  final String title = "Sign Up for Doctors";
+  final String title = "Doctor Sign Up";
+  bool signInFailed = false;
 
   DateTime? dateOfBirth;
   String? accreditationNumInput;
@@ -92,6 +95,15 @@ class MyCustomFormState extends State<SignUpForDoctors> {
             const SizedBox(
               height: 10,
             ),
+            if (signInFailed) ...[
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                "An account with that email or mobile number already exists",
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
             Row(
               children: [
                 SizedBox(
@@ -215,10 +227,22 @@ class MyCustomFormState extends State<SignUpForDoctors> {
                               "active": true
                             }));
 
+                        if (response.body.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DoctorUnverified()),
+                          );
+                        } else {
+                          setState(() {
+                            signInFailed = true;
+                          });
+                        }
+                        print(response);
                         // TODO: Redirect for Doctor?
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Sign Up'),
                   ),
                 ),
               ],
@@ -242,8 +266,5 @@ class MyCustomFormState extends State<SignUpForDoctors> {
     setState(() {
       dateOfBirth = datePicked;
     });
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$datePicked')));
   }
 }
