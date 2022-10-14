@@ -42,7 +42,7 @@ class ProfileState extends State<Profile> {
   Future<ProfileObject?> getProfile() async {
     final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:8080/api/healthinfo/get${widget.user.userId}'),
+      Uri.parse('http://localhost:8080/ndt/pa-healthinfo/get${widget.user.userId}'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },

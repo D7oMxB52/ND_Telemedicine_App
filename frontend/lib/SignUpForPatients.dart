@@ -195,7 +195,7 @@ class MyCustomFormState extends State<SignUpForPatients> {
 
                         final response = await http.post(
                           // 10.0.2.2 replaces localhost when using android emulator
-                            Uri.parse('http://10.0.2.2:8080/ndt/users'),
+                            Uri.parse('http://localhost:8080/ndt/users'),
                             headers: {
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
@@ -221,7 +221,7 @@ class MyCustomFormState extends State<SignUpForPatients> {
                             final responseProfile = await http.post(
                               // 10.0.2.2 replaces localhost when using android emulator
                                 Uri.parse(
-                                    'http://10.0.2.2:8080/api/healthinfo/save'),
+                                    'http://localhost:8080/ndt/pa-healthinfo/save'),
                                 headers: {
                                   'Content-Type': 'application/json; charset=UTF-8',
                                 },

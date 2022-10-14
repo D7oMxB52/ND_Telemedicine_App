@@ -54,7 +54,7 @@ class BookingFormState extends State<BookingPage> {
 
     final response = await http.get(
       // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:8080/ndt/users'),
+      Uri.parse('http://localhost:8080/ndt/users'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -206,7 +206,7 @@ Future<EventList<Booking>> getAllAvailableBookings() async {
 
   final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-    Uri.parse('http://10.0.2.2:9000/booking/'),
+    Uri.parse('http://localhost:9000/booking/'),
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -243,7 +243,7 @@ Future<EventList<Booking>> getAllAvailableBookings() async {
 Future<bool> confirmBooking(Booking booking, User user) async {
   final response = await http.put(
       // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:9000/booking/update'),
+      Uri.parse('http://localhost:9000/booking/update'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },

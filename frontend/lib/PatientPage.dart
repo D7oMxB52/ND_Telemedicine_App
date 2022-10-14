@@ -44,7 +44,7 @@ class PatientPageState extends State<PatientPage> {
 
     final response = await http.get(
       // 10.0.2.2 replaces localhost when using android emulator
-      Uri.parse('http://10.0.2.2:8080/ndt/users'),
+      Uri.parse('http://localhost:8080/ndt/users'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -203,7 +203,7 @@ Future<List<Booking>> getAllPatientBookings(User user) async {
 
   final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-    Uri.parse('http://10.0.2.2:9000/booking/patient${user.userId}'),
+    Uri.parse('http://localhost:9000/booking/patient${user.userId}'),
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },

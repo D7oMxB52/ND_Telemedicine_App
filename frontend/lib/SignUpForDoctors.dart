@@ -214,7 +214,7 @@ class MyCustomFormState extends State<SignUpForDoctors> {
                       if (_formKey.currentState!.validate()) {
                         final response = await http.post(
                           // 10.0.2.2 replaces localhost when using android emulator
-                            Uri.parse('http://10.0.2.2:8080/ndt/users'),
+                            Uri.parse('http://localhost:8080/ndt/users'),
                             headers: {
                               'Content-Type': 'application/json; charset=UTF-8',
                             },

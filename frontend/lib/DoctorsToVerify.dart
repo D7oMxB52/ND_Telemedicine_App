@@ -37,7 +37,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
 
     final response = await http.post(
         // 10.0.2.2 replaces localhost when using android emulator
-        Uri.parse('http://10.0.2.2:8080/ndt/doctors/approve'),
+        Uri.parse('http://localhost:8080/ndt/doctors/approve'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -66,7 +66,7 @@ class VerifyDoctorsState extends State<DoctorsToVerify> {
   Future<bool> denyDr(User user) async {
     final response = await http.post(
         // 10.0.2.2 replaces localhost when using android emulator
-        Uri.parse('http://10.0.2.2:8080/ndt/doctors/deny'),
+        Uri.parse('http://localhost:8080/ndt/doctors/deny'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -282,7 +282,7 @@ Future<List<User>> getAllUnverifiedDoctors() async {
 
   final response = await http.get(
 // 10.0.2.2 replaces localhost when using android emulator
-    Uri.parse('http://10.0.2.2:8080/ndt/doctors/unverified'),
+    Uri.parse('http://localhost:8080/ndt/doctors/unverified'),
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },
