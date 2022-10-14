@@ -1,67 +1,48 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_calendar_widget/flutter_calendar_widget.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
+class Booking {
+  int bookingId;
+  int patientId;
+  int doctorId;
+  String bookingDate;
+  String bookingTime;
+  String bookingEndTime;
+  String chatLink;
+  bool hasPaid;
+  bool isAvailability;
 
-import 'package:flutter/material.dart';
-import 'MyBooking.dart';
+  Booking(
+      this.bookingId,
+      this.patientId,
+      this.doctorId,
+      this.bookingDate,
+      this.bookingTime,
+      this.bookingEndTime,
+      this.chatLink,
+      this.hasPaid,
+      this.isAvailability
+      );
 
-class Booking extends StatelessWidget {
-  const Booking({super.key});
-  final String title = "Booking";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FlutterCalendar(
-                selectionMode: CalendarSelectionMode.single,
-                onDayPressed: (DateTime date) {
-                  print(date);
-                }),
-            OutlinedButton(
-              child: Text("Appointment 1"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Booking();
-                }));
-              },
-            ),
-            OutlinedButton(
-              child: Text("Appointment 2"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Booking();
-                }));
-              },
-            ),
-            OutlinedButton(
-              child: Text("Appointment 3"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Booking();
-                }));
-              },
-            ),
-            OutlinedButton(
-              child: Text("Appointment 4"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Booking();
-                }));
-              },
-            ),
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  factory Booking.fromJson(dynamic json) {
+    return Booking(
+        json['bookingId'],
+        json['patientId'],
+        json['doctorId'],
+        json['bookingDate'],
+        json['bookingTime'],
+        json['bookingEndTime'],
+        json['chatLink'],
+        json['hasPaid'],
+        json['isAvailability']
     );
   }
+}
+
+DateTime convertDate(String dateToConvert) {
+  List<String> dateString = dateToConvert.split("-");
+  List<int> dateInt = [];
+  for (var i in dateString) {
+    dateInt.add(int.parse(i));
+  }
+  DateTime date = DateTime(dateInt[0], dateInt[1], dateInt[2]);
+
+  return date;
 }

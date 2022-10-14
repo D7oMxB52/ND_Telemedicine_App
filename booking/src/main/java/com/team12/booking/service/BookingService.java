@@ -18,8 +18,9 @@ public class BookingService {
     BookingDAO bookingDao;
 
 
+
     final private LocalTime OPENING_HOURS = LocalTime.parse("08:59:59");
-    final private LocalTime CLOSING_HOURS = LocalTime.parse("17:00:00");
+    final private LocalTime CLOSING_HOURS = LocalTime.parse("15:00:00");
     final private long APPOINTMENT_DURATION = 15;
 
     /**
@@ -28,25 +29,14 @@ public class BookingService {
      * @param booking
      * @return Booking object to confirm successful creation.
      */
-    public Booking createBooking(Booking booking) throws Exception {
-        System.out.println("INSIDE CREATEBOOKING in booking service" + booking.getDoctorId());
+    public List<Booking> createBooking(Booking booking) throws Exception {
         try {
-            System.out.println("INSIDE TRY BLOCK");
-            if (!availabilityIsNotDuplicate(booking.getBookingDate(), booking.getBookingTime(), booking.getDoctorId()) &&
-                    booking.getBookingTime().isAfter(OPENING_HOURS)
-                    && booking.getBookingTime().isBefore(CLOSING_HOURS)) {
-                    System.out.println("LEVEL 1 IF");
-
-                if (isWithinTimeLimit(booking.getBookingTime(), booking.getBookingEndTime()) == 0){
-                    System.out.println("LEVEL 2 IF");
-                    int numOfBookings = bookingDao.findAll().size();
-                    booking.setBookingId(numOfBookings+1);
-
-                    bookingDao.save(booking);
-                    return booking;
-                }
+            if (!availabilityIsNotDuplicate(booking.getBookingDate(), booking.getDoctorId()) ){
+                    List<Booking> allBookings = createBookingsForDoctor(booking);
+                    return allBookings;
             }
             return null;
+
         } catch (Exception e) {
             throw new Exception("Booking was not made successfully. Check booking_id");
         }
@@ -147,13 +137,13 @@ public class BookingService {
         return (durationAppointment.compareTo(startTime));
     }
 
-    private boolean availabilityIsNotDuplicate(LocalDate date, LocalTime startTime, Integer doctorId){
+    private boolean availabilityIsNotDuplicate(LocalDate date, Integer doctorId){
         System.out.println("AVAILABILITY NOT DUPLICATE METHOD");
         List<Booking> allBookings = findBookingByDoctorId(doctorId);
         System.out.println("AFTER BOOKING LIST RETRIEVED");
         boolean isAlreadyEntered = false;
         for (int i = 0; i < allBookings.size(); i++){
-            if ((allBookings.get(i).getBookingTime())==startTime && (allBookings.get(i).getBookingDate()).compareTo(date) == 0) {
+            if ((allBookings.get(i).getBookingDate()).compareTo(date) == 0) {
                 isAlreadyEntered = true;
             }
         }
@@ -198,4 +188,80 @@ public class BookingService {
             }
         }
     }
+
+    public List<Booking> createBookingsForDoctor(Booking booking){
+        List<Booking> allBookings = new ArrayList<>();
+//            System.out.println("after list");
+//
+////            int numOfBookings = bookingDao.findAll().size();
+//            for (int i = 0; i < 6; i++){
+//                System.out.println("in loop" + i);
+//                allBookings.add(new Booking());
+//                System.out.println("after adding");
+//                int numOfBookings = bookingDao.findAll().size();
+//                allBookings.get(i).setBookingId(numOfBookings+1);
+//                System.out.println("after setting" + allBookings.get(i).getBookingId());
+////                bookingDao.save(allBookings.get(i));
+////                System.out.println("after saving");
+//            }
+//            System.out.println(booking.getBookingId());
+
+        Booking booking1 = new Booking();
+        booking1.setDoctorId(booking.getDoctorId());
+        booking1.setBookingDate(booking.getBookingDate());
+        int numOfBookings = bookingDao.findAll().size();
+        booking1.setBookingId(numOfBookings+1);
+        booking1.setBookingTime(LocalTime.parse("09:00:00"));
+        booking1.setBookingEndTime(LocalTime.parse("09:15:00"));
+        bookingDao.save(booking1);
+        allBookings.add(booking1);
+
+        Booking booking2 = new Booking();
+        booking2.setDoctorId(booking.getDoctorId());
+        booking2.setBookingDate(booking.getBookingDate());
+        booking2.setBookingId(numOfBookings+2);
+        booking2.setBookingTime(LocalTime.parse("10:00:00"));
+        booking2.setBookingEndTime(LocalTime.parse("10:15:00"));
+        bookingDao.save(booking2);
+        allBookings.add(booking2);
+
+        Booking booking3 = new Booking();
+        booking3.setDoctorId(booking.getDoctorId());
+        booking3.setBookingDate(booking.getBookingDate());
+        booking3.setBookingId(numOfBookings+3);
+        booking3.setBookingTime(LocalTime.parse("11:00:00"));
+        booking3.setBookingEndTime(LocalTime.parse("11:15:00"));
+        bookingDao.save(booking3);
+        allBookings.add(booking3);
+
+        Booking booking4 = new Booking();
+        booking4.setDoctorId(booking.getDoctorId());
+        booking4.setBookingDate(booking.getBookingDate());
+        booking4.setBookingId(numOfBookings+4);
+        booking4.setBookingTime(LocalTime.parse("12:00:00"));
+        booking4.setBookingEndTime(LocalTime.parse("12:15:00"));
+        bookingDao.save(booking4);
+        allBookings.add(booking4);
+
+        Booking booking5 = new Booking();
+        booking5.setDoctorId(booking.getDoctorId());
+        booking5.setBookingDate(booking.getBookingDate());
+        booking5.setBookingId(numOfBookings+5);
+        booking5.setBookingTime(LocalTime.parse("13:00:00"));
+        booking5.setBookingEndTime(LocalTime.parse("13:15:00"));
+        bookingDao.save(booking5);
+        allBookings.add(booking5);
+
+        Booking booking6 = new Booking();
+        booking6.setDoctorId(booking.getDoctorId());
+        booking6.setBookingDate(booking.getBookingDate());
+        booking6.setBookingId(numOfBookings+6);
+        booking6.setBookingTime(LocalTime.parse("14:00:00"));
+        booking6.setBookingEndTime(LocalTime.parse("14:15:00"));
+        bookingDao.save(booking6);
+        allBookings.add(booking6);
+
+        return allBookings;
+    }
+
 }

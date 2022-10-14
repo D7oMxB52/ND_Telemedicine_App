@@ -25,7 +25,23 @@ public class HealthInformationService {
 
     public PatientHealthInfo getPatientHealthInfoById(Integer id) {
         Optional<PatientHealthInfo> patientHealthInfo = patientRepo.findById(id);
+        if (patientHealthInfo.isEmpty()) {
+            return null;
+        }
         return patientHealthInfo.get();
+    }
+
+    public PatientHealthInfo getPatientHealthInfoByPatientId(Integer id) {
+        List<PatientHealthInfo> allProfiles;
+        PatientHealthInfo profile;
+
+        allProfiles = patientRepo.findAll();
+        for (int i = 0; i < allProfiles.size(); i++){
+            if (allProfiles.get(i).getUserId() == id){
+                return allProfiles.get(i);
+            }
+        }
+        return null;
     }
 
     public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, Integer id) {
