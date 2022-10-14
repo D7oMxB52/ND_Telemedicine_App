@@ -47,8 +47,7 @@ public class HealthInformationService {
     public PatientHealthInfo updatePatientHealthInfo(PatientHealthInfo patientHealthInfo, Integer id) {
 
         // fetching patient's info from DB
-        PatientHealthInfo existingPatient = patientRepo.findById(id).orElse(null);
-
+        PatientHealthInfo existingPatient = patientRepo.findById(id).get();
         existingPatient.setWeight(patientHealthInfo.getWeight());
         existingPatient.setHeight(patientHealthInfo.getHeight());
         existingPatient.setHealthStatus(patientHealthInfo.getHealthStatus());
