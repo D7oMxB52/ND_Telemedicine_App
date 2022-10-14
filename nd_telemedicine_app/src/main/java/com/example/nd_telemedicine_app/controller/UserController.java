@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value="/users", method=RequestMethod.POST)
+    @RequestMapping(value="/users", method=RequestMethod.POST, produces="application/json", consumes="application/json")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
@@ -34,9 +34,14 @@ public class UserController {
         return userService.getAllUnverifiedDoctors();
     }
 
-    @RequestMapping(value="/doctors", method=RequestMethod.POST)
-    public User verifyDoctor(@RequestBody User user) {
+    @RequestMapping(value="/doctors/approve", method=RequestMethod.POST)
+    public User approveDoctor(@RequestBody User user) {
         return userService.verifyDoctor(user.getUserId());
+    }
+
+    @RequestMapping(value="/doctors/deny", method=RequestMethod.POST)
+    public User denyDoctor(@RequestBody User user) {
+        return userService.deactivateUser(user.getUserId());
     }
 
     @RequestMapping(value="/doctors/verified", method=RequestMethod.GET)
@@ -54,13 +59,18 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-    public String login(@RequestBody SignIn signin){
-        boolean isVerified = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
-        if (isVerified){
-            return "User is Verified";
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json",
+            consumes = "application/json")
+    public User login(@RequestBody SignIn signin){
+        User user = userService.findUserByEmail(signin.getEmail(), signin.getPassword());
+        if (user != null) {
+            return user;
+            // Return user object
+            // Return a profile object associated
+            // Intermediate screen for patients --> profile & booking features as 2 separate pages
+            // Doctors also need an intermediate page, booking application, (view patient profile)
+            // Admin should also have a redirect option
         }
-        return "invalid email or password";
+        return null;
     }
-
 }

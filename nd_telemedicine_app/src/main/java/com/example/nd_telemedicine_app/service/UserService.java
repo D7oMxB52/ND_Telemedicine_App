@@ -19,6 +19,12 @@ public class UserService {
     public User createUser(User user) {
         int numOfUsers = userRepository.findAll().size();
         user.setUserId(numOfUsers+1);
+        List<User> allUsers = getUsers();
+        for(User u : allUsers) {
+            if (u.getEmail().equals(user.getEmail()) || u.getPhoneNum().equals(user.getPhoneNum())) {
+                return null;
+            }
+        }
         return userRepository.save(user);
     }
 
@@ -71,10 +77,11 @@ public class UserService {
     // DEACTIVATE USER
     // -- When a doctors signup isn't approved by admin
     // -- When a user wants to be removed from the system
-    public void deactivateUser(Integer userId) {
+    public User deactivateUser(Integer userId) {
         User user = userRepository.findById(userId).get();
         user.setActive(false);
         userRepository.save(user);
+        return user;
     }
 
     // GET ALL ACTIVE PATIENTS
@@ -87,14 +94,15 @@ public class UserService {
         return userRepository.getAllVerifiedDoctors();
     }
 
-    public Boolean findUserByEmail(String email, String password){
-        Boolean isFound = false;
+    public User findUserByEmail(String email, String password){
+        User user;
         List<User> users = userRepository.findAll();
         for (int i = 0; i< users.size(); i++){
             if(users.get(i).getEmail().equals(email) && users.get(i).getPassword().equals(password)){
-                isFound = true;
+                user = users.get(i);
+                return user;
             }
         }
-        return isFound;
+        return null;
     }
 }
