@@ -1,42 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_holo_date_picker/date_picker.dart';
-import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 import 'DateOfBirthWidget.dart';
 import 'package:intl/intl.dart';
 
-import 'DropDownSex.dart';
+import 'User.dart';
+import 'PatientPage.dart';
 import 'package:http/http.dart' as http;
 
+import 'Validation.dart';
 
-class SignUpForPatients extends StatelessWidget {
+class SignUpForPatients extends StatefulWidget {
   const SignUpForPatients({super.key});
-  final String title = "Sign Up for Patients";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const MyCustomForm(),
-            ],
-          ),
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {
@@ -44,254 +20,253 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
+class MyCustomFormState extends State<SignUpForPatients> {
   final _formKey = GlobalKey<FormState>();
+  final String title = "Patient Sign Up";
+  bool signInFailed = false;
+
   DateTime? dateOfBirth;
+  String? firstNameInput;
+  String? lastNameInput;
+  String? mobileInput;
+  String? addressInput;
+  String? emailInput;
+  String? passwordInput;
+  String? confirmPasswordInput;
 
   @override
   Widget build(BuildContext context) {
+    final firstNameController = TextEditingController(text: firstNameInput);
+    final lastNameController = TextEditingController(text: lastNameInput);
+    final mobileNumberController = TextEditingController(text: mobileInput);
+    final addressController = TextEditingController(text: addressInput);
+    final emailController = TextEditingController(text: emailInput);
+    final passwordController = TextEditingController(text: passwordInput);
+    final confirmPasswordController =
+        TextEditingController(text: confirmPasswordInput);
 
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final mobileNumberController = TextEditingController();
-    final addressController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-
-
-    // VALIDATORS FOR EACH FIELD
-    String? validateFirstName(String? value) {
-      if (value == null || value.isEmpty)
-        return 'First name cannot be blank';
-      else
-        return null;
-    }
-
-    String? validateLastName(String? value) {
-      if (value == null || value.isEmpty)
-        return 'Last name cannot be blank';
-      else
-        return null;
-    }
-
-    String? validateEmail(String? value) {
-      String pattern =
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-      RegExp regex = RegExp(pattern);
-      if (value == null || value.isEmpty) {
-        return 'Email cannot be blank';
-      } else if(!regex.hasMatch(value)) {
-        return 'Enter a valid email address';
-      } else {
-        return null;
-      }
-    }
-
-    String? validateMobile(String? value) {
-      String pattern = r'^[+0-9][0-9]*';
-      RegExp regex = RegExp(pattern);
-      if (value == null || value.isEmpty) {
-        return 'Mobile number cannot be blank';
-      } else if(!regex.hasMatch(value)) {
-        return 'Enter valid mobile number';
-      } else {
-        return null;
-      }
-    }
-
-    String? validateAddress(String? value) {
-      if (value == null || value.isEmpty)
-        return 'Address cannot be blank';
-      else
-        return null;
-    }
-
-    String? validatePassword(String? value) {
-      String pattern = r'^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$';
-      RegExp regex = RegExp(pattern);
-      if (value == null || value.isEmpty) {
-        return 'Password cannot be blank';
-      } else if (!regex.hasMatch(value)) {
-        return 'Password must be 8-16 characters and contain at least: \n        - 1 uppercase letter [A-Z]\n        - 1 lowercase letter [a-z]\n        - 1 number [0-9]\n        - 1 special character [!@#\$%^&*]';
-      } else {
-        return null;
-      }
-    }
-    String? validateConfirmPassword(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Password cannot be blank';
-      } else if (passwordController.text != confirmPasswordController.text) {
-        return 'Passwords do not match';
-      } else {
-        return null;
-      }
-    }
     // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("First Name"),
-          TextFormField(
-            controller: firstNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your first name",
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          children: [
+            // const SizedBox(height: 10),
+            // Text(
+            //     "Welcome!",
+            //     style: Theme.of(context).textTheme.headline3
+            // ),
+            const SizedBox(height: 10),
+            Text("Please enter your details below",
+                style: Theme.of(context).textTheme.headline1),
+            const SizedBox(height: 20,),
+            TextFormField(
+              controller: firstNameController,
+              decoration: const InputDecoration(
+                hintText: "First name",
+              ),
+              validator: validateFirstName,
             ),
-            // The validator receives the text that the user has entered.
-            validator: validateFirstName,
-          ),
-          Text("Last Name"),
-          TextFormField(
-            controller: lastNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your last name",
+            const SizedBox(height: 10,),
+            TextFormField(
+              controller: lastNameController,
+              decoration: const InputDecoration(
+                hintText: "Last name",
+              ),
+              validator: validateLastName,
             ),
-            // The validator receives the text that the user has entered.
-            validator: validateLastName,
-          ),
-          Text("Date of Birth"),
-          ElevatedButton(onPressed: () {
-            _DateOfBirthWidget(context);
-          }, child: Text("Select DOB")),
-          Text(dateOfBirth.toString()),
-          // TextFormField(
-          //   decoration: InputDecoration(
-          //     border: OutlineInputBorder(),
-          //     hintText: "Enter your date of birth",
-          //   ),
-          // ),
-          // Sex was excluded from DB and User model so decided to exclude from here too
-          // Text("Sex"),
-          // DropDownSex(),
-          Text("Mobile Number"),
-          TextFormField(
-            controller: mobileNumberController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your mobile number",
+            const SizedBox(
+              height: 10,
             ),
-            validator: validateMobile,
-          ),
-          Text("Address"),
-          TextFormField(
-            controller: addressController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your address",
-            ),
-            validator: validateAddress,
-          ),
-          Text("Email"),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your email",
-            ),
-            validator: validateEmail,
-          ),
-          Text("Password"),
-          TextFormField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your password",
-            ),
-            validator: validatePassword,
-          ),
-          Text("Confirm Password"),
-          TextFormField(
-            controller: confirmPasswordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter your password",
-            ),
-            validator: validateConfirmPassword,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Form validated')),
-                  );
-                  // Test printouts
-                  print("FORM VALIDATED - RESULTS BELOW");
-                  var dateOfBirthText = DateFormat('yyyy-MM-dd').format(dateOfBirth!);
-                  print("dateOfBirth: $dateOfBirthText");
-                  print("firstName: ${firstNameController.text}");
-                  print("lastName: ${lastNameController.text}");
-                  print("mobile: ${mobileNumberController.text}");
-                  print("address: ${addressController.text}");
-                  print("email: ${emailController.text}");
-                  print("password: ${passwordController.text}");
+            if (signInFailed) ...[
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                "An account with that email or mobile number already exists",
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
+            Row(
+              children: [
+                SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          firstNameInput = firstNameController.text;
+                          lastNameInput = lastNameController.text;
+                          mobileInput = mobileNumberController.text;
+                          addressInput = addressController.text;
+                          emailInput = emailController.text;
+                          passwordInput = passwordController.text;
+                          confirmPasswordInput = confirmPasswordController.text;
+                        });
 
-                  // API error handling & redirection
-                  http.post(
-                      // 10.0.2.2 replaces localhost when using android emulator
-                      Uri.parse('http://localhost:8080/ndt/users'),
-                      headers:{
-                        'Content-Type': 'application/json; charset=UTF-8',
+                        showDateOfBirthWidget(context);
                       },
-                          body: jsonEncode({
-                            "firstName": firstNameController.text,
-                            "lastName": lastNameController.text,
-                            "dateOfBirth": DateFormat('yyyy-MM-dd').format(dateOfBirth!),
-                            "email": emailController.text,
-                            "password": passwordController.text,
-                            "address": addressController.text,
-                            "phoneNum": mobileNumberController.text,
-                            "role": "PA",
-                            "active": true
-                          })
-                  );
-
-                }
-              },
-              child: const Text('Submit'),
+                      child: const Text("Date of birth")),
+                ),
+                if (dateOfBirth != null) ...[
+                  SizedBox(
+                    width: 160,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        DateFormat('dd/MM/yyyy').format(dateOfBirth!),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: mobileNumberController,
+              decoration: const InputDecoration(
+                hintText: "Mobile number",
+              ),
+              validator: validateMobile,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: addressController,
+              decoration: const InputDecoration(
+                hintText: "Address",
+              ),
+              validator: validateAddress,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                hintText: "Email",
+              ),
+              validator: validateEmail,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Password",
+              ),
+              validator: validatePassword,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: confirmPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Confirm your password",
+              ),
+              validator: (value) {
+                return validateConfirmPassword(
+                    value: value, password: passwordController.text);
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 250,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+
+                        final response = await http.post(
+                          // 10.0.2.2 replaces localhost when using android emulator
+                            Uri.parse('http://10.0.2.2:8080/ndt/users'),
+                            headers: {
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: jsonEncode({
+                              "firstName": firstNameController.text,
+                              "lastName": lastNameController.text,
+                              "dateOfBirth":
+                              DateFormat('yyyy-MM-dd').format(dateOfBirth!),
+                              "email": emailController.text,
+                              "password": passwordController.text,
+                              "address": addressController.text,
+                              "phoneNum": mobileNumberController.text,
+                              "role": "PA",
+                              "verified": 1,
+                              "active": 1
+                            }));
+
+                        if (response.body.isNotEmpty) {
+                          Map<String, dynamic> userMap = jsonDecode(response.body);
+                          User user = User.fromJson(userMap);
+                          if (user.email.isNotEmpty) {
+                            // Create profile object HERE
+                            final responseProfile = await http.post(
+                              // 10.0.2.2 replaces localhost when using android emulator
+                                Uri.parse(
+                                    'http://10.0.2.2:8080/api/healthinfo/save'),
+                                headers: {
+                                  'Content-Type': 'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode({
+                                  "userId": user.userId,
+                                  "height": 170.0,
+                                  "weight": 65.0,
+                                  "healthStatus": "Great"
+                                }));
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PatientPage(user: user)),
+                            );
+                          }
+                        } else {
+                          setState(() {
+                            signInFailed = true;
+                            emailInput = emailController.text;
+                          });
+                        }
+                      }
+                    },
+                    child: const Text('Sign Up'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
-
   }
 
-  Future<void> _DateOfBirthWidget(BuildContext context) async {
-    // Navigator.push returns a Future that completes after calling
-    // Navigator.pop on the Selection Screen.
+  Future<void> showDateOfBirthWidget(BuildContext context) async {
     final datePicked = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => DateOfBirthWidget()),
     );
 
-    // When a BuildContext is used from a StatefulWidget, the mounted property
-    // must be checked after an asynchronous gap.
     if (!mounted) return;
 
-    // After the Selection Screen returns a result, hide any previous snackbars
-    // and show the new result.
     setState(() {
       dateOfBirth = datePicked;
     });
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$datePicked')));
   }
 }
-
