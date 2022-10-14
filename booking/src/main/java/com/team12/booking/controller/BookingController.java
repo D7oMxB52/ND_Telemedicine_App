@@ -3,10 +3,12 @@ package com.team12.booking.controller;
 import com.team12.booking.model.Booking;
 import com.team12.booking.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +78,45 @@ public class BookingController {
     @PostMapping(path = "/new", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> makeBooking(@RequestBody Booking booking)
             throws Exception {
-        Booking createdService = bookingService.createBooking(booking);
+        List<Booking> createdService = bookingService.createBooking(booking);
+        if (createdService == null){
+            return new ResponseEntity<>("Bookings already created!", HttpStatus.OK);
+        }
         return new ResponseEntity<>(createdService, HttpStatus.CREATED);
     }
+
+    // UPDATE booking --> patient's name, change isAvailability to false.
+
+    @GetMapping(path="/date{bookingDate}", produces = "application/json")
+    public ResponseEntity<Object> getBookingsByDate(@PathVariable("bookingDate")
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate bookingDate)
+            throws Exception {
+        List<Booking> bookingList = bookingService.getAllBookingsForDate(bookingDate);
+        if (bookingList.size() > 0) {
+            return  new ResponseEntity<>(bookingList, HttpStatus.OK);
+        } else  {
+            return new ResponseEntity<>("No bookings found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path="/", produces = "application/json")
+    public ResponseEntity<Object> getAllAvailabilities()
+            throws Exception {
+        List<Booking> availabilityList = bookingService.getAllAvailabilities();
+        if (availabilityList.size() > 0) {
+            return  new ResponseEntity<>(availabilityList, HttpStatus.OK);
+        } else  {
+            return new ResponseEntity<>("No availabilities found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> updateBooking(@RequestBody Booking booking)
+            throws Exception {
+//        System.out.println("Inside the update booking function");
+//        System.out.println(booking.getBookingId());
+        bookingService.updateBooking(booking);
+        return new ResponseEntity<>("Updated booking", HttpStatus.CREATED);
+    }
+
 }

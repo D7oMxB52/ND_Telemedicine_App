@@ -76,8 +76,9 @@ public class User {
      * @param phoneNum Patients phone number
      * @param active Patient account activated on first sign up
      */
-    @JsonCreator
-    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, boolean active, Role role) {
+//    @JsonCreator
+    public User(String firstName, String lastName, Date dateOfBirth, String email,
+                String password, String address, String phoneNum, Role role, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -90,34 +91,35 @@ public class User {
 //        this.patientHealthInfo = null;
     }
 
-//    /**
-//     * User constructor for DR (Doctor) object.
-//     * @param firstName Doctors first name
-//     * @param lastName Doctors last name
-//     * @param dateOfBirth Doctors date of birth
-//     * @param email Doctors email
-//     * @param password Doctors password
-//     * @param address Doctors address
-//     * @param phoneNum Doctors phone number
-//     * @param accreditationNum Doctors accreditation number
-//     * @param active Doctors account activated on sign up
-//     * @param verified Doctors account not verified on sign up. Needs approval from admin
-//     */
+    /**
+     * User constructor for DR (Doctor) object.
+     * @param firstName Doctors first name
+     * @param lastName Doctors last name
+     * @param dateOfBirth Doctors date of birth
+     * @param email Doctors email
+     * @param password Doctors password
+     * @param address Doctors address
+     * @param phoneNum Doctors phone number
+     * @param accreditationNum Doctors accreditation number
+     * @param active Doctors account activated on sign up
+     * @param verified Doctors account not verified on sign up. Needs approval from admin
+     */
 //    @JsonCreator
-//    public User(String firstName, String lastName, Date dateOfBirth, String email, String password, String address, String phoneNum, int accreditationNum, boolean active, boolean verified) {
-//
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.dateOfBirth = dateOfBirth;
-//        this.email = email;
-//        this.password = password;
-//        this.address = address;
-//        this.phoneNum = phoneNum;
-//        this.role = Role.DR;
-//        this.accreditationNum = accreditationNum;
-//        this.active = true;
-//        this.verified = false;
-//    }
+    public User(int accreditationNum, String firstName, String lastName, Date dateOfBirth, String email, String password,
+                String address, String phoneNum, Role role, boolean active, boolean verified) {
+
+        this.accreditationNum = accreditationNum;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.phoneNum = phoneNum;
+        this.role = Role.DR;
+        this.active = true;
+        this.verified = false;
+    }
 //
 //    public PatientHealthInfo getPatientHealthInfo() {
 //        return patientHealthInfo;
