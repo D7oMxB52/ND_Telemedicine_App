@@ -110,6 +110,28 @@ public class BookingController {
         }
     }
 
+    @DeleteMapping(path="/doctor{doctorId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> deleteBookingByDoctorId(@PathVariable("doctorId") Integer doctorId)
+            throws Exception {
+        List<Booking> bookingList = bookingService.deleteBookingByDoctorId(doctorId);
+        if (bookingList.size() > 0) {
+            return  new ResponseEntity<>(bookingList, HttpStatus.OK);
+        } else  {
+            throw new Exception("Cannot delete bookings for the doctor. No booking exists.");
+        }
+    }
+
+    @DeleteMapping(path="/booking{bookingId}",produces = "application/json")
+    public ResponseEntity<Object> deleteBookingByBookingId(@PathVariable("bookingId") Integer bookingId)
+            throws Exception{
+        Optional booking = bookingService.deleteBookingByBookingId(bookingId);
+        if (booking != null) {
+            return new ResponseEntity<>("Booking successfully deleted!", HttpStatus.OK);
+        }else{
+            throw new Exception("No booking found!");
+        }
+    }
+
     @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> updateBooking(@RequestBody Booking booking)
             throws Exception {

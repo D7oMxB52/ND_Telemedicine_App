@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/prescription")
@@ -32,6 +33,28 @@ public class PrescriptionController {
             return  new ResponseEntity<>(prescriptionList, HttpStatus.OK);
         } else  {
             return new ResponseEntity<>("No prescription found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(path="/patient{patientId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> deletePrescriptionByPatientId(@PathVariable("patientId") Integer patientId)
+            throws Exception {
+        List<Prescription> prescriptionList = prescriptionService.deletePrescriptionByPatientId(patientId);
+        if (prescriptionList.size() > 0) {
+            return  new ResponseEntity<>(prescriptionList, HttpStatus.OK);
+        } else  {
+            throw new Exception("Cannot delete prescriptions for the patient. No prescription exists.");
+        }
+    }
+
+    @DeleteMapping(path="/prescription{prescriptionId}",produces = "application/json")
+    public ResponseEntity<Object> deletePrescriptionByPrescriptionId(@PathVariable("prescriptionId") Integer prescriptionId)
+            throws Exception{
+        Optional prescription = prescriptionService.deletePrescriptionByPrescriptionId(prescriptionId);
+        if (prescription != null) {
+            return new ResponseEntity<>("Prescription successfully deleted!", HttpStatus.OK);
+        }else{
+            throw new Exception("No prescription found!");
         }
     }
 

@@ -178,6 +178,28 @@ public class BookingService {
         return availabilities;
     }
 
+    public List<Booking> deleteBookingByDoctorId(Integer doctorId) throws Exception {
+        try{
+            List<Booking> allBookings = bookingDao.findAll();
+            List<Booking> doctorBookings = new ArrayList<>();
+            for (int i=0; i < allBookings.size(); i++){
+                if (allBookings.get(i).getDoctorId() == doctorId){
+                    bookingDao.delete(allBookings.get(i));
+                    doctorBookings.add(allBookings.get(i));
+                }
+            }
+            return doctorBookings;
+        } catch (Exception e) {
+            throw new Exception("Cannot delete any booking from the doctor!");
+        }
+    }
+
+    public Optional deleteBookingByBookingId(Integer bookingId) {
+        Optional booking = bookingDao.findById(bookingId);
+        bookingDao.deleteById(bookingId);
+        return booking;
+    }
+
     public void updateBooking(Booking booking){
         List<Booking> allBookings = bookingDao.findAll();
         for (int i = 0; i < allBookings.size(); i++){

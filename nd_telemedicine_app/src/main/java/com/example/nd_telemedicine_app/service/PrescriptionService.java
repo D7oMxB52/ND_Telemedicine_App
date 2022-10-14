@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PrescriptionService {
@@ -63,6 +64,28 @@ public class PrescriptionService {
         } catch (Exception e) {
             throw new Exception("Cannot retrieve any prescription from the patient!");
         }
+    }
+
+    public List<Prescription> deletePrescriptionByPatientId(Integer patientId) throws Exception {
+        try{
+            List<Prescription> allPrescriptions = prescriptionRepository.findAll();
+            List<Prescription> patientPrescriptions = new ArrayList<>();
+            for (int i=0; i < allPrescriptions.size(); i++){
+                if (allPrescriptions.get(i).getPatientId() == patientId){
+                    prescriptionRepository.delete(allPrescriptions.get(i));
+                    patientPrescriptions.add(allPrescriptions.get(i));
+                }
+            }
+            return patientPrescriptions;
+        } catch (Exception e) {
+            throw new Exception("Cannot delete any prescription from the patient!");
+        }
+    }
+
+    public Optional deletePrescriptionByPrescriptionId(Integer prescriptionId) {
+        Optional prescription = prescriptionRepository.findById(prescriptionId);
+        prescriptionRepository.deleteById(prescriptionId);
+        return prescription;
     }
 
     public List<Prescription> getPrescriptionByDoctorId(Integer doctorId) throws Exception {
