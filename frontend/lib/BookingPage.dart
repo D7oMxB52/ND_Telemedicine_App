@@ -158,7 +158,8 @@ class BookingFormState extends State<BookingPage> {
                 child: Column(
                   children: [
                     FlutterCalendar(
-                      locale: 'en',
+
+                        locale: 'en',
                         selectionMode: CalendarSelectionMode.single,
                         events: allAvailabilities,
                         onDayPressed: (DateTime date) {
@@ -260,6 +261,7 @@ Future<bool> confirmBooking(Booking booking, User user) async {
         "hasPaid": booking.hasPaid,
         "isAvailability": booking.isAvailability
       }));
+  print(response.body);
   if (response.body.isNotEmpty) {
     return true;
   } else {
