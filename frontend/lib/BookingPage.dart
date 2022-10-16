@@ -141,6 +141,7 @@ class BookingFormState extends State<BookingPage> {
                   child: Column(
                     children: [
                       FlutterCalendar(
+                        locale: 'en',
                           selectionMode: CalendarSelectionMode.single,
                           onDayPressed: (DateTime date) {
                             setState(() {
@@ -157,6 +158,7 @@ class BookingFormState extends State<BookingPage> {
                 child: Column(
                   children: [
                     FlutterCalendar(
+                      locale: 'en',
                         selectionMode: CalendarSelectionMode.single,
                         events: allAvailabilities,
                         onDayPressed: (DateTime date) {
